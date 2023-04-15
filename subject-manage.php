@@ -139,10 +139,10 @@ require_once('./php/require/header.php');
             </select>
 
             <label for="lec_hrs">Lecture Hours</label>
-            <input type="number" name="lec_hrs" id="lec_hrs" class="form-control form-ele" placeholder="1">
+            <input type="number" name="lec_hrs" id="lec_hrs" step=0.5 class="form-control form-ele" placeholder="1">
 
             <label for="lab_hrs">Laboratory Hours</label>
-            <input type="number" name="lab_hrs" id="lab_hrs" class="form-control form-ele" placeholder="1">
+            <input type="number" name="lab_hrs" id="lab_hrs" step=0.5 class="form-control form-ele" placeholder="1">
 
             <div class="btn-con">
                 <button type="submit" class="btn btn-dark fButton" name="add-subject">Add Subject</button>

@@ -1,6 +1,6 @@
 <?php
 require_once('./require/DBConfig.php');
-if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['edit']))) {
+if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
     if (isset($_POST['edit'])) {
         if ($_POST['edit'] == 'course') {
             $result = DB::update(
@@ -60,6 +60,26 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['edit']))) {
             //check everything if empty
             if (empty($subject_id) || empty($room_id) || empty($section_id) || empty($day_id) || empty($semester_id) || empty($schedule_start_time) || empty($schedule_end_time)) {
                 header("Location: ../scheduling.php?status=empty&message=Empty");
+                exit();
+            }
+            // Get the lecture hours of the selected subject
+            $stmt = $pdo->prepare("SELECT lecture_hr FROM subject WHERE subject_id = :subject_id");
+            $stmt->execute(array(':subject_id' => $subject_id));
+            $subject = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Calculate the maximum schedule duration based on the lecture hours of the selected subject
+            $max_duration = $subject['lecture_hr'] * 60 * 60; // Convert lecture hours to seconds
+
+            // Calculate the actual duration of the schedule
+            $duration = strtotime($schedule_end_time) - strtotime($schedule_start_time);
+
+            // If the actual duration exceeds the maximum duration, cut it off
+            if ($duration > $max_duration) {
+                $schedule_end_time = date("H:i", strtotime($schedule_start_time) + $max_duration);
+            }
+
+            if (strtotime($schedule_start_time) >= strtotime($schedule_end_time)) {
+                header("Location: ../scheduling.php?status=error&message=Start%20Time%20Must%20Be%20Less%20Than%20End%20Time");
                 exit();
             }
             $result = DB::update('scheduling table', array(

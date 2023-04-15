@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`User` (
   CONSTRAINT `fk_User_User_Types1`
     FOREIGN KEY (`user_type_id`)
     REFERENCES `COECSA_Room_Scheduling`.`user_types` (`user_type_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 

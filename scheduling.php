@@ -1,6 +1,6 @@
 <?php
 $title = "Schedule Management";
-$css_link = "./styles/scheduling.css?=" . Date("y-m-d");
+$css_link = "./styles/scheduling.css?=" . time();
 $jquery = true;
 $auth = true;
 $filter = false;
@@ -25,7 +25,7 @@ require_once('./php/require/header.php');
         <h1>Schedule Management</h1>
         <div class="row">
             <!--LEFT COLUMN-->
-            <div class="col-3 grid-con">
+            <div class="grid-con col-lg-3">
                 <?php
 
                 $subject = new Display();
@@ -146,12 +146,12 @@ require_once('./php/require/header.php');
             <!--RIGHT COLUMN-->
             <div class="col grid-con">
                 <!--ROOM FILTER-->
-                <form>
+                <form class="mb-3">
                     <div class="row">
                         <div class="col-auto">
                             <label for="room_select_schedule" class="col-form-label">Room</label>
                         </div>
-                        <div class="col-2">
+                        <div class="col-lg-2">
                             <select id="room_select_schedule" name="room_select_schedule" class="form-select form-ele">
                                 <?php
                                 $room_select_schedule = new display();
@@ -159,7 +159,7 @@ require_once('./php/require/header.php');
                                 ?>
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="d-grid col-lg d-lg-block ">
                             <button type="button" class="btn btn-dark fButton" onclick="updateSchedule()" name="room_schedule">View Room Schedules</button>
                             <script>
                                 function updateSchedule() {

@@ -11,7 +11,7 @@ require_once('./php/require/header.php');
     <div class="login-background">
         <div class="container-fluid login-con">
             <img src="./images/lpu-cavite.png" alt="">
-            <h1>COECSA Room Scheduling</h1>
+            <h1 style="text-align:center">COECSA Room Scheduling</h1>
             <form id="login" method="POST" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
                 <div class="mb-3">
                     <label for="usernameInput" class="form-label">Username</label>

@@ -1,6 +1,6 @@
 <?php
 $title = "Room Management";
-$css_link = "./styles/room-manage.css";
+$css_link = "./styles/room-manage.css?=" . time();
 $jquery = true;
 $auth = true;
 $filter = true;
