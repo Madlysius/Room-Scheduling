@@ -1,0 +1,16 @@
+* {
+
+    /* BACKGROUNDS */
+    --LPU-red: #b20000ea;
+    --LPU-grey: #666666;
+    --LPU-white: #fff;
+
+    /* FORMS */
+    --forms-white: #E5E5E5;
+
+    /* FONTS */
+    --font-white: #E5E5E5;
+    --font-blackest: #191919;
+    --font-black: #323232;
+
+}

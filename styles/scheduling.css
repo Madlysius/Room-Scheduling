@@ -1,0 +1,178 @@
+@import url(./import/scrollbar.css);
+@import url(./import/layout.css); /* nagimport ako sa bawat css file nito */
+@import url(./import/font.css); /* nagimport ako sa bawat css file nito */
+* {
+  /* BACKGROUNDS */
+  --LPU-red: #b20000ea;
+  --LPU-grey: #666666;
+  --LPU-white: #fff;
+
+  /* FORMS */
+  --forms-white: #e5e5e5;
+
+  /* FONTS */
+  --font-white: #e5e5e5;
+  --font-blackest: #191919;
+  --font-black: #323232;
+}
+
+/*SCHEDULE MANAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+.sched-con {
+  padding: 20px 50px;
+  background-color: var(--forms-white);
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.sched-con > div {
+  height: 90vh;
+}
+
+.sched-con > h1 {
+  margin-bottom: 0px;
+}
+
+.fButton {
+  background-color: var(--LPU-red);
+}
+
+.fButton:hover {
+  background-color: var(--font-black);
+}
+
+#sched_form > button {
+  margin-top: 10px;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.grid-con {
+  margin: 20px;
+  padding: 30px;
+  background-color: var(--LPU-white);
+  /* border: 1px solid var(--font-black); */
+  border-radius: 10px;
+}
+
+.form-ele {
+  margin-bottom: 10px;
+}
+
+.sublist {
+  padding: 10px;
+  border: 1px solid var(--font-black);
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sublist > div > button {
+  width: 75%;
+  color: var(--font-white);
+  background-color: var(--LPU-red);
+  border: 0px;
+  border-radius: 5px;
+  padding: 7px;
+  margin-bottom: 3px;
+}
+
+.sublist > div > button:hover {
+  color: var(--font-white);
+  background-color: var(--LPU-grey);
+}
+
+.sublist > div > button:focus {
+  color: var(--font-white);
+  background-color: var(--font-black);
+}
+
+body {
+  background-color: var(--forms-white);
+}
+
+/*SCHEDULE CALENDARRRRRRRRRRRRRRRRRRRRR*/
+#sched-calendar {
+  table-layout: fixed;
+}
+
+.thead {
+  background-color: var(--LPU-red);
+  color: var(--font-white);
+  position: sticky;
+  z-index: 2;
+  top: 0;
+}
+
+.thead > tr > td {
+  text-align: center;
+  height: auto;
+  width: 70px;
+  padding: 10px;
+  font-size: 17px;
+}
+
+.tbody > tr {
+  height: 150px;
+}
+
+.tbody > tr > td {
+  text-align: center;
+  width: 70px;
+  padding: 0px 5px;
+}
+
+.tb-content {
+  background: var(--LPU-red);
+  color: var(--font-white);
+  height: 150px;
+  font-size: 13px;
+  padding: 5px;
+  font-weight: 700;
+  display: table-cell;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.table-wrap {
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 70vh;
+  border: 1px solid var(--font-black);
+}
+
+/*SCROLLBARRRRRRRRRRRRRRRRRRRRRRRRRRRRR*/
+.form-check {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  user-select: none;
+}
+
+.form-check-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.form-check-label {
+  display: inline-block;
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
+.form-check-input:checked ~ .form-check-label {
+  background-color: var(--LPU-red);
+  color: white;
+}

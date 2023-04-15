@@ -1,0 +1,67 @@
+@import url(./import/scrollbar.css);
+@import url(./import/layout.css); /* nagimport ako sa bawat css file nito */
+@import url(./import/font.css); /* nagimport ako sa bawat css file nito */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+a {
+  text-decoration: none !important;
+  color: black;
+}
+
+.home {
+  padding: 0 10px;
+  text-align: center;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 -10px;
+  padding-top: 2%;
+}
+
+.card {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  flex-basis: 47%;
+  margin: 20px 20px 20px;
+  padding: 50px;
+  text-align: center;
+  align-items: center;
+}
+
+.card:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  background-color: antiquewhite;
+  transition: 0.5s;
+}
+
+.card:hover > img {
+  filter: grayscale(0%);
+  transition: 0.5s;
+}
+
+.card > h2 {
+  font-size: 2rem;
+}
+
+.card > img {
+  width: 150px;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    flex-basis: 100%;
+  }
+}

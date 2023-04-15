@@ -1,0 +1,86 @@
+@import url(./import/scrollbar.css);
+@import url(./import/layout.css); /* nagimport ako sa bawat css file nito */
+@import url(./import/font.css); /* nagimport ako sa bawat css file nito */
+
+* {
+  /* BACKGROUNDS */
+  --LPU-red: #b20000ea;
+  --LPU-grey: #666666;
+  --LPU-white: #fff;
+
+  /* FORMS */
+  --forms-white: #e5e5e5;
+
+  /* FONTS */
+  --font-white: #e5e5e5;
+  --font-blackest: #191919;
+  --font-black: #323232;
+}
+
+/*LOGINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN*/
+
+#login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#login > button {
+  margin-top: 20px;
+  padding: 10px;
+  background: var(--LPU-red);
+}
+
+#login > button:hover {
+  background: var(--font-black);
+}
+
+input {
+  width: 300px !important;
+  background-color: var(--forms-white);
+}
+
+.login-con {
+  background-color: var(--LPU-white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 100px;
+  /* border: 1px solid var(--font-blackest); */
+  /* border-radius: 50px; */
+}
+
+.login-con > img {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+.login-con > h1 {
+  margin-bottom: 20px;
+  font-size: 3.5rem;
+  font-family: header-1;
+}
+
+@media screen and (max-width: 768px) {
+  .login-con {
+    padding: 70px 20px;
+  }
+
+  .login-con > h1 {
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.login-background {
+  /* background-color: var(--LPU-grey); */
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}

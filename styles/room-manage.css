@@ -1,0 +1,105 @@
+@import url(../import_styles/scrollbar.css);
+@import url(../import_styles/layout.css); /* nagimport ako sa bawat css file nito */
+@import url(../import_styles/font.css); /* nagimport ako sa bawat css file nito */
+* {
+  /* BACKGROUNDS */
+  --LPU-red: #b20000ea;
+  --LPU-grey: #666666;
+  --LPU-white: #fff;
+
+  /* FORMS */
+  --forms-white: #e5e5e5;
+
+  /* FONTS */
+  --font-white: #e5e5e5;
+  --font-blackest: #191919;
+  --font-black: #323232;
+}
+
+/*ROOM MANAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+.room-con {
+  padding: 50px;
+}
+
+.input-filter {
+  width: 100%;
+}
+
+.fButton {
+  background-color: var(--LPU-red);
+}
+
+.fButton:hover {
+  background-color: var(--font-black);
+}
+
+#room-table {
+  margin: 30px 0px;
+  border: 1px solid var(--font-black);
+}
+
+.thead {
+  background-color: var(--LPU-red);
+  color: var(--font-white);
+}
+
+.thead > tr > td {
+  text-align: center;
+  padding: 15px;
+  font-size: 17px;
+}
+
+.tbody > tr > td {
+  text-align: center;
+  padding: 15px;
+}
+
+/*ADD ROOM POPUPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP*/
+.popup-header {
+  background-color: var(--LPU-red);
+  width: 100%;
+  padding: 20px 30px 10px;
+}
+
+.popup-header > h1 {
+  color: var(--font-white);
+}
+
+#room-add-form {
+  padding: 30px 60px 50px;
+}
+
+.popup {
+  position: absolute;
+  top: 20%;
+  left: 36%;
+  width: 500px;
+  background: white;
+  border: 1px solid black;
+  border-radius: 25px;
+  visibility: hidden;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.popup.active {
+  visibility: visible;
+}
+
+#overlay.active {
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.btn-con {
+  margin-top: 35px;
+  display: flex;
+  gap: 20px;
+}
+.btn-con > button {
+  width: 50%;
+}
+
+.form-ele {
+  margin-bottom: 10px;
+}
