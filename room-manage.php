@@ -29,7 +29,7 @@ require_once('./php/require/header.php');
                 <!--Category field-->
                 <div class="col">
                     <select class="form-select input-filter" id="CategoryInput">
-                        <option value="">Category</option>
+                        <option value="">All Room Category</option>
                         <option value="Lecture Room">Lecture Room</option>
                         <option value="Laboratory Room">Laboratory Room</option>
                     </select>
@@ -37,7 +37,7 @@ require_once('./php/require/header.php');
                 <!--Location field-->
                 <div class="col">
                     <select class="form-select input-filter" id="LocationInput">
-                        <option value="">Location</option>
+                        <option value="">All Location</option>
                         <option value="Main">Main</option>
                         <option value="Annex">Annex</option>
                     </select>

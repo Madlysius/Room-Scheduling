@@ -30,7 +30,7 @@ require_once('./php/require/header.php');
                 <!--Year field-->
                 <div class="col">
                     <select class="form-select input-filter" id="YearInput">
-                        <option value="">Location</option>
+                        <option value="">All Location</option>
                         <option value="1st">1st</option>
                         <option value="2nd">2nd</option>
                         <option value="3rd">3rd</option>
