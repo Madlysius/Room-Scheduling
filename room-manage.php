@@ -65,23 +65,23 @@ require_once('./php/require/header.php');
                 <tbody class="tbody">
                     <?php
                     $rooms = DB::query('SELECT * FROM room');
-                    foreach ($rooms as $room) {
+                    foreach ($rooms as $row) {
                         echo "<tr>";
-                        echo "<td>" . $room['room_code'] . "</td>";
-                        echo "<td>" . $room['room_name'] . "</td>";
-                        echo "<td>" . $room['room_category'] . "</td>";
-                        echo "<td>" . $room['room_location'] . "</td>";
-                        echo '<td>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $room['room_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">
-                                Actions
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $room['room_id'] . '">
-                                <li><a class="dropdown-item" href="edit-forms.php?edit=room&room_id=' . $room['room_id'] . '">Edit</a></li>
-                                <li><a class="dropdown-item" href="./php/delete-data.php?delete=room&room_id=' . $room['room_id'] . '">Delete</a></li>
-                            </ul>
-                        </div>
-                    </td>';
+                        echo "<td>" . $row['room_code'] . "</td>";
+                        echo "<td>" . $row['room_name'] . "</td>";
+                        echo "<td>" . $row['room_category'] . "</td>";
+                        echo "<td>" . $row['room_location'] . "</td>";
+                        echo "<td>";
+                        echo '<div class="dropdown">';
+                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['room_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                        echo 'Actions';
+                        echo '</button>';
+                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['room_id'] . '">';
+                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=room&room_id=' . $row['room_id'] . '">Edit</a></li>';
+                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'room\',\'' . $row['room_id'] . '\')">Delete</a></li>';
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '</td>';
                         echo '</tr>';
                     }
                     ?>

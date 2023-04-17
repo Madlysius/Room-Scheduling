@@ -89,18 +89,18 @@ require_once('./php/require/header.php');
                         echo "<td>" . $semester->fetch_assoc()['semester'] . "</td>";
                         echo "<td>" . $row['lecture_hr'] . "</td>";
                         echo "<td>" . $row['laboratory_hr'] . "</td>";
-                        echo '<td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['subject_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Actions
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['subject_id'] . '">
-                                            <li><a class="dropdown-item" href="edit-forms.php?edit=subject&subject_id=' . $row['subject_id'] . '">Edit</a></li>
-                                            <li><a class="dropdown-item" href="./php/delete-data.php?delete=subject&subject_id=' . $row['subject_id'] . '">Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>';
-                        echo "</tr>";
+                        echo "<td>";
+                        echo '<div class="dropdown">';
+                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['subject_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                        echo 'Actions';
+                        echo '</button>';
+                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['subject_id'] . '">';
+                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=subject&subject_id=' . $row['subject_id'] . '">Edit</a></li>';
+                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'room\',\'' . $row['subject_id'] . '\')">Delete</a></li>';
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '</td>';
+                        echo '</tr>';
                     }
                     ?>
                 </tbody>

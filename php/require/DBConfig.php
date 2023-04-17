@@ -1,5 +1,4 @@
 <?php
-//consistent with the rest of the code
 require_once("db.class.php");
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 

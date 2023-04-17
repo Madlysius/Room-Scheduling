@@ -53,17 +53,17 @@ require_once('./php/require/header.php');
                     foreach ($result as $row) {
                         echo "<td>" . $row['course_id'] . "</td>";
                         echo "<td>" . $row['course_name'] . "</td>";
-                        echo '<td>
-                           <div class="dropdown">
-                               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['course_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">
-                                   Actions
-                               </button>
-                               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['course_id'] . '">
-                                   <li><a class="dropdown-item" href="edit-forms.php?edit=course&course_id=' . $row['course_id'] . '">Edit</a></li>
-                                   <li><a class="dropdown-item" href="./php/delete-data.php?delete=course&course_id=' . $row['course_id'] . '">Delete</a></li>
-                               </ul>
-                           </div>
-                       </td>';
+                        echo "<td>";
+                        echo '<div class="dropdown">';
+                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['course_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                        echo 'Actions';
+                        echo '</button>';
+                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['course_id'] . '">';
+                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=course&course_id=' . $row['course_id'] . '">Edit</a></li>';
+                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'course\',\'' . $row['course_id'] . '\')">Delete</a></li>';
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '</td>';
                         echo '</tr>';
                     }
                     ?>

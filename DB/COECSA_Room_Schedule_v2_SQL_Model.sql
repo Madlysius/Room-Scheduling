@@ -175,7 +175,7 @@ INSERT INTO `COECSA_Room_Scheduling`.`Day` (`day_id`, `day`) VALUES ('3', 'Wedne
 INSERT INTO `COECSA_Room_Scheduling`.`Day` (`day_id`, `day`) VALUES ('4', 'Thursday');
 INSERT INTO `COECSA_Room_Scheduling`.`Day` (`day_id`, `day`) VALUES ('5', 'Friday');
 INSERT INTO `COECSA_Room_Scheduling`.`Day` (`day_id`, `day`) VALUES ('6', 'Saturday');
-INSERT INTO `COECSA_Room_Scheduling`.`Day` (`day_id`, `day`) VALUES ('7', 'Sunday');
+
 
 INSERT INTO `COECSA_Room_scheduling`.`Semester` (`semester_id`, `semester`) VALUES ('1', '1st Semester');
 INSERT INTO `COECSA_Room_scheduling`.`Semester` (`semester_id`, `semester`) VALUES ('2', '2nd Semester');

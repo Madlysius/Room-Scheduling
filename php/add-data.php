@@ -34,14 +34,15 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-section']))) {
 }
 if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-subject']))) {
     // Check if form has already been submitted
-    form_validation(array('subject_code', 'subject_name', 'subject_course', 'subject_semester', 'lec_hrs', 'lab_hrs'), '../subject-manage.php');
+    $form_fields = array('subject_code', 'subject_name', 'subject_course', 'subject_semester');
+    form_validation($form_fields, '../subject-manage.php');
     $subject_code = htmlspecialchars($_POST['subject_code']);
     $subject_name = htmlspecialchars($_POST['subject_name']);
     $subject_course = htmlspecialchars($_POST['subject_course']);
     $subject_semester = htmlspecialchars($_POST['subject_semester']);
     $lec_hrs = htmlspecialchars($_POST['lec_hrs']);
     $lab_hrs = htmlspecialchars($_POST['lab_hrs']);
-    if (empty($subject_code) || empty($subject_name) || empty($subject_course) || empty($subject_semester) || empty($lec_hrs) || empty($lab_hrs)) {
+    if (empty($lec_hrs) || !is_numeric($lec_hrs) || $lec_hrs < 0 || !is_numeric($lab_hrs) || $lab_hrs < 0) {
         $status = "empty";
         header("Location: ../subject-manage.php?status=$status&message=Please Fill Up All Fields");
         exit();
