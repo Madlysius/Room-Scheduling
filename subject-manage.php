@@ -31,7 +31,7 @@ require_once('./php/require/header.php');
                     </select>
                 </div>
                 <!--Course Classification Filter field-->
-                <div class="col">
+                <div class="col-md">
                     <select class="form-select input-filter" id="CourseInput">
                         <option value="">All Course</option>
                         <?php
@@ -42,7 +42,7 @@ require_once('./php/require/header.php');
                 </div>
 
                 <!--Semester Filter field-->
-                <div class="col">
+                <div class="col-md">
                     <select class="form-select input-filter" id="SemesterInput">
                         <option value="">All Semester</option>
                         <?php

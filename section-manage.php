@@ -20,15 +20,15 @@ require_once('./php/require/header.php');
             <!--Filter Fields-->
             <div class="row">
                 <!--Name field-->
-                <div class="col">
+                <div class="col-md">
                     <input type="text" name="secName" placeholder="Section Name" class="form-control input-filter" id="SectionInput">
                 </div>
                 <!--Course field-->
-                <div class="col">
+                <div class="col-md">
                     <input type="text" name="course" placeholder="Course Name" class="form-control input-filter" id="CourseInput">
                 </div>
                 <!--Year field-->
-                <div class="col">
+                <div class="col-md">
                     <select class="form-select input-filter" id="YearInput">
                         <option value="">All Location</option>
                         <option value="1st">1st</option>

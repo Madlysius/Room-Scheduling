@@ -4,6 +4,10 @@ h1 {
     margin-bottom: 0px;
 }
 
+* {
+    font-family: text-med;
+}
+
 option, table, td, th, tr, button, label, input, form {
     font-family: text-med;
 }
