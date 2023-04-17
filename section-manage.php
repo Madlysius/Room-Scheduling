@@ -1,7 +1,6 @@
 <?php
 $title = "Section Management";
 $css_link = "./styles/section-manage.css?=" . date("y-m-d");
-$jquery = true;
 $auth = true;
 $filter = true;
 require_once('./php/require/header.php');

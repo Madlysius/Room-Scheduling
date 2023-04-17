@@ -89,7 +89,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Room` (
   `room_id` INT NOT NULL AUTO_INCREMENT,
-  `room_code` VARCHAR(45) NOT NULL,
   `room_name` VARCHAR(45) NOT NULL,
   `room_category` VARCHAR(45) NOT NULL,
   `room_location` VARCHAR(45) NOT NULL,

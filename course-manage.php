@@ -2,7 +2,6 @@
 $title = "Course Management";
 $css_link = "./styles/course-manage.css?=" . date("YMD");
 $filter = true;
-$jquery = true;
 $auth = true;
 require_once('./php/require/header.php');
 ?>

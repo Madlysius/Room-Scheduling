@@ -1,7 +1,6 @@
 <?php
 $title = "Login";
 $css_link = "./styles/index.css?=" . date("Ymd");
-$jquery = false;
 $filter = false;
 $auth = false;
 require_once('./php/require/header.php');

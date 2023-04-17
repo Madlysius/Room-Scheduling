@@ -1,7 +1,6 @@
 <?php
 $title = "Home";
 $css_link = "./styles/home.css?=" . time();
-$jquery = false;
 $auth = true;
 $filter = false;
 require_once('./php/require/header.php');

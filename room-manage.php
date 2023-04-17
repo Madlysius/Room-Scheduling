@@ -1,6 +1,6 @@
 <?php
 $title = "Room Management";
-$css_link = "styles/room-manage.css?=" . time();
+$css_link = "./styles/room-manage.css?=" . time();
 $jquery = true;
 $auth = true;
 $filter = true;
@@ -55,7 +55,6 @@ require_once('./php/require/header.php');
             <table class="table table-hover" id="room-table">
                 <thead class="thead">
                     <tr>
-                        <td>Room ID</td>
                         <td>Room Name</td>
                         <td>Category</td>
                         <td>Location</td>
@@ -66,8 +65,7 @@ require_once('./php/require/header.php');
                     <?php
                     $rooms = DB::query('SELECT * FROM room');
                     foreach ($rooms as $row) {
-                        echo "<tr>";
-                        echo "<td>" . $row['room_code'] . "</td>";
+                        echo "<tr>";;
                         echo "<td>" . $row['room_name'] . "</td>";
                         echo "<td>" . $row['room_category'] . "</td>";
                         echo "<td>" . $row['room_location'] . "</td>";
@@ -96,8 +94,6 @@ require_once('./php/require/header.php');
             <h1>Add Room</h1>
         </div>
         <form id="room-add-form" action="./php/add-data.php" method="POST">
-            <label for="room_id">Room Code</label>
-            <input type="text" name="room_code" id="room_code" class="form-control form-ele" placeholder="A-101">
             <label for="room_name">Room Name</label>
             <input type="text" name="room_name" id="room_name" class="form-control form-ele" placeholder="Physics Room">
             <label for="room_categ">Category</label>

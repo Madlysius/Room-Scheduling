@@ -1,7 +1,6 @@
 <?php
 $title = "Edit";
 $css_link = "";
-$jquery = true;
 $auth = true;
 $filter = false;
 require_once('./php/require/header.php');

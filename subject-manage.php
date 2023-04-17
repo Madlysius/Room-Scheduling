@@ -1,7 +1,6 @@
 <?php
 $title = "Subject Management";
 $css_link = "./styles/subject-manage.css?=" . date("ymd");
-$jquery = true;
 $auth = true;
 $filter = true;
 require_once('./php/require/header.php');

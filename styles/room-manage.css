@@ -1,6 +1,6 @@
-@import url(../import_styles/scrollbar.css);
-@import url(../import_styles/layout.css); /* nagimport ako sa bawat css file nito */
-@import url(../import_styles/font.css); /* nagimport ako sa bawat css file nito */
+@import url(/import/scrollbar.css);
+@import url(/import/layout.css); /* nagimport ako sa bawat css file nito */
+@import url(/import/font.css); /* nagimport ako sa bawat css file nito */
 * {
   /* BACKGROUNDS */
   --LPU-red: #b20000ea;

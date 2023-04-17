@@ -88,23 +88,22 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-room']))) {
     $valid_room_categories =  array('Lecture Room', 'Laboratory Room');
     $valid_room_addr = array('Main', 'Annex');
     form_validation(
-        array('room_code', 'room_name', 'room_categ', 'room_addr'),
+        array('room_name', 'room_categ', 'room_addr'),
         '../room-manage.php'
     );
-    $room_code = htmlspecialchars($_POST['room_code']);
+
     $room_name = htmlspecialchars($_POST['room_name']);
     $room_categ = htmlspecialchars($_POST['room_categ']);
     $room_addr = htmlspecialchars($_POST['room_addr']);
 
     validateDropdownValues($room_categ, $valid_room_categories, "Invalid category value", '../room-manage.php');
     validateDropdownValues($room_addr, $valid_room_addr, "Invalid Location value", '../room-manage.php');
-    if (empty($room_code) || empty($room_name) || empty($room_categ) || empty($room_addr)) {
+    if (empty($room_name) || empty($room_categ) || empty($room_addr)) {
         $status = "empty";
         header("Location: ../room-manage.php?status=$status&message=Please Fill Up All Fields");
         exit();
     }
     if (DB::insert('room', array(
-        'room_code' => $room_code,
         'room_name' => $room_name,
         'room_category' => $room_categ,
         'room_location' => $room_addr

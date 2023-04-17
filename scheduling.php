@@ -1,7 +1,6 @@
 <?php
 $title = "Schedule Management";
 $css_link = "./styles/scheduling.css?=" . time();
-$jquery = true;
 $auth = true;
 $filter = false;
 require_once('./php/require/header.php');
