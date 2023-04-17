@@ -1,6 +1,6 @@
 <?php
 $title = "Room Management";
-$css_link = "./styles/room-manage.css?=" . time();
+$css_link = "styles/room-manage.css?=" . time();
 $jquery = true;
 $auth = true;
 $filter = true;
@@ -19,25 +19,25 @@ require_once('./php/require/header.php');
             <!--Filter Fields-->
             <div class="row">
                 <!--ID field-->
-                <div class="col">
+                <div class="col-lg">
                     <input type="text" name="search" placeholder="ID" class="form-control input-filter" id="IDInput">
                 </div>
                 <!--Name field-->
-                <div class="col">
+                <div class="col-lg">
                     <input type="text" name="name" placeholder="Name" class="form-control input-filter" id="NameInput">
                 </div>
                 <!--Category field-->
-                <div class="col">
+                <div class="col-sm">
                     <select class="form-select input-filter" id="CategoryInput">
-                        <option value="">Category</option>
+                        <option value="">All Room Category</option>
                         <option value="Lecture Room">Lecture Room</option>
                         <option value="Laboratory Room">Laboratory Room</option>
                     </select>
                 </div>
                 <!--Location field-->
-                <div class="col">
+                <div class="col-sm">
                     <select class="form-select input-filter" id="LocationInput">
-                        <option value="">Location</option>
+                        <option value="">All Location</option>
                         <option value="Main">Main</option>
                         <option value="Annex">Annex</option>
                     </select>
