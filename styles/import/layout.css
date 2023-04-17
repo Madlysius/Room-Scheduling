@@ -3,3 +3,7 @@ h1 {
     font-family: header-1;
     margin-bottom: 0px;
 }
+
+option, table, td, th, tr, button, label, input, form {
+    font-family: text-med;
+}

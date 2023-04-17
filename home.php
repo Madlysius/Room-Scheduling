@@ -1,6 +1,6 @@
 <?php
 $title = "Home";
-$css_link = "./styles/home.css?=" . date("Ymd");
+$css_link = "./styles/home.css?=" . time();
 $jquery = false;
 $auth = true;
 $filter = false;
