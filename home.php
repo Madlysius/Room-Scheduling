@@ -50,6 +50,11 @@ require_once('./php/require/header.php');
                 <img src="./images/subject.png" alt="">
                 <h2>Subject Management</h2>
             </a>
+            <!-- Professor Management -->
+            <a href="./prof-manage.php" class="card">
+                <img src="./images/professor.png" alt="">
+                <h2>Professor Management</h2>
+            </a>
             <!-- Logout -->
             <a href="./php/logout.php" class="card">
                 <img src="./images/logout.png" alt="">
