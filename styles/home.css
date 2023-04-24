@@ -47,9 +47,9 @@ a {
   background: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  flex-basis: 25%;
+  flex-basis: 22%;
   margin: 20px;
-  padding: 50px;
+  padding: 40px;
   text-align: center;
   align-items: center;
   border-radius: 5vh;
@@ -68,7 +68,7 @@ a {
 
 .card > h2 {
   padding-top: 5%;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-family: text-med;
 }
 
