@@ -1,6 +1,6 @@
-@import url(/import/scrollbar.css);
-@import url(/import/layout.css); /* nagimport ako sa bawat css file nito */
-@import url(/import/font.css); /* nagimport ako sa bawat css file nito */
+@import url(./import/scrollbar.css);
+@import url(./import/layout.css); /* nagimport ako sa bawat css file nito */
+@import url(./import/font.css); /* nagimport ako sa bawat css file nito */
 * {
   /* BACKGROUNDS */
   --LPU-red: #b20000ea;
@@ -17,7 +17,7 @@
 }
 
 /*ROOM MANAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
-.subject-con {
+.course-con {
   padding: 50px;
 }
 
@@ -34,7 +34,7 @@
   background-color: var(--font-black);
 }
 
-#subject-table {
+#course-table {
   margin: 30px 0px;
   border: 1px solid var(--font-black);
 }
@@ -66,7 +66,7 @@
   color: var(--font-white);
 }
 
-#subject-add-form {
+#course-add-form {
   padding: 30px 60px 50px;
 }
 

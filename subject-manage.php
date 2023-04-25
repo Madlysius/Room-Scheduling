@@ -1,7 +1,6 @@
 <?php
 $title = "Subject Management";
 $css_link = "./styles/subject-manage.css?=" . date("ymd");
-$jquery = true;
 $auth = true;
 $filter = true;
 require_once('./php/require/header.php');
@@ -31,20 +30,20 @@ require_once('./php/require/header.php');
                     </select>
                 </div>
                 <!--Course Classification Filter field-->
-                <div class="col">
+                <div class="col-md">
                     <select class="form-select input-filter" id="CourseInput">
-                        <option value="">Course</option>
+                        <option value="">All Course</option>
                         <?php
                         $course = new Display();
-                        $course->displayOption("course", "course_name", "course_name");
+                        $course->displayOption("program", "program_name", "program_name");
                         ?>
                     </select>
                 </div>
 
                 <!--Semester Filter field-->
-                <div class="col">
+                <div class="col-md">
                     <select class="form-select input-filter" id="SemesterInput">
-                        <option value="">Semester</option>
+                        <option value="">All Semester</option>
                         <?php
                         $semester = new Display();
                         $semester->displayOption("semester", "semester_id", "semester");
@@ -81,26 +80,26 @@ require_once('./php/require/header.php');
                     foreach ($result as $row) {
                         $subjects[] = $row;
                         echo "<tr>";
-                        $course = $mysqli->query("SELECT course_name FROM course WHERE course_id = " . $row['course_id']);
-                        echo "<td>" . $course->fetch_assoc()['course_name'] . "</td>";
+                        $course = $mysqli->query("SELECT program_name FROM program WHERE program_id = " . $row['program_id']);
+                        echo "<td>" . $course->fetch_assoc()['program_name'] . "</td>";
                         echo "<td>" . $row['subject_code'] . "</td>";
                         echo "<td>" . $row['subject_name'] . "</td>";
                         $semester = $mysqli->query("SELECT semester FROM semester WHERE semester_id = " . $row['semester_id']);
                         echo "<td>" . $semester->fetch_assoc()['semester'] . "</td>";
                         echo "<td>" . $row['lecture_hr'] . "</td>";
                         echo "<td>" . $row['laboratory_hr'] . "</td>";
-                        echo '<td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['subject_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Actions
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['subject_id'] . '">
-                                            <li><a class="dropdown-item" href="edit-forms.php?edit=subject&subject_id=' . $row['subject_id'] . '">Edit</a></li>
-                                            <li><a class="dropdown-item" href="./php/delete-data.php?delete=subject&subject_id=' . $row['subject_id'] . '">Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>';
-                        echo "</tr>";
+                        echo "<td>";
+                        echo '<div class="dropdown">';
+                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['subject_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                        echo 'Actions';
+                        echo '</button>';
+                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['subject_id'] . '">';
+                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=subject&subject_id=' . $row['subject_id'] . '">Edit</a></li>';
+                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'room\',\'' . $row['subject_id'] . '\')">Delete</a></li>';
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '</td>';
+                        echo '</tr>';
                     }
                     ?>
                 </tbody>
@@ -122,11 +121,11 @@ require_once('./php/require/header.php');
             <label for="subject_name">Subject Name</label>
             <input type="text" name="subject_name" id="subject_name" class="form-control form-ele" placeholder="Quantitative Methods">
 
-            <label for="subject_course">Course Program</label>
-            <select class="form-select form-ele" id="subject_course" name="subject_course">
+            <label for="subject_program">Subject Program</label>
+            <select class="form-select form-ele" id="subject_program" name="subject_program">
                 <?php
                 $CourseProgram = new display();
-                $CourseProgram->displayOption('course', 'course_id', 'course_name');
+                $CourseProgram->displayOption('program', 'program_id', 'program_name');
                 ?>
             </select>
 

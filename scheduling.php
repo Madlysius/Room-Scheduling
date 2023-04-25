@@ -1,7 +1,6 @@
 <?php
 $title = "Schedule Management";
 $css_link = "./styles/scheduling.css?=" . time();
-$jquery = true;
 $auth = true;
 $filter = false;
 require_once('./php/require/header.php');
@@ -55,35 +54,33 @@ require_once('./php/require/header.php');
                             </select>
                         </div>
                         <script>
-                            $(document).ready(function() {
-                                $('#sec_select, #sem_select').on('change', function() {
-                                    // get selected values
-                                    var section = $('#sec_select').val();
-                                    var semester = $('#sem_select').val();
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const sec_select = document.querySelector('#sec_select');
+                                const sem_select = document.querySelector('#sem_select');
 
-                                    if (section == "" || semester == "") {
+                                function handleSelectChange() {
+                                    const section = sec_select.value;
+                                    const semester = sem_select.value;
+                                    if (section === "" || semester === "") {
                                         return; // exit function without making AJAX call
                                     }
-
-                                    $.ajax({
-                                        url: './php/request.php',
-                                        method: 'POST',
-                                        dataType: 'html',
-                                        type: "jsonp", // ???
-                                        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-                                        data: {
-                                            sec_select: section,
-                                            sem_select: semester
-                                        },
-                                        success: function(response) {
-                                            $('#listSubject').html('');
-                                            $('#listSubject').html(response);
-                                        },
-                                        error: function(response) {
-                                            console.log("Error: " + response);
+                                    const xhr = new XMLHttpRequest();
+                                    xhr.open('POST', './php/request.php', true);
+                                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+                                    xhr.onload = function() {
+                                        if (xhr.status === 200) {
+                                            document.querySelector('#listSubject').innerHTML = xhr.responseText;
+                                        } else {
+                                            console.log('Error: ' + xhr.statusText);
                                         }
-                                    });
-                                });
+                                    };
+                                    xhr.onerror = function() {
+                                        console.log('Error: ' + xhr.statusText);
+                                    };
+                                    xhr.send(`sec_select=${section}&sem_select=${semester}`);
+                                }
+                                sec_select.addEventListener('change', handleSelectChange);
+                                sem_select.addEventListener('change', handleSelectChange);
                             });
                         </script>
 
@@ -96,7 +93,6 @@ require_once('./php/require/header.php');
 
                         </div>
                     </div>
-
 
                     <!--SCHEDULE INPUT-->
                     <div class="row">
@@ -163,26 +159,21 @@ require_once('./php/require/header.php');
                             <button type="button" class="btn btn-dark fButton" onclick="updateSchedule()" name="room_schedule">View Room Schedules</button>
                             <script>
                                 function updateSchedule() {
-                                    var room_id = $('#room_select_schedule').val();
-                                    $.ajax({
-                                        url: './php/request.php',
-                                        method: 'POST',
-                                        dataType: 'html',
-                                        type: "jsonp", // ???
-                                        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-                                        data: {
-                                            room_schedule: 1,
-                                            room_id: room_id
-                                        },
-                                        success: function(response) {
-                                            $('#table-gen').html('');
-                                            $('#table-gen').html(response);
-
-                                        },
-                                        error: function(response) {
-                                            console.log("Error: " + response);
+                                    const room_id = document.querySelector('#room_select_schedule').value;
+                                    const xhr = new XMLHttpRequest();
+                                    xhr.open('POST', './php/request.php', true);
+                                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+                                    xhr.onload = function() {
+                                        if (xhr.status === 200) {
+                                            document.querySelector('#table-gen').innerHTML = xhr.responseText;
+                                        } else {
+                                            console.log('Error: ' + xhr.statusText);
                                         }
-                                    });
+                                    };
+                                    xhr.onerror = function() {
+                                        console.log('Error: ' + xhr.statusText);
+                                    };
+                                    xhr.send(`room_schedule=1&room_id=${room_id}`);
                                 }
                             </script>
                         </div>

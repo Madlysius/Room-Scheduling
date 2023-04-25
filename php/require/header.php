@@ -13,6 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <!-- Favicon -->
     <link rel="icon" href="./images/lpu-cavite.png" type="image/x-icon" />
+    <script src="./javascript/javascript.js?= <?php echo time() ?>"></script>
     <?php
     if ($css_link) {
         echo '<link href="' . $css_link . '" rel="stylesheet">';
@@ -20,11 +21,7 @@
         echo "";
     }
     if ($filter) {
-        echo '<script src="./javascript/filter.js?=' . time() . '"></script>';
-    }
-
-    if ($jquery) {
-        echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>';
+        echo '<script src="./javascript/filter.js?=2' . time() . '"></script>';
     }
     if ($auth) {
         require_once('./php/require/auth.php');

@@ -1,7 +1,6 @@
 <?php
 $title = "Home";
-$css_link = "./styles/home.css?=" . date("Ymd");
-$jquery = false;
+$css_link = "./styles/home.css?=" . time() .'';
 $auth = true;
 $filter = false;
 require_once('./php/require/header.php');
@@ -35,10 +34,10 @@ require_once('./php/require/header.php');
                 <h2>Room Management</h2>
             </a>
 
-            <!-- Course Management -->
-            <a href="./course-manage.php" class="card">
+            <!-- Programss Management -->
+            <a href="./program-manage.php" class="card">
                 <img src="./images/course.png" alt="">
-                <h2>Course Management</h2>
+                <h2>Program Management</h2>
             </a>
             <!-- Section Management -->
             <a href="./section-manage.php" class="card">
@@ -51,7 +50,7 @@ require_once('./php/require/header.php');
                 <h2>Subject Management</h2>
             </a>
             <!-- Logout -->
-            <a href="./php/logout.php" class="card">
+            <a href="#" onclick="logoutConfirmation()" class="card">
                 <img src="./images/logout.png" alt="">
                 <h2>Logout</h2>
             </a>

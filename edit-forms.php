@@ -1,7 +1,6 @@
 <?php
 $title = "Edit";
 $css_link = "";
-$jquery = true;
 $auth = true;
 $filter = false;
 require_once('./php/require/header.php');
@@ -25,17 +24,17 @@ require_once('./php/require/header.php');
             header("Location: " . $_SERVER['HTTP_REFERER']);
           }
           if (isset($_GET['edit'])) {
-            if ($_GET['edit'] == 'course') {
-              $result = DB::query("SELECT * FROM course WHERE course_id = %s", $_GET['course_id']);
+            if ($_GET['edit'] == 'program') {
+              $result = DB::query("SELECT * FROM program WHERE program_id = %s", $_GET['program_id']);
               if ($result) {
 
-                echo "<input type='hidden' name='edit' value='course'>";
-                echo "<label for='course_id' class='form-label'>Course ID</label>";
-                echo "<input type='text' class='form-control' id='course_id' name='course_id' value='" . $result[0]['course_id'] . "' readonly>";
-                echo "<label for='course_name' class='form-label'>Course Name</label>";
-                echo "<input type='text' class='form-control' id='course_name' name='course_name' value='" . $result[0]['course_name'] . "'>";
+                echo "<input type='hidden' name='edit' value='program'>";
+                echo "<label for='program_id' class='form-label'>Program ID</label>";
+                echo "<input type='text' class='form-control' id='program_id' name='program_id' value='" . $result[0]['program_id'] . "' readonly>";
+                echo "<label for='program_name' class='form-label'>Program Name</label>";
+                echo "<input type='text' class='form-control' id='program_name' name='program_name' value='" . $result[0]['program_name'] . "'>";
               } else {
-                header("Location: ./course-manage.php");
+                header("Location: ./program-manage.php");
               }
             } else if ($_GET['edit'] == 'room') {
               $result = DB::query("SELECT * FROM room WHERE room_id = %s", $_GET['room_id']);
