@@ -40,12 +40,24 @@ CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`User` (
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `COECSA_Room_Scheduling`.`Course`
+-- Table `COECSA_Room_Scheduling`.`professor`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Course` (
-  `course_id` INT NOT NULL AUTO_INCREMENT,
-  `course_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`course_id`))
+CREATE TABLE IF NOT EXISTS `professor` (
+  `professor_id` INT NOT NULL AUTO_INCREMENT,
+  `professor_name` VARCHAR (45) NOT NULL,
+  `professor_department` VARCHAR(45) NOT NULL,
+  PRIMARY KEY(`professor_id`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `COECSA_Room_Scheduling`.`Program`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Program` (
+  `program_id` INT NOT NULL AUTO_INCREMENT,
+  `program_name` VARCHAR(45) NOT NULL,
+  `program_department` VARCHAR(45) NOT NULl,
+  `program_abbreviation` VARCHAR (45) NOT NULL,
+  PRIMARY KEY (`program_id`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -62,18 +74,18 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Subject` (
     `subject_id` INT NOT NULL AUTO_INCREMENT,
-    `course_id` INT NOT NULL,
+    `program_id` INT NOT NULL,
     `semester_id` INT NOT NULL,
     `subject_code` VARCHAR(10) NOT NULL,
     `subject_name` VARCHAR(45) NOT NULL,
     `lecture_hr` VARCHAR(45) NOT NULL,
     `laboratory_hr` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`subject_id`),
-    INDEX `fk_Subject_Courses1_idx` (`course_id` ASC),
+    INDEX `fk_Subject_Programs1_idx` (`program_id` ASC),
     INDEX `fk_Subject_Semester1_idx` (`semester_id` ASC),
-    CONSTRAINT `fk_Subject_Courses1`
-      FOREIGN KEY (`course_id`)
-      REFERENCES `COECSA_Room_Scheduling`.`Course` (`course_id`)
+    CONSTRAINT `fk_Subject_Programs1`
+      FOREIGN KEY (`program_id`)
+      REFERENCES `COECSA_Room_Scheduling`.`Program` (`program_id`)
       ON DELETE CASCADE
       ON UPDATE NO ACTION,
     CONSTRAINT `fk_Subject_Semester1_idx`
@@ -103,12 +115,12 @@ CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Section` (
   `section_id` INT NOT NULL AUTO_INCREMENT,
   `section_name` VARCHAR(7) NOT NULL,
   `section_year` VARCHAR(45) NOT NULL,
-  `course_id` INT NOT NULL,
+  `program_id` INT NOT NULL,
   PRIMARY KEY (`section_id`),
-  INDEX `fk_Section_Courses1_idx` (`course_id` ASC),
-  CONSTRAINT `fk_Section_Courses1`
-    FOREIGN KEY (`course_id`)
-    REFERENCES `COECSA_Room_Scheduling`.`Course` (`course_id`)
+  INDEX `fk_Section_Programs1_idx` (`program_id` ASC),
+  CONSTRAINT `fk_Section_Programs1`
+    FOREIGN KEY (`program_id`)
+    REFERENCES `COECSA_Room_Scheduling`.`Program` (`program_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -175,10 +187,8 @@ INSERT INTO `COECSA_Room_Scheduling`.`Day` (`day_id`, `day`) VALUES ('4', 'Thurs
 INSERT INTO `COECSA_Room_Scheduling`.`Day` (`day_id`, `day`) VALUES ('5', 'Friday');
 INSERT INTO `COECSA_Room_Scheduling`.`Day` (`day_id`, `day`) VALUES ('6', 'Saturday');
 
-
 INSERT INTO `COECSA_Room_scheduling`.`Semester` (`semester_id`, `semester`) VALUES ('1', '1st Semester');
 INSERT INTO `COECSA_Room_scheduling`.`Semester` (`semester_id`, `semester`) VALUES ('2', '2nd Semester');
-
 
 INSERT INTO `COECSA_Room_Scheduling`.`User_Types` (`user_type_id`, `user_type`) VALUES ('1', 'Room Manager');
 INSERT INTO `COECSA_Room_Scheduling`.`User_Types` (`user_type_id`, `user_type`) VALUES ('2', 'Coordinator');

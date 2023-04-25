@@ -55,7 +55,7 @@
                                 <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "room-manage.php") echo "active"; ?>" href="./room-manage.php">Room Management</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "course-manage.php") echo "active"; ?>" href="./course-manage.php">Course Management</a>
+                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "program-manage.php") echo "active"; ?>" href="./program-manage.php">Program Management</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "section-manage.php") echo "active"; ?>" href="./section-manage.php">Section Management</a>
@@ -69,7 +69,7 @@
                             </li>
                         <?php } ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="./php/logout.php">Logout</a>
+                            <a class="nav-link" href="#" onclick="logoutConfirmation()">Logout</a>
                         </li>
 
                     </ul>

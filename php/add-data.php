@@ -66,7 +66,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
 
     form_validation(
         array('course_name'),
-        '../course-manage.php'
+        '../program-manage.php'
     );
     $course_name = htmlspecialchars($_POST['course_name']);
     if (empty($course_name)) {
@@ -78,7 +78,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
         'course_name' => $course_name
     ))) {
         $status = "success";
-        header("Location: ../course-manage.php?status=$status&message=Successfully Added");
+        header("Location: ../program-manage.php?status=$status&message=Successfully Added");
     } else {
         $status = "error";
         header("Location: ../course-manage.php?status=$status&message=Failed to Add");

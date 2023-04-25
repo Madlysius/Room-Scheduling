@@ -4,7 +4,7 @@
  *Validates form fields and redirects if necessary.
  *@param array $fields An associative array of form fields and their values.
  *@param string $redirect The URL to redirect to if validation fails.
- *@return boolean Returns true if validation passes, false otherwise.
+ *@return null boolean Returns true if validation passes, false otherwise.
  */
 function form_validation($fields, $redirect)
 {

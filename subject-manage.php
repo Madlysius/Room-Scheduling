@@ -35,7 +35,7 @@ require_once('./php/require/header.php');
                         <option value="">All Course</option>
                         <?php
                         $course = new Display();
-                        $course->displayOption("course", "course_name", "course_name");
+                        $course->displayOption("program", "program_name", "program_name");
                         ?>
                     </select>
                 </div>
@@ -80,8 +80,8 @@ require_once('./php/require/header.php');
                     foreach ($result as $row) {
                         $subjects[] = $row;
                         echo "<tr>";
-                        $course = $mysqli->query("SELECT course_name FROM course WHERE course_id = " . $row['course_id']);
-                        echo "<td>" . $course->fetch_assoc()['course_name'] . "</td>";
+                        $course = $mysqli->query("SELECT program_name FROM program WHERE program_id = " . $row['program_id']);
+                        echo "<td>" . $course->fetch_assoc()['program_name'] . "</td>";
                         echo "<td>" . $row['subject_code'] . "</td>";
                         echo "<td>" . $row['subject_name'] . "</td>";
                         $semester = $mysqli->query("SELECT semester FROM semester WHERE semester_id = " . $row['semester_id']);
@@ -121,11 +121,11 @@ require_once('./php/require/header.php');
             <label for="subject_name">Subject Name</label>
             <input type="text" name="subject_name" id="subject_name" class="form-control form-ele" placeholder="Quantitative Methods">
 
-            <label for="subject_course">Course Program</label>
-            <select class="form-select form-ele" id="subject_course" name="subject_course">
+            <label for="subject_program">Subject Program</label>
+            <select class="form-select form-ele" id="subject_program" name="subject_program">
                 <?php
                 $CourseProgram = new display();
-                $CourseProgram->displayOption('course', 'course_id', 'course_name');
+                $CourseProgram->displayOption('program', 'program_id', 'program_name');
                 ?>
             </select>
 

@@ -2,18 +2,18 @@
 require_once('./require/DBConfig.php');
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
     if (isset($_POST['edit'])) {
-        if ($_POST['edit'] == 'course') {
+        if ($_POST['edit'] == 'progam') {
             $result = DB::update(
-                'course',
+                'program',
                 array(
-                    'course_id' => htmlentities($_POST['course_id']),
-                    'course_name' => htmlentities($_POST['course_name'])
+                    'program_id' => htmlentities($_POST['program_id']),
+                    'program_name' => htmlentities($_POST['program_name'])
                 ),
-                "course_id=%s",
-                htmlentities($_POST['course_id'])
+                "program_id=%s",
+                htmlentities($_POST['program_id'])
             );
             if ($result) {
-                header("Location: ../course-manage.php?status=success&message=Course%20Updated");
+                header("Location: ../program-manage.php?status=success&message=Program%20Updated");
             } else {
                 echo "Error";
             }

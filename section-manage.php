@@ -57,11 +57,11 @@ require_once('./php/require/header.php');
                 </thead>
                 <tbody class="tbody">
                     <?php
-                    $stmt = $pdo->prepare("SELECT section.section_id, section.section_name, section.section_year, course.course_name FROM section INNER JOIN course ON section.course_id = course.course_id");
+                    $stmt = $pdo->prepare("SELECT section.section_id, section.section_name, section.section_year, program.program_name FROM section INNER JOIN program ON section.program_id = program.program_id");
                     $stmt->execute();
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         echo "<td>" . $row['section_name'] . "</td>";
-                        echo "<td>" . $row['course_name'] . "</td>";
+                        echo "<td>" . $row['program_name'] . "</td>";
                         echo "<td>" . $row['section_year'] . "</td>";
                         echo "<td>";
                         echo '<div class="dropdown">';
@@ -96,13 +96,11 @@ require_once('./php/require/header.php');
                 <option value="3rd">3rd</option>
                 <option value="4th">4th</option>
             </select>
-            <label for="secCourse">Course</label>
-            <select class="form-select form-ele" id="secCourse" name="secCourse">
+            <label for="secProgram">Program</label>
+            <select class="form-select form-ele" id="secProgram" name="secProgram">
                 <?php
-                $result = DB::query("SELECT * FROM course");
-                foreach ($result as $row) {
-                    echo "<option value='" . $row['course_id'] . "'>" . $row['course_name'] . "</option>";
-                }
+                $program = new Display();
+                $program->displayOption("program", "program_id","program_name");
                 ?>
             </select>
             <div class="btn-con">
