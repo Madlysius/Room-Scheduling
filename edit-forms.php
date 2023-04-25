@@ -106,9 +106,9 @@ require_once('./php/require/header.php');
                   echo "<option value='" . $row['semester_id'] . "'" . ($result[0]['semester_id'] == $row['semester_id'] ? ' selected' : '') . ">" . $row['semester'] . "</option>";
                 }
                 echo "</select>";
-                //subject id
-                echo "<label for='subject_id' class='form-label'>Subject</label>";
-                echo "<select class='form-select' id='subject_id' name='subject_id'>";
+                //course id
+                echo "<label for='course_id' class='form-label'>Course</label>";
+                echo "<select class='form-select' id='course_id' name='course_id'>";
                 echo "</select>";
                 echo "<label for='room_id' class='form-label'>Room</label>";
                 echo "<select class='form-select' id='room_id' name='room_id'>";
@@ -141,13 +141,13 @@ require_once('./php/require/header.php');
               } else {
                 header("Location: ./scheduling.php");
               }
-            } else if ($_GET['edit'] == 'subject') {
-              $fields = array('subject_id', 'course_id', 'semester_id', 'subject_code', 'subject_name', 'lecture_hr', 'laboratory_hr');
-              $result = DB::query("SELECT * FROM subject WHERE subject_id = %s", $_GET['subject_id']);
+            } else if ($_GET['edit'] == 'course') {
+              $fields = array('course_id', 'course_id', 'semester_id', 'course_code', 'course_name', 'lecture_hr', 'laboratory_hr');
+              $result = DB::query("SELECT * FROM course WHERE course_id = %s", $_GET['course_id']);
               if ($result) {
-                echo "<input type='hidden' name='edit' value='subject'>";
-                echo "<label for='subject_id' class='form-label'>Subject ID</label>";
-                echo "<input type='text' class='form-control' id='subject_id' name='subject_id' value='" . $result[0]['subject_id'] . "' readonly>";
+                echo "<input type='hidden' name='edit' value='course'>";
+                echo "<label for='course_id' class='form-label'>Course ID</label>";
+                echo "<input type='text' class='form-control' id='course_id' name='course_id' value='" . $result[0]['course_id'] . "' readonly>";
                 echo "<label for='course_id' class='form-label'>Course</label>";
                 echo "<select class='form-select' id='course_id' name='course_id'>";
                 $course = DB::query("SELECT * FROM course");
@@ -162,16 +162,16 @@ require_once('./php/require/header.php');
                   echo "<option value='" . $row['semester_id'] . "'" . ($result[0]['semester_id'] == $row['semester_id'] ? ' selected' : '') . ">" . $row['semester'] . "</option>";
                 }
                 echo "</select>";
-                echo "<label for='subject_code' class='form-label'>Subject Code</label>";
-                echo "<input type='text' class='form-control' id='subject_code' name='subject_code' value='" . $result[0]['subject_code'] . "'>";
-                echo "<label for='subject_name' class='form-label'>Subject Name</label>";
-                echo "<input type='text' class='form-control' id='subject_name' name='subject_name' value='" . $result[0]['subject_name'] . "'>";
+                echo "<label for='course_code' class='form-label'>Course Code</label>";
+                echo "<input type='text' class='form-control' id='course_code' name='course_code' value='" . $result[0]['course_code'] . "'>";
+                echo "<label for='course_name' class='form-label'>Course Name</label>";
+                echo "<input type='text' class='form-control' id='course_name' name='course_name' value='" . $result[0]['course_name'] . "'>";
                 echo "<label for='lecture_hr' class='form-label'>Lecture Hours</label>";
                 echo "<input type='number' class='form-control' id='lecture_hr' name='lecture_hr' value='" . $result[0]['lecture_hr'] . "'>";
                 echo "<label for='laboratory_hr' class='form-label'>Laboratory Hours</label>";
                 echo "<input type='number' class='form-control' id='laboratory_hr' name='laboratory_hr' value='" . $result[0]['laboratory_hr'] . "'>";
               } else {
-                header("Location:./subject-manage.php");
+                header("Location:./course-manage.php");
               }
             }
           }

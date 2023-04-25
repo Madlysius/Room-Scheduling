@@ -1,38 +1,38 @@
 <?php
 require_once('./require/DBConfig.php');
 if (isset($_GET['delete']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
+    if ($_GET['delete'] == 'program') {
+        $program_id = filter_input(INPUT_GET, 'program_id', FILTER_SANITIZE_NUMBER_INT);
+        if (empty($program_id)) {
+            $status = "empty";
+            header("Location: ../program-manage.php?status=$status&message=Please Fill Up All Fields");
+            exit();
+        }
+        try {
+            DB::delete('program', "program_id=%s", $program_id);
+            $status = "success";
+
+            header("Location: ../program-manage.php?status=$status&message=Successfully Deleted");
+        } catch (Exception $e) {
+            $status = "failed";
+            header("Location: ../program-manage.php?status=$status&message=Failed to Delete");
+        }
+    }
+    //Delete Course
     if ($_GET['delete'] == 'course') {
         $course_id = filter_input(INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT);
         if (empty($course_id)) {
             $status = "empty";
-            header("Location: ../course-manage.php?status=$status&message=Please Fill Up All Fields");
+            header("Location: ../course-manage.php?status=$status&message=Empty");
             exit();
         }
         try {
             DB::delete('course', "course_id=%s", $course_id);
             $status = "success";
-
             header("Location: ../course-manage.php?status=$status&message=Successfully Deleted");
         } catch (Exception $e) {
-            $status = "failed";
-            header("Location: ../course-manage.php?status=$status&message=Failed to Delete");
-        }
-    }
-    //Delete Section
-    if ($_GET['delete'] == 'section') {
-        $section_id = filter_input(INPUT_GET, 'section_id', FILTER_SANITIZE_NUMBER_INT);
-        if (empty($section_id)) {
-            $status = "empty";
-            header("Location: ../section-manage.php?status=$status&message=Empty");
-            exit();
-        }
-        try {
-            DB::delete('section', "section_id=%s", $section_id);
-            $status = "success";
-            header("Location: ../section-manage.php?status=$status&message=Successfully Deleted");
-        } catch (Exception $e) {
             $status = "error";
-            header("Location: ../section-manage.php?status=$status&message=Failed to Delete Section");
+            header("Location: ../course-manage.php?status=$status&message=Failed to Delete Course");
         }
     }
     //Delete Subject

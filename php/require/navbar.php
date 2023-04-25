@@ -61,7 +61,7 @@
                                 <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "section-manage.php") echo "active"; ?>" href="./section-manage.php">Section Management</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "subject-manage.php") echo "active"; ?>" href="./subject-manage.php">Subject Management</a>
+                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "course-manage.php") echo "active"; ?>" href="./course-manage.php">Course Management</a>
                             </li>
                         <?php } else if ($_SESSION['user_type_id'] == 2) { ?>
                             <li class="nav-item">

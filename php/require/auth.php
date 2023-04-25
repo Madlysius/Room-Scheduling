@@ -10,7 +10,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['user_type_id']) || !isset
 $user_type_id = $_SESSION['user_type_id'];
 if ($user_type_id == 1) {
     // User type 1 can access all pages
-    $allowed_pages = array('home.php', 'scheduling.php', 'program-manage.php', 'room-manage.php', 'section-manage.php', 'subject-manage.php', 'edit-forms.php');
+    $allowed_pages = array('home.php', 'scheduling.php', 'program-manage.php', 'room-manage.php', 'section-manage.php', 'course-manage.php', 'edit-forms.php');
 } else if ($user_type_id == 2) {
     // User type 2 can only access scheduling page
     $allowed_pages = array('scheduling.php', 'edit-forms.php');

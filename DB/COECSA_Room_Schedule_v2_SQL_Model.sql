@@ -70,25 +70,25 @@ CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Semester` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `COECSA_Room_Scheduling`.`Subject`
+-- Table `COECSA_Room_Scheduling`.`Course`
 -- -----------------------------------------------------
-  CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Subject` (
-    `subject_id` INT NOT NULL AUTO_INCREMENT,
+  CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Course` (
+    `course_id` INT NOT NULL AUTO_INCREMENT,
     `program_id` INT NOT NULL,
     `semester_id` INT NOT NULL,
-    `subject_code` VARCHAR(10) NOT NULL,
-    `subject_name` VARCHAR(45) NOT NULL,
+    `course_code` VARCHAR(10) NOT NULL,
+    `course_name` VARCHAR(45) NOT NULL,
     `lecture_hr` VARCHAR(45) NOT NULL,
     `laboratory_hr` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`subject_id`),
-    INDEX `fk_Subject_Programs1_idx` (`program_id` ASC),
-    INDEX `fk_Subject_Semester1_idx` (`semester_id` ASC),
-    CONSTRAINT `fk_Subject_Programs1`
+    PRIMARY KEY (`course_id`),
+    INDEX `fk_Course_Programs1_idx` (`program_id` ASC),
+    INDEX `fk_Course_Semester1_idx` (`semester_id` ASC),
+    CONSTRAINT `fk_Course_Programs1`
       FOREIGN KEY (`program_id`)
       REFERENCES `COECSA_Room_Scheduling`.`Program` (`program_id`)
       ON DELETE CASCADE
       ON UPDATE NO ACTION,
-    CONSTRAINT `fk_Subject_Semester1_idx`
+    CONSTRAINT `fk_Course_Semester1_idx`
       FOREIGN KEY (`semester_id`)
       REFERENCES `COECSA_Room_Scheduling`.`Semester` (`semester_id`)
       ON DELETE NO ACTION
@@ -140,22 +140,22 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Scheduling Table` (
   `schedule_id` INT NOT NULL AUTO_INCREMENT,
-  `subject_id` INT NOT NULL,
+  `course_id` INT NOT NULL,
   `room_id` INT NOT NULL,
   `section_id` INT NOT NULL,
   `day_id` INT NOT NULL,
   `semester_id` INT NOT NULL,
   `schedule_start_time` VARCHAR(45) NOT NULL,
   `schedule_end_time` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`schedule_id`, `subject_id`, `room_id`, `section_id`, `day_id`, `semester_id`),
-  INDEX `fk_Scheduling Table_Subjects1_idx` (`subject_id` ASC),
+  PRIMARY KEY (`schedule_id`, `course_id`, `room_id`, `section_id`, `day_id`, `semester_id`),
+  INDEX `fk_Scheduling Table_Courses1_idx` (`course_id` ASC),
   INDEX `fk_Scheduling Table_Rooms1_idx` (`room_id` ASC),
   INDEX `fk_Scheduling Table_Section1_idx` (`section_id` ASC),
   INDEX `fk_Scheduling Table_Days1_idx` (`day_id` ASC),
   INDEX `fk_Scheduling Table_Semester1_idx` (`semester_id` ASC),
-  CONSTRAINT `fk_Scheduling Table_Subjects1`
-    FOREIGN KEY (`subject_id`)
-    REFERENCES `COECSA_Room_Scheduling`.`Subject` (`subject_id`)
+  CONSTRAINT `fk_Scheduling Table_Courses1`
+    FOREIGN KEY (`course_id`)
+    REFERENCES `COECSA_Room_Scheduling`.`Course` (`course_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Scheduling Table_Rooms1`

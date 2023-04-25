@@ -1,6 +1,6 @@
 <?php
-$title = "Subject Management";
-$css_link = "./styles/subject-manage.css?=" . date("ymd");
+$title = "Course Management";
+$css_link = "./styles/course-manage.css?=" . date("ymd");
 $auth = true;
 $filter = true;
 require_once('./php/require/header.php');
@@ -13,8 +13,8 @@ require_once('./php/require/header.php');
     ?>
 
     <div id="overlay">
-        <div class="container-fluid subject-con">
-            <h1>Subject Management</h1>
+        <div class="container-fluid course-con">
+            <h1>Course Management</h1>
             <p>Filter by:</p>
             <!--Filter Fields-->
             <div class="row">
@@ -53,21 +53,21 @@ require_once('./php/require/header.php');
 
                 <!--Add Room Button-->
                 <div class="col">
-                    <button type="submit" class="btn btn-dark input-filter fButton" onclick="toggle()">Add Subject</button>
+                    <button type="submit" class="btn btn-dark input-filter fButton" onclick="toggle()">Add Course</button>
                 </div>
 
             </div>
             <?php
-            $subject = new Display();
-            $subject->displayStatus();
+            $course = new Display();
+            $course->displayStatus();
             ?>
-            <!--Subject Management Table-->
-            <table class="table table-hover" id="subject-table">
+            <!--Course Management Table-->
+            <table class="table table-hover" id="course-table">
                 <thead class="thead">
                     <tr>
-                        <td>Course Program</td>
-                        <td>Subject Code</td>
-                        <td>Subject Name</td>
+                        <td>Program</td>
+                        <td>Course Code</td>
+                        <td>Course Name</td>
                         <td>Semester</td>
                         <td>Lecture Hours</td>
                         <td>Laboratory Hours</td>
@@ -76,26 +76,26 @@ require_once('./php/require/header.php');
                 </thead>
                 <tbody class="tbody">
                     <?php
-                    $result = DB::query('SELECT * FROM subject');
+                    $result = DB::query('SELECT * FROM course');
                     foreach ($result as $row) {
-                        $subjects[] = $row;
+                        $courses[] = $row;
                         echo "<tr>";
                         $course = $mysqli->query("SELECT program_name FROM program WHERE program_id = " . $row['program_id']);
                         echo "<td>" . $course->fetch_assoc()['program_name'] . "</td>";
-                        echo "<td>" . $row['subject_code'] . "</td>";
-                        echo "<td>" . $row['subject_name'] . "</td>";
+                        echo "<td>" . $row['course_code'] . "</td>";
+                        echo "<td>" . $row['course_name'] . "</td>";
                         $semester = $mysqli->query("SELECT semester FROM semester WHERE semester_id = " . $row['semester_id']);
                         echo "<td>" . $semester->fetch_assoc()['semester'] . "</td>";
                         echo "<td>" . $row['lecture_hr'] . "</td>";
                         echo "<td>" . $row['laboratory_hr'] . "</td>";
                         echo "<td>";
                         echo '<div class="dropdown">';
-                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['subject_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['course_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
                         echo 'Actions';
                         echo '</button>';
-                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['subject_id'] . '">';
-                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=subject&subject_id=' . $row['subject_id'] . '">Edit</a></li>';
-                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'room\',\'' . $row['subject_id'] . '\')">Delete</a></li>';
+                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['course_id'] . '">';
+                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=course&course_id=' . $row['course_id'] . '">Edit</a></li>';
+                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'course\',\'' . $row['course_id'] . '\')">Delete</a></li>';
                         echo '</ul>';
                         echo '</div>';
                         echo '</td>';
@@ -110,27 +110,27 @@ require_once('./php/require/header.php');
     <!--POPUP-->
     <div class="popup" id="popup">
         <div class="popup-header">
-            <h1>Add Subject</h1>
+            <h1>Add Course</h1>
         </div>
 
-        <!-- ADD SUBJECT FORM -->
-        <form id="subject-add-form" action="./php/add-data.php" method="POST">
-            <label for="subject_code">Subject Code</label>
-            <input type="text" name="subject_code" id="subject_code" class="form-control form-ele" placeholder="ITEN04C">
+        <!-- ADD COURSE FORM -->
+        <form id="course-add-form" action="./php/add-data.php" method="POST">
+            <label for="course_code">Course Code</label>
+            <input type="text" name="course_code" id="course_code" class="form-control form-ele" placeholder="ITEN04C">
 
-            <label for="subject_name">Subject Name</label>
-            <input type="text" name="subject_name" id="subject_name" class="form-control form-ele" placeholder="Quantitative Methods">
+            <label for="course_name">Course Name</label>
+            <input type="text" name="course_name" id="course_name" class="form-control form-ele" placeholder="Quantitative Methods">
 
-            <label for="subject_program">Subject Program</label>
-            <select class="form-select form-ele" id="subject_program" name="subject_program">
+            <label for="program_id">Program</label>
+            <select class="form-select form-ele" id="program_id" name="program_id">
                 <?php
                 $CourseProgram = new display();
                 $CourseProgram->displayOption('program', 'program_id', 'program_name');
                 ?>
             </select>
 
-            <label for="subject_semester">Semester</label>
-            <select class="form-select form-ele" id="subject_semsester" name="subject_semester">
+            <label for="course_semester">Semester</label>
+            <select class="form-select form-ele" id="course_semsester" name="course_semester">
                 <?php
                 $Semester = new display();
                 $Semester->displayOption('semester', 'semester_id', 'semester');
@@ -144,7 +144,7 @@ require_once('./php/require/header.php');
             <input type="number" name="lab_hrs" id="lab_hrs" step=0.5 class="form-control form-ele" placeholder="1">
 
             <div class="btn-con">
-                <button type="submit" class="btn btn-dark fButton" name="add-subject">Add Subject</button>
+                <button type="submit" class="btn btn-dark fButton" name="add-course">Add Course</button>
                 <button type="button" class="btn btn-dark fButton" onclick="toggle()">Back</button>
             </div>
         </form>
@@ -159,7 +159,7 @@ require_once('./php/require/header.php');
             popup.classList.toggle("active");
             overlay.classList.toggle("active");
         }
-        filterTable(["#CourseInput", "#empty1", "#empty2", "#SemesterInput"], "#subject-table");
+        filterTable(["#CourseInput", "#empty1", "#empty2", "#SemesterInput"], "#course-table");
     </script>
 
 </body>

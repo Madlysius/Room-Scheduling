@@ -4,9 +4,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
     $room_id = $_POST['room_id'];
     $stmt = $pdo->prepare("
             SELECT st.schedule_id, st.schedule_start_time, st.schedule_end_time,
-                   su.subject_name, su.subject_code, d.day
+                   su.course_name, su.course_code, d.day
             FROM `scheduling table` AS st
-            JOIN `subject` AS su ON st.subject_id = su.subject_id
+            JOIN `course` AS su ON st.course_id = su.course_id
             JOIN `day` AS d ON st.day_id = d.day_id
             WHERE st.room_id = :room_id
             ORDER BY st.schedule_start_time
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
                     $schedule_end_time = strtotime($row->schedule_end_time);
                     $current_time = strtotime($start_time);
                     if ($current_time >= $schedule_start_time && $current_time < $schedule_end_time) {
-                        echo '<div class="tb-content">' . $row->subject_name . ' <br> ' . $row->subject_code . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time;
+                        echo '<div class="tb-content">' . $row->course_name . ' <br> ' . $row->course_code . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time;
                         //add a button to delete the schedule
                         echo '<div class="dropdown ">
                             <button class="btn btn-secondary dropdown-toggle" style="background-color:#FFFFFFF" type="button" id="dropdownMenuButton-'  . $row->schedule_id . '" data-bs-toggle="dropdown" aria-expanded="false">
@@ -73,29 +73,29 @@ if (isset($_POST['sec_select'], $_POST['sem_select'])) {
         $row = $stmt->fetch();
         $course_id = $row['course_id'];
 
-        // prepare the SQL statement to retrieve the subjects
-        $sql = "SELECT subject_id, subject_name FROM `subject` WHERE course_id = ? AND semester_id = ?";
+        // prepare the SQL statement to retrieve the courses
+        $sql = "SELECT course_id, course_name FROM `course` WHERE course_id = ? AND semester_id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$course_id, $semester_id]);
 
         // display the results in two columns
-        $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $half_count = ceil(count($subjects) / 2);
+        $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $half_count = ceil(count($courses) / 2);
 
         echo '<div class="row">';
         echo '<div class="col text-center">';
-        foreach (array_slice($subjects, 0, $half_count) as $subject) {
+        foreach (array_slice($courses, 0, $half_count) as $course) {
             echo '<div class="sub-container pt-1">';
-            echo '<input class="form-check-input" type="radio" name="subject" id="subject' . $subject['subject_id'] . '" value="' . $subject['subject_id'] . '">';
-            echo '<label class="form-check-label mx-auto" for="subject' . $subject['subject_id'] . '">' . $subject['subject_name'] . '</label>';
+            echo '<input class="form-check-input" type="radio" name="course" id="course' . $course['course_id'] . '" value="' . $course['course_id'] . '">';
+            echo '<label class="form-check-label mx-auto" for="course' . $course['course_id'] . '">' . $course['course_name'] . '</label>';
             echo '</div>';
         }
         echo '</div>';
         echo '<div class="col text-center">';
-        foreach (array_slice($subjects, $half_count) as $subject) {
+        foreach (array_slice($courses, $half_count) as $course) {
             echo '<div class="sub-container">';
-            echo '<input class="form-check-input" type="radio" name="subject" id="subject' . $subject['subject_id'] . '" value="' . $subject['subject_id'] . '">';
-            echo '<label class="form-check-label mx-auto" for="subject' . $subject['subject_id'] . '">' . $subject['subject_name'] . '</label>';
+            echo '<input class="form-check-input" type="radio" name="course" id="course' . $course['course_id'] . '" value="' . $course['course_id'] . '">';
+            echo '<label class="form-check-label mx-auto" for="course' . $course['course_id'] . '">' . $course['course_name'] . '</label>';
             echo '</div>';
         }
         echo '</div>';
@@ -104,7 +104,7 @@ if (isset($_POST['sec_select'], $_POST['sem_select'])) {
         echo $e->getMessage();
     }
 }
-if (isset($_POST['edit_subject_schedule'])) {
+if (isset($_POST['edit_course_schedule'])) {
     $section_id = $_POST["section_id"];
     $semester_id = $_POST["semester_id"];
 
@@ -113,14 +113,14 @@ if (isset($_POST['edit_subject_schedule'])) {
     $stmt->execute([$section_id]);
     $row = $stmt->fetch();
     $course_id = $row['course_id'];
-    // prepare the SQL statement to retrieve the subjects
-    $sql = "SELECT subject_id, subject_name FROM `subject` WHERE course_id = ? AND semester_id = ?";
+    // prepare the SQL statement to retrieve the courses
+    $sql = "SELECT course_id, course_name FROM `course` WHERE course_id = ? AND semester_id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$course_id, $semester_id]);
 
-    //print the result in option value = $subjects
-    $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($subjects as $subject) {
-        echo '<option value="' . $subject['subject_id'] . '">' . $subject['subject_name'] . '</option>';
+    //print the result in option value = $courses
+    $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($courses as $course) {
+        echo '<option value="' . $course['course_id'] . '">' . $course['course_name'] . '</option>';
     }
 }

@@ -14,7 +14,7 @@ require_once('./php/require/header.php');
 
     <div id="overlay">
         <div class="container-fluid course-con">
-            <h1>Programaaaaaa Management</h1>
+            <h1>Program Management</h1>
             <p>Filter by:</p>
             <!--Filter Fields-->
             <div class="row">
@@ -28,13 +28,13 @@ require_once('./php/require/header.php');
                     <input type="text" name="name" placeholder="Name" class="form-control input-filter" id="NameInput">
                 </div>
 
-                 <!--Department field-->
-                 <div class="col-lg">
+                <!--Department field-->
+                <div class="col-lg">
                     <input type="text" name="department" placeholder="Department" class="form-control input-filter" id="DepartmentInput">
                 </div>
 
-                 <!--Abbreviation field-->
-                 <div class="col-lg">
+                <!--Abbreviation field-->
+                <div class="col-lg">
                     <input type="text" name="abbreviation" placeholder="Abbreviation" class="form-control input-filter" id="AbbreviationInput">
                 </div>
 
@@ -66,7 +66,7 @@ require_once('./php/require/header.php');
                         echo "<td>" . $row['program_id'] . "</td>";
                         echo "<td>" . $row['program_name'] . "</td>";
                         echo "<td>" . $row['program_department'] . "</td>";
-                        echo "<td>" . $row['program_abbreviation']. "</td>";
+                        echo "<td>" . $row['program_abbreviation'] . "</td>";
                         echo "<td>";
                         echo '<div class="dropdown">';
                         echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['program_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
@@ -96,14 +96,14 @@ require_once('./php/require/header.php');
 
             <label for="program_name">Program Name</label>
             <input type="text" name="program_name" id="program_name" class="form-control form-ele" placeholder="Computer Science">
-            
+
             <label for="program_department">Program Department</label>
             <input type="text" name="program_department" id="program_department" class="form-control form-ele" placeholder="DCS">
 
             <label for="program_abbreviation">Program Abbreviation</label>
             <input type="text" name="program_abbreviation" id="program_abbreviation" class="form-control form-ele" placeholder="CS">
             <div class="btn-con">
-                <button type="submit" class="btn btn-dark fButton" name="add-program" >Add program</button>
+                <button type="submit" class="btn btn-dark fButton" name="add-program">Add program</button>
                 <button type="button" class="btn btn-dark fButton" onclick="toggle()">Back</button>
             </div>
         </form>

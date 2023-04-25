@@ -32,56 +32,57 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-section']))) {
         header("Location: ../section-manage.php?status=$status&message=Failed to Add");
     }
 }
-if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-subject']))) {
+if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
     // Check if form has already been submitted
-    $form_fields = array('subject_code', 'subject_name', 'subject_course', 'subject_semester');
-    form_validation($form_fields, '../subject-manage.php');
-    $subject_code = htmlspecialchars($_POST['subject_code']);
-    $subject_name = htmlspecialchars($_POST['subject_name']);
-    $subject_course = htmlspecialchars($_POST['subject_course']);
-    $subject_semester = htmlspecialchars($_POST['subject_semester']);
+    $form_fields = array('course_code', 'course_name', 'program_id', 'course_semester');
+    form_validation($form_fields, '../course-manage.php');
+    $course_code = htmlspecialchars($_POST['course_code']);
+    $course_name = htmlspecialchars($_POST['course_name']);
+    $program_id = htmlspecialchars($_POST['program_id']);
+    $course_semester = htmlspecialchars($_POST['course_semester']);
     $lec_hrs = htmlspecialchars($_POST['lec_hrs']);
     $lab_hrs = htmlspecialchars($_POST['lab_hrs']);
     if (empty($lec_hrs) || !is_numeric($lec_hrs) || $lec_hrs < 0 || !is_numeric($lab_hrs) || $lab_hrs < 0) {
         $status = "empty";
-        header("Location: ../subject-manage.php?status=$status&message=Please Fill Up All Fields");
+        header("Location: ../course-manage.php?status=$status&message=Please Fill Up All Fields");
         exit();
     }
-    if (DB::insert('subject', array(
-        'course_id' => $subject_course,
-        'semester_id' => $subject_semester,
-        'subject_code' => $subject_code,
-        'subject_name' => $subject_name,
+
+    if (DB::insert('course', array(
+        'program_id' => $program_id,
+        'semester_id' => $course_semester,
+        'course_code' => $course_code,
+        'course_name' => $course_name,
         'lecture_hr' => $lec_hrs,
         'laboratory_hr' => $lab_hrs
     ))) {
         $status = "success";
-        header("Location: ../subject-manage.php?status=$status&message=Successfully Added");
+        header("Location: ../course-manage.php?status=$status&message=Successfully Added");
     } else {
         $status = "error";
-        header("Location: ../subject-manage.php?status=$status&message=Failed to Add");
+        header("Location: ../course-manage.php?status=$status&message=Failed to Add");
     }
 }
-if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
+if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-program']))) {
 
     form_validation(
-        array('course_name'),
+        array('program_name', 'program_department', 'program_abbreviation'),
         '../program-manage.php'
     );
-    $course_name = htmlspecialchars($_POST['course_name']);
-    if (empty($course_name)) {
-        $status = "empty";
-        header("Location: ../course-manage.php?status=$status");
-        exit();
-    }
-    if (DB::insert('course', array(
-        'course_name' => $course_name
+    $program_name = htmlspecialchars($_POST['program_name']);
+    $program_department = htmlspecialchars($_POST['program_department']);
+    $program_abbreviation = htmlspecialchars($_POST['program_abbreviation']);
+
+    if (DB::insert('program', array(
+        'program_name' => $program_name,
+        'program_department' => $program_department,
+        'program_abbreviation' => $program_abbreviation
     ))) {
         $status = "success";
         header("Location: ../program-manage.php?status=$status&message=Successfully Added");
     } else {
         $status = "error";
-        header("Location: ../course-manage.php?status=$status&message=Failed to Add");
+        header("Location: ../program-manage.php?status=$status&message=Failed to Add");
     }
 }
 if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-room']))) {
@@ -118,7 +119,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-room']))) {
 // * For Scheduling Room Request
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit']))) {
 
-    $subject_id = htmlentities($_POST['subject']);
+    $course_id = htmlentities($_POST['course']);
     $room_id = htmlentities($_POST['room_select']);
     $section_id = htmlentities($_POST['sec_select']);
     $day_id = htmlentities($_POST['day_select']);
@@ -126,13 +127,13 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
     $schedule_start_time = htmlentities($_POST['sched_start']);
     $schedule_end_time = htmlentities($_POST['sched_end']);
 
-    // Get the lecture hours of the selected subject
-    $stmt = $pdo->prepare("SELECT lecture_hr FROM subject WHERE subject_id = :subject_id");
-    $stmt->execute(array(':subject_id' => $subject_id));
-    $subject = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Get the lecture hours of the selected course
+    $stmt = $pdo->prepare("SELECT lecture_hr FROM course WHERE course_id = :course_id");
+    $stmt->execute(array(':course_id' => $course_id));
+    $course = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Calculate the maximum schedule duration based on the lecture hours of the selected subject
-    $max_duration = $subject['lecture_hr'] * 60 * 60; // Convert lecture hours to seconds
+    // Calculate the maximum schedule duration based on the lecture hours of the selected course
+    $max_duration = $course['lecture_hr'] * 60 * 60; // Convert lecture hours to seconds
 
     // Calculate the actual duration of the schedule
     $duration = strtotime($schedule_end_time) - strtotime($schedule_start_time);
@@ -154,7 +155,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         exit();
     }
     $result = DB::insert('scheduling table', array(
-        'subject_id' => $subject_id,
+        'course_id' => $course_id,
         'room_id' => $room_id,
         'section_id' => $section_id,
         'day_id' => $day_id,

@@ -1,6 +1,6 @@
 <?php
 $title = "Home";
-$css_link = "./styles/home.css?=" . time() .'';
+$css_link = "./styles/home.css?=" . time() . '';
 $auth = true;
 $filter = false;
 require_once('./php/require/header.php');
