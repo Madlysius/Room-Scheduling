@@ -1,6 +1,7 @@
 <?php
 require_once('./require/DBConfig.php');
 if (isset($_GET['delete']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
+    //Delete Program
     if ($_GET['delete'] == 'program') {
         $program_id = filter_input(INPUT_GET, 'program_id', FILTER_SANITIZE_NUMBER_INT);
         if (empty($program_id)) {
@@ -85,7 +86,24 @@ if (isset($_GET['delete']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
             header("Location: ../room-manage.php?status=$status&message=Failed to Delete Room");
         }
     }
-    //delete schedule
+    //Delete Professor
+    if ($_GET['delete'] == 'professor') {
+        $professor_id = filter_input(INPUT_GET, 'professor_id', FILTER_SANITIZE_NUMBER_INT);
+        if (empty($professor_id)) {
+            $status = "empty";
+            header("Location: ../professor-manage.php?status=$status&message=Empty");
+            exit();
+        }
+        try {
+            DB::delete('professor', "professor_id=%s", $professor_id);
+            $status = "success";
+            header("Location: ../professor-manage.php?status=$status&message=Successfully Deleted");
+        } catch (Exception $e) {
+            $status = "error";
+            header("Location: ../professor-manage.php?status=$status&message=Failed to Delete Professor");
+        }
+    }
+    //Delete Schedule
     if ($_GET['delete'] == 'schedule') {
         $schedule = filter_input(INPUT_GET, 'schedule_id', FILTER_SANITIZE_NUMBER_INT);
         if (empty($schedule)) {

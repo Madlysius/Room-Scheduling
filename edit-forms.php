@@ -33,8 +33,23 @@ require_once('./php/require/header.php');
                 echo "<input type='text' class='form-control' id='program_id' name='program_id' value='" . $result[0]['program_id'] . "' readonly>";
                 echo "<label for='program_name' class='form-label'>Program Name</label>";
                 echo "<input type='text' class='form-control' id='program_name' name='program_name' value='" . $result[0]['program_name'] . "'>";
+                echo "<label for='program_department' class='form-label'>Program Department</label>";
+                echo "<input type='text' class='form-control' id='program_department' name='program_department' value='" . $result[0]['program_department'] . "'>";
+                echo "<label for='program_abbreviation' class='form-label'>Program Abbreviation</label>";
+                echo "<input type='text' class='form-control' id='program_abbreviation' name='program_abbreviation' value='" . $result[0]['program_abbreviation'] . "'>";
               } else {
                 header("Location: ./program-manage.php");
+              }
+            } else if ($_GET['edit'] == 'professor') {
+              $result = DB::query("SELECT * FROM professor WHERE professor_id = %s", $_GET['professor_id']);
+              if (($result)) {
+                echo "<input type='hidden' name='edit' value='professor'>";
+                echo "<label for='professor_id' class='form-label'>Professor ID</label>";
+                echo "<input type='text' class='form-control' id='professor_id' name='professor_id' value='" . $result[0]['professor_id'] . "' readonly>";
+                echo "<label for='professor_name' class='form-label'>Professor Name</label>";
+                echo "<input type='text' class='form-control' id='professor_name' name='professor_name' value='" . $result[0]['professor_name'] . "'>";
+                echo "<label for='professor_department' class='form-label'>Professor Department</label>";
+                echo "<input type='text' class='form-control' id='professor_department' name='professor_department' value='" . $result[0]['professor_department'] . "'>";
               }
             } else if ($_GET['edit'] == 'room') {
               $result = DB::query("SELECT * FROM room WHERE room_id = %s", $_GET['room_id']);
@@ -176,8 +191,13 @@ require_once('./php/require/header.php');
             }
           }
           ?>
-          <div class="form-group text-center pt-3">
-            <button type="submit" class="btn btn-primary">Save</button>
+          <div class="form-group text-center pt-3 mx-auto">
+            <?php
+            //save button
+            echo "<button type='submit' class='btn btn-primary' name=\"" . "" . $_GET['edit'] . "\" href='./php/update-data.php'>Save</button>";
+
+            echo "<button type= 'button' class='btn btn-danger' onclick='window.location.href = \"./" . $_GET['edit'] . "-manage.php\"'>Cancel</button>";
+            ?>
           </div>
 
         </form>

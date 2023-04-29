@@ -2,18 +2,18 @@
 require_once('./require/DBConfig.php');
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
     if (isset($_POST['edit'])) {
-        if ($_POST['edit'] == 'progam') {
-            $result = DB::update(
-                'program',
-                array(
-                    'program_id' => htmlentities($_POST['program_id']),
-                    'program_name' => htmlentities($_POST['program_name']),
-                    'program_department' => htmlentities($_POST['program_department']),
-                    'program_abbreviation' => htmlentities($_POST['program_abbreviation'])
-                ),
-                "program_id=%s",
-                htmlentities($_POST['program_id'])
-            );
+        if ($_POST['edit'] == 'program') {
+            $program_id = htmlentities($_POST['program_id']);
+            $program_name = htmlentities($_POST['program_name']);
+            $program_department = htmlentities($_POST['program_department']);
+            $program_abbreviation = htmlentities($_POST['program_abbreviation']);
+
+            $result = DB::update('program', array(
+                'program_name' => $program_name,
+                'program_department' => $program_department,
+                'program_abbreviation' => $program_abbreviation
+            ), "program_id=%s", $_POST['program_id']);
+
             if ($result) {
                 header("Location: ../program-manage.php?status=success&message=Program%20Updated");
             } else {
@@ -116,6 +116,19 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             ), "course_id=%s", $_POST['course_id']);
             if ($result) {
                 header("Location: ../course-manage.php?status=success&message=Course%20Updated");
+            } else {
+                echo "Error";
+            }
+        } else if ($_POST['edit'] == 'professor') {
+            $professor_id = htmlentities($_POST['professor_id']);
+            $professor_name = htmlentities($_POST['professor_name']);
+            $professor_department = htmlentities($_POST['professor_department']);
+            $result = DB::update('professor', array(
+                'professor_name' => $professor_name,
+                'professor_department' => $professor_department
+            ), "professor_id=%s", $_POST['professor_id']);
+            if ($result) {
+                header("Location: ../professor-manage.php?status=success&message=Professor%20Updated");
             } else {
                 echo "Error";
             }

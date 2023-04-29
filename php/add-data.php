@@ -116,6 +116,24 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-room']))) {
         header("Location: ../room-manage.php?status=$status&message=Failed to Add");
     }
 }
+if (($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST['add-professor'])))) {
+    form_validation(
+        array('professor_name', 'professor_department'),
+        '../professor-manage.php'
+    );
+    $professor_name = htmlspecialchars($_POST['professor_name']);
+    $professor_department = htmlspecialchars($_POST['professor_department']);
+    if ((DB::insert('professor', array(
+        'professor_name' => $professor_name,
+        'professor_department' => $professor_department
+    )))) {
+        $status = "success";
+        header("Location: ../professor-manage.php?status=$status&message=Successfully Added");
+    } else {
+        $status = "error";
+        header("Location: ../professor-manage.php?status=$status&message=Failed to Add");
+    }
+}
 // * For Scheduling Room Request
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit']))) {
 

@@ -21,11 +21,16 @@ require_once('./php/require/header.php');
         </div>
 
         <div class="cards">
-
             <!-- Scheduling Card -->
             <a href="./scheduling.php" class="card">
                 <img src="./images/calendar.png" alt="">
                 <h2>Schedule</h2>
+            </a>
+
+            <!-- Professor Card  -->
+            <a href="./professor-manage.php" class="card">
+                <img src="./images/professor.png" alt="">
+                <h2>Professor Management</h2>
             </a>
 
             <!-- Room Management -->

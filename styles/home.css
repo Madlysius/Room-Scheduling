@@ -1,6 +1,6 @@
-@import url(/import/scrollbar.css);
-@import url(/import/layout.css); /* nagimport ako sa bawat css file nito */
-@import url(/import/font.css); /* nagimport ako sa bawat css file nito */
+@import url(./import/scrollbar.css);
+@import url(./import/layout.css); /* nagimport ako sa bawat css file nito */
+@import url(./import/font.css); /* nagimport ako sa bawat css file nito */
 * {
   margin: 0;
   padding: 0;
@@ -47,7 +47,7 @@ a {
   background: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  flex-basis: 25%;
+  flex-basis: 20%;
   margin: 20px;
   padding: 50px;
   text-align: center;
