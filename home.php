@@ -22,9 +22,9 @@ require_once('./php/require/header.php');
 
         <div class="cards">
             <!-- Scheduling Card -->
-            <a href="./scheduling.php" class="card">
+            <a href="./schedule-manage.php" class="card">
                 <img src="./images/calendar.png" alt="">
-                <h2>Schedule</h2>
+                <h2>Schedule Management</h2>
             </a>
 
             <!-- Professor Card  -->

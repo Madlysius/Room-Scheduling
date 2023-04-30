@@ -25,7 +25,7 @@
 <nav class="navbar bg-body-tertiary fixed-top">
     <div class="container-fluid">
         <!-- NAVBAR TITLE -->
-        <a class="navbar-brand" href="./scheduling.php"><img src="./images/lpu-cavite.png" alt=""> COECSA Room Scheduling</a>
+        <a class="navbar-brand" href="./schedule-manage.php"><img src="./images/lpu-cavite.png" alt=""> COECSA Room Scheduling</a>
         <?php
         if (basename($_SERVER['PHP_SELF']) != "home.php") {
         ?>
@@ -50,7 +50,7 @@
                             </li>
                             <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "professor-manage.php") echo "active"; ?>" href="./professor-manage.php">Professor Management</a>
                             <li class="nav-item">
-                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "scheduling.php") echo "active"; ?>" href="./scheduling.php">Schedule Management</a>
+                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "schedule-manage.php") echo "active"; ?>" href="./schedule-manage.php">Schedule Management</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "room-manage.php") echo "active"; ?>" href="./room-manage.php">Room Management</a>
@@ -66,7 +66,7 @@
                             </li>
                         <?php } else if ($_SESSION['user_type_id'] == 2) { ?>
                             <li class="nav-item">
-                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "scheduling.php") echo "active"; ?>" href="./scheduling.php">Scheduling Management</a>
+                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "schedule-manage.php") echo "active"; ?>" href="./schedule-manage.php">Schedule Management</a>
                             </li>
                         <?php } ?>
                         <li class="nav-item">

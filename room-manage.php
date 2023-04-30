@@ -44,7 +44,7 @@ require_once('./php/require/header.php');
                 </div>
                 <!--Add Room Button-->
                 <div class="col">
-                    <button type="submit" class="btn btn-dark input-filter fButton" onclick="toggle()">Add Room</button>
+                    <button type="submit" class="btn btn-dark input-filter fButton" data-bs-toggle="modal" data-bs-target="#modal">Add Room</button>
                 </div>
             </div>
             <?php
@@ -88,31 +88,38 @@ require_once('./php/require/header.php');
         </div>
     </div>
 
-    <!--POPUP-->
-    <div class="popup" id="popup">
-        <div class="popup-header">
-            <h1>Add Room</h1>
-        </div>
-        <form id="room-add-form" action="./php/add-data.php" method="POST">
-            <label for="room_name">Room Name</label>
-            <input type="text" name="room_name" id="room_name" class="form-control form-ele" placeholder="Physics Room">
-            <label for="room_categ">Category</label>
-            <select class="form-select form-ele" id="room_categ" name="room_categ">
-                <option value="">Category</option>
-                <option value="Lecture Room">Lecture Room</option>
-                <option value="Laboratory Room">Laboratory Room</option>
-            </select>
-            <label for="room_addr">Location</label>
-            <select class="form-select form-ele" id="room_addr" name="room_addr">
-                <option value="">Location</option>
-                <option value="Main">Main</option>
-                <option value="Annex">Annex</option>
-            </select>
-            <div class="btn-con">
-                <button type="submit" class="btn btn-dark fButton" name="add-room">Add Room</button>
-                <button type="button" class="btn btn-dark fButton" onclick="toggle()">Back</button>
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border border-dark rounded-5 overflow-hidden">
+                <div class="modal-header popup-header">
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">Add Room</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="room-add-form" action="./php/add-data.php" method="POST">
+                        <label for="room_name">Room Name</label>
+                        <input type="text" name="room_name" id="room_name" class="form-control form-ele" placeholder="Physics Room">
+                        <label for="room_categ">Category</label>
+                        <select class="form-select form-ele" id="room_categ" name="room_categ">
+                            <option value="">Category</option>
+                            <option value="Lecture Room">Lecture Room</option>
+                            <option value="Laboratory Room">Laboratory Room</option>
+                        </select>
+                        <label for="room_addr">Location</label>
+                        <select class="form-select form-ele" id="room_addr" name="room_addr">
+                            <option value="">Location</option>
+                            <option value="Main">Main</option>
+                            <option value="Annex">Annex</option>
+                        </select>
+                        <div class="btn-con">
+                            <button type="submit" class="btn btn-dark fButton" name="add-room">Add Room</button>
+                            <button type="button" class="btn btn-dark fButton" data-bs-dismiss="modal">Back</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 
     <!--POPUP JAVASCRIPT-->

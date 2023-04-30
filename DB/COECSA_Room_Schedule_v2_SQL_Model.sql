@@ -78,6 +78,7 @@ ENGINE = InnoDB;
     `semester_id` INT NOT NULL,
     `course_code` VARCHAR(10) NOT NULL,
     `course_name` VARCHAR(45) NOT NULL,
+    `units` INT NOT NULl,
     `lecture_hr` VARCHAR(45) NOT NULL,
     `laboratory_hr` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`course_id`),

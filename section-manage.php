@@ -37,7 +37,7 @@ require_once('./php/require/header.php');
                     </select>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-dark input-filter fButton" onclick="toggle()">Add Section</button>
+                    <button type="submit" class="btn btn-dark input-filter fButton" data-bs-toggle="modal" data-bs-target="#modal">Add Section</button>
                 </div>
             </div>
             <?php
@@ -81,43 +81,46 @@ require_once('./php/require/header.php');
             </table>
         </div>
     </div>
-    <!--POPUP-->
-    <div class="popup" id="popup">
-        <div class="popup-header">
-            <h1>Add Section</h1>
-        </div>
-        <form id="section-add-form" method="POST" action="./php/add-data.php">
-            <label for="secName">Section Name</label>
-            <input type="text" name="secName" id="secName" class="form-control form-ele" placeholder="CS301">
-            <label for="secYear">Year</label>
-            <select class="form-select form-ele" name="secYear" id="secYear">
-                <option value="1st">1st</option>
-                <option value="2nd">2nd</option>
-                <option value="3rd">3rd</option>
-                <option value="4th">4th</option>
-            </select>
-            <label for="secProgram">Program</label>
-            <select class="form-select form-ele" id="secProgram" name="secProgram">
-                <?php
-                $program = new Display();
-                $program->displayOption("program", "program_id","program_name");
-                ?>
-            </select>
-            <div class="btn-con">
-                <button type="submit" class="btn btn-dark fButton" name="add-section">Add Section</button>
-                <button type="button" class="btn btn-dark fButton" onclick="toggle()">Back</button>
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border border-dark rounded-5 overflow-hidden">
+                <div class="modal-header popup-header">
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">Add Section</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="section-add-form" method="POST" action="./php/add-data.php">
+                        <label for="secName">Section Name</label>
+                        <input type="text" name="secName" id="secName" class="form-control form-ele" placeholder="CS301">
+                        <label for="secYear">Year</label>
+                        <select class="form-select form-ele" name="secYear" id="secYear">
+                            <option value="1st">1st</option>
+                            <option value="2nd">2nd</option>
+                            <option value="3rd">3rd</option>
+                            <option value="4th">4th</option>
+                        </select>
+                        <label for="secCourse">Course</label>
+                        <select class="form-select form-ele" id="secCourse" name="secCourse">
+                            <?php
+                            $result = DB::query("SELECT * FROM course");
+                            foreach ($result as $row) {
+                                echo "<option value='" . $row['course_id'] . "'>" . $row['course_name'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                        <div class="btn-con">
+                            <button type="submit" class="btn btn-dark fButton" name="add-section">Add Section</button>
+                            <button type="button" class="btn btn-dark fButton" data-bs-dismiss="modal">Back</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
+
     <!--POPUP JAVASCRIPT-->
     <script>
-        let popup = document.getElementById("popup");
-        let overlay = document.getElementById("overlay");
-
-        function toggle() {
-            popup.classList.toggle("active");
-            overlay.classList.toggle("active");
-        }
         filterTable(["#SectionInput", "#CourseInput", "#YearInput"], "#sec-table");
     </script>
 </body>

@@ -53,7 +53,7 @@ require_once('./php/require/header.php');
 
                 <!--Add Room Button-->
                 <div class="col">
-                    <button type="submit" class="btn btn-dark input-filter fButton" onclick="toggle()">Add Course</button>
+                    <button type="submit" class="btn btn-dark input-filter fButton" data-bs-toggle="modal" data-bs-target="#modal">Add Course</button>
                 </div>
 
             </div>
@@ -107,58 +107,55 @@ require_once('./php/require/header.php');
         </div>
     </div>
 
-    <!--POPUP-->
-    <div class="popup" id="popup">
-        <div class="popup-header">
-            <h1>Add Course</h1>
-        </div>
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border border-dark rounded-5 overflow-hidden">
+                <div class="modal-header popup-header">
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">Add Course</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="course-add-form" action="./php/add-data.php" method="POST">
+                        <label for="course_code">Course Code</label>
+                        <input type="text" name="course_code" id="course_code" class="form-control form-ele" placeholder="ITEN04C">
 
-        <!-- ADD COURSE FORM -->
-        <form id="course-add-form" action="./php/add-data.php" method="POST">
-            <label for="course_code">Course Code</label>
-            <input type="text" name="course_code" id="course_code" class="form-control form-ele" placeholder="ITEN04C">
+                        <label for="course_name">Course Name</label>
+                        <input type="text" name="course_name" id="course_name" class="form-control form-ele" placeholder="Quantitative Methods">
 
-            <label for="course_name">Course Name</label>
-            <input type="text" name="course_name" id="course_name" class="form-control form-ele" placeholder="Quantitative Methods">
+                        <label for="program_id">Program</label>
+                        <select class="form-select form-ele" id="program_id" name="program_id">
+                            <?php
+                            $CourseProgram = new display();
+                            $CourseProgram->displayOption('program', 'program_id', 'program_name');
+                            ?>
+                        </select>
 
-            <label for="program_id">Program</label>
-            <select class="form-select form-ele" id="program_id" name="program_id">
-                <?php
-                $CourseProgram = new display();
-                $CourseProgram->displayOption('program', 'program_id', 'program_name');
-                ?>
-            </select>
+                        <label for="course_semester">Semester</label>
+                        <select class="form-select form-ele" id="course_semsester" name="course_semester">
+                            <?php
+                            $Semester = new display();
+                            $Semester->displayOption('semester', 'semester_id', 'semester');
+                            ?>
+                        </select>
 
-            <label for="course_semester">Semester</label>
-            <select class="form-select form-ele" id="course_semsester" name="course_semester">
-                <?php
-                $Semester = new display();
-                $Semester->displayOption('semester', 'semester_id', 'semester');
-                ?>
-            </select>
+                        <label for="lec_hrs">Lecture Hours</label>
+                        <input type="number" name="lec_hrs" id="lec_hrs" step=0.5 class="form-control form-ele" placeholder="1">
 
-            <label for="lec_hrs">Lecture Hours</label>
-            <input type="number" name="lec_hrs" id="lec_hrs" step=0.5 class="form-control form-ele" placeholder="1">
+                        <label for="lab_hrs">Laboratory Hours</label>
+                        <input type="number" name="lab_hrs" id="lab_hrs" step=0.5 class="form-control form-ele" placeholder="1">
 
-            <label for="lab_hrs">Laboratory Hours</label>
-            <input type="number" name="lab_hrs" id="lab_hrs" step=0.5 class="form-control form-ele" placeholder="1">
 
-            <div class="btn-con">
-                <button type="submit" class="btn btn-dark fButton" name="add-course">Add Course</button>
-                <button type="button" class="btn btn-dark fButton" onclick="toggle()">Back</button>
+                        <div class="btn-con">
+                            <button type="submit" class="btn btn-dark fButton" name="add-course">Add Course</button>
+                            <button type="button" class="btn btn-dark fButton" data-bs-dismiss="modal">Back</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
-
     <!--POPUP JAVASCRIPT-->
     <script>
-        let popup = document.getElementById("popup");
-        let overlay = document.getElementById("overlay");
-
-        function toggle() {
-            popup.classList.toggle("active");
-            overlay.classList.toggle("active");
-        }
         filterTable(["#CourseInput", "#empty1", "#empty2", "#SemesterInput"], "#course-table");
     </script>
 

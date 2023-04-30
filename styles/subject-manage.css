@@ -1,6 +1,7 @@
 @import url(./import/scrollbar.css);
 @import url(./import/layout.css); /* nagimport ako sa bawat css file nito */
 @import url(./import/font.css); /* nagimport ako sa bawat css file nito */
+@import url(./modules/popup.css);
 * {
   /* BACKGROUNDS */
   --LPU-red: #b20000ea;
@@ -77,28 +78,6 @@
 #subject-add-form {
   padding: 30px 40px 50px;
 }
-
-/* .popup {
-  position: absolute;
-  top: 20%;
-  left: 36%;
-  width: 500px;
-  background: white;
-  border: 1px solid black;
-  border-radius: 25px;
-  visibility: hidden;
-  z-index: 2;
-  overflow: hidden;
-}
-
-.popup.active {
-  visibility: visible;
-}
-
-#overlay.active {
-  filter: blur(10px);
-  pointer-events: none;
-} */
 
 .btn-con {
   margin-top: 35px;

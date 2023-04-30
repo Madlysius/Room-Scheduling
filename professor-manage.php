@@ -80,26 +80,6 @@ require_once('./php/require/header.php');
         </div>
     </div>
 
-    <!-- POPUP -->
-    <div class="popup" id="popup">
-        <div class="popup-header">
-            <h1>Add Professor</h1>
-        </div>
-        <form id="prof-add-form" method="POST" action="./php/add-data.php">
-
-            <label for="professor_name">Professor Name</label>
-            <input type="text" name="professor_name" id="professor_name" class="form-control form-ele" placeholder="Joven Cajigas">
-
-            <label for="professor_department">Professor Department</label>
-            <input type="text" name="professor_department" id="professor_department" class="form-control form-ele" placeholder="DCS">
-
-            <div class="btn-con">
-                <button type="submit" class="btn btn-dark fButton" name="add-professor">Add Professor</button>
-                <button type="button" class="btn btn-dark fButton" onclick="toggle()">Back</button>
-            </div>
-        </form>
-    </div>
-
     <!-- Modal -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -111,14 +91,14 @@ require_once('./php/require/header.php');
                 <div class="modal-body">
                     <form id="prof-add-form" method="POST" action="./php/add-data.php">
 
-                        <label for="prof_name">Professor Name</label>
-                        <input type="text" name="prof_name" id="prof_name" class="form-control form-ele" placeholder="Joven Cajigas">
+                        <label for="professor_name">Professor Name</label>
+                        <input type="text" name="professor_name" id="professor_name" class="form-control form-ele" placeholder="Joven Cajigas">
 
-                        <label for="prof_dep">Professor Department</label>
-                        <input type="text" name="prof_dep" id="prof_dep" class="form-control form-ele" placeholder="DCS">
+                        <label for="professor_department">Professor Department</label>
+                        <input type="text" name="professor_department" id="professor_department" class="form-control form-ele" placeholder="DCS">
 
                         <div class="btn-con">
-                            <button type="submit" class="btn btn-dark fButton" name="add-course">Add Professor</button>
+                            <button type="submit" class="btn btn-dark fButton" name="add-professor">Add Professor</button>
                             <button type="button" class="btn btn-dark fButton" data-bs-dismiss="modal">Back</button>
                         </div>
                     </form>
@@ -129,14 +109,6 @@ require_once('./php/require/header.php');
 
     <!--POPUP JAVASCRIPT-->
     <script>
-        let popup = document.getElementById("popup");
-        let overlay = document.getElementById("overlay");
-
-        function toggle() {
-            popup.classList.toggle("active");
-            overlay.classList.toggle("active");
-        }
-
         filterTable(["#IdInput", "#NameInput", '#DepInput'], "#prof-table");
     </script>
 
