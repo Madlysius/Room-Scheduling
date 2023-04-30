@@ -9,8 +9,8 @@ function deleteConfirmation(deleteType, id) {
       id;
   }
 }
-function logoutConfirmation(){
-  if (confirm ("Are you sure you want to logout?")){
+function logoutConfirmation() {
+  if (confirm("Are you sure you want to logout?")) {
     window.location.href = "./php/logout.php";
   }
 }

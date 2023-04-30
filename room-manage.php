@@ -117,13 +117,6 @@ require_once('./php/require/header.php');
 
     <!--POPUP JAVASCRIPT-->
     <script>
-        let popup = document.getElementById("popup");
-        let overlay = document.getElementById("overlay");
-
-        function toggle() {
-            popup.classList.toggle("active");
-            overlay.classList.toggle("active");
-        }
         filterTable(["#IDInput", "#NameInput", "#CategoryInput", "#LocationInput"], "#room-table");
     </script>
 </body>

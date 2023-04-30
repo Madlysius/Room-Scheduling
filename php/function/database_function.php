@@ -11,6 +11,7 @@ function form_validation($fields, $redirect)
     foreach ($fields as $field) {
         if (empty($_POST[$field])) {
             $status = "error";
+
             header("Location: $redirect?status=$status&message=Please Fill Up All Fields");
             exit();
         }

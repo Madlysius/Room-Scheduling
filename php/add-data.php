@@ -2,28 +2,23 @@
 require_once('./require/DBConfig.php');
 require_once('./function/database_function.php');
 if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-section']))) {
-    form_validation(array('secName', 'secYear', 'secCourse'), '../section-manage.php');
+    form_validation(array('secName', 'secYear', 'secProgram'), '../section-manage.php');
 
     $secName = htmlspecialchars($_POST['secName']);
     $secYear = htmlspecialchars($_POST['secYear']);
-    $secCourse = htmlspecialchars($_POST['secCourse']);
+    $secProgram = htmlspecialchars($_POST['secProgram']);
 
     $yearvalidate = array('1st', '2nd', '3rd', '4th');
-    $stmt = $pdo->prepare("SELECT course_id FROM course");
+    $stmt = $pdo->prepare("SELECT program_id FROM program");
     $stmt->execute();
     $courseArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-    validateDropdownValues($secCourse, $courseArray, 'Invalid Input', '../section-manage.php');
+    validateDropdownValues($secProgram, $courseArray, 'Invalid Input', '../section-manage.php');
     validateDropdownValues($secYear, $yearvalidate, 'Invalid Input', '../section-manage.php');
-    if (empty($secName) || empty($secYear) || empty($secCourse)) {
-        $status = "empty";
-        header("Location: ../section-manage.php?status=$status&message=Please Fill Up All Fields");
-        exit();
-    }
     if (DB::insert('section', array(
         'section_name' => $secName,
         'section_year' => $secYear,
-        'course_id' => $secCourse
+        'program_id' => $secProgram
     ))) {
         $status = "success";
         header("Location: ../section-manage.php?status=$status&message=Successfully Added");
