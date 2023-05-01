@@ -23,7 +23,7 @@
         echo "";
     }
     if ($filter) {
-        echo '<script src="./javascript/filter.js?=2' . time() . '"></script>';
+        echo '<script src="./javascript/filter.js?=3' . time() . '"></script>';
     }
     if ($auth) {
         require_once('./php/require/auth.php');

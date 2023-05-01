@@ -35,9 +35,9 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
     $course_name = htmlspecialchars($_POST['course_name']);
     $program_id = htmlspecialchars($_POST['program_id']);
     $course_semester = htmlspecialchars($_POST['course_semester']);
-    $lec_hrs = htmlspecialchars($_POST['lec_hrs']);
-    $lab_hrs = htmlspecialchars($_POST['lab_hrs']);
-    if (empty($lec_hrs) || !is_numeric($lec_hrs) || $lec_hrs < 0 || !is_numeric($lab_hrs) || $lab_hrs < 0) {
+    $lecture_units = htmlspecialchars($_POST['lecture_units']);
+    $laboratory_units = htmlspecialchars($_POST['laboratory_units']);
+    if (empty($lecture_units) || !is_numeric($lecture_units) || $lecture_units < 0 || !is_numeric($laboratory_units) || $laboratory_units < 0) {
         $status = "empty";
         header("Location: ../course-manage.php?status=$status&message=Please Fill Up All Fields");
         exit();
@@ -48,8 +48,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
         'semester_id' => $course_semester,
         'course_code' => $course_code,
         'course_name' => $course_name,
-        'lecture_hr' => $lec_hrs,
-        'laboratory_hr' => $lab_hrs
+        'lecture_units' => $lecture_units,
+        'laboratory_units' => $laboratory_units
     ))) {
         $status = "success";
         header("Location: ../course-manage.php?status=$status&message=Successfully Added");
@@ -132,21 +132,24 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST['add-professor'])))) 
 // * For Scheduling Room Request
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit']))) {
 
-    $course_id = htmlentities($_POST['course']);
+    $course_id = htmlentities($_POST['program']);
     $room_id = htmlentities($_POST['room_select']);
     $section_id = htmlentities($_POST['sec_select']);
     $day_id = htmlentities($_POST['day_select']);
     $semster_id = htmlentities($_POST['sem_select']);
+    $professor_id = htmlentities($_POST['professor_select']);
+    $schedule_type = htmlentities($_POST['schedule_type']);
     $schedule_start_time = htmlentities($_POST['sched_start']);
     $schedule_end_time = htmlentities($_POST['sched_end']);
 
+
     // Get the lecture hours of the selected course
-    $stmt = $pdo->prepare("SELECT lecture_hr FROM course WHERE course_id = :course_id");
+    $stmt = $pdo->prepare("SELECT lecture_units FROM course WHERE course_id = :course_id");
     $stmt->execute(array(':course_id' => $course_id));
     $course = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Calculate the maximum schedule duration based on the lecture hours of the selected course
-    $max_duration = $course['lecture_hr'] * 60 * 60; // Convert lecture hours to seconds
+    $max_duration = $course['lecture_units'] * 60 * 60; // Convert lecture hours to seconds
 
     // Calculate the actual duration of the schedule
     $duration = strtotime($schedule_end_time) - strtotime($schedule_start_time);
@@ -173,11 +176,13 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         'section_id' => $section_id,
         'day_id' => $day_id,
         'semester_id' => $semster_id,
+        'professor_id' => $professor_id,
+        'schedule_type' => $schedule_type,
         'schedule_start_time' => $schedule_start_time,
         'schedule_end_time' => $schedule_end_time
     ));
     if ($result) {
-        header("Location: ../scheduling.php?status=success&message=Schedule%20Added");
+        header("Location: ../schedule-manage.php?status=success&message=Schedule%20Added");
     } else {
         echo "Error";
     }

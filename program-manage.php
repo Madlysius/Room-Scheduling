@@ -98,17 +98,17 @@ require_once('./php/require/header.php');
                 <div class="modal-body">
                     <form id="course-add-form" method="POST" action="./php/add-data.php">
 
-                        <label for="course_name">Program Name</label>
-                        <input type="text" name="course_name" id="course_name" class="form-control form-ele" placeholder="Computer Science">
+                        <label for="program_name">Program Name</label>
+                        <input type="text" name="program_name" id="program_name" class="form-control form-ele" placeholder="Computer Science">
 
-                        <label for="course_dep">Program Department</label>
-                        <input type="text" name="course_dep" id="course_dep" class="form-control form-ele" placeholder="DCS">
+                        <label for="program_department">Program Department</label>
+                        <input type="text" name="program_department" id="program_department" class="form-control form-ele" placeholder="DCS">
 
-                        <label for="course_abbr">Program Abbreviation</label>
-                        <input type="text" name="course_abbr" id="course_abbr" class="form-control form-ele" placeholder="CS">
+                        <label for="program_abbreviation">Program Abbreviation</label>
+                        <input type="text" name="program_abbreviation" id="program_abbreviation" class="form-control form-ele" placeholder="CS">
 
                         <div class="btn-con">
-                            <button type="submit" class="btn btn-dark fButton" name="add-course">Add Program</button>
+                            <button type="submit" class="btn btn-dark fButton" name="add-program">Add Program</button>
                             <button type="button" class="btn btn-dark fButton" data-bs-dismiss="modal">Back</button>
                         </div>
                     </form>

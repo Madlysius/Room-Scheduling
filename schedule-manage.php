@@ -241,10 +241,21 @@ require_once('./php/require/header.php');
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="room_select">Category</label>
-                                <select id="room_select" name="room_select" class="form-select form-ele">
-                                    <option value="Lecture Room">Lecture Room</option>
-                                    <option value="Laboratory Room">Laboratory Room</option>
+                                <label for="schedule_type">Type of Schedule</label>
+                                <select id="schedule_type" name="schedule_type" class="form-select form-ele">
+                                    <option value="Lecture">Lecture Room</option>
+                                    <option value="Laboratory">Laboratory Room</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="professor_select">Professor</label>
+                                <select id="professor_select" name="professor_select" class="form-select form-ele">
+                                    <?php
+                                    $professor = new display();
+                                    $professor->displayOption("professor", "professor_id", "professor_name");
+                                    ?>
                                 </select>
                             </div>
                         </div>

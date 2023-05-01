@@ -121,7 +121,7 @@ require_once('./php/require/header.php');
                   echo "<option value='" . $row['semester_id'] . "'" . ($result[0]['semester_id'] == $row['semester_id'] ? ' selected' : '') . ">" . $row['semester'] . "</option>";
                 }
                 echo "</select>";
-                //course id
+                //Course id
                 echo "<label for='course_id' class='form-label'>Course</label>";
                 echo "<select class='form-select' id='course_id' name='course_id'>";
                 echo "</select>";
@@ -129,7 +129,7 @@ require_once('./php/require/header.php');
                 echo "<select class='form-select' id='room_id' name='room_id'>";
                 $room = DB::query("SELECT * FROM room");
                 foreach ($room as $row) {
-                  echo "<option value='" . $row['room_id'] . "'" . ($result[0]['room_id'] == $row['room_id'] ? ' selected' : '') . ">" . $row['room_code'] . "</option>";
+                  echo "<option value='" . $row['room_id'] . "'" . ($result[0]['room_id'] == $row['room_id'] ? ' selected' : '') . ">" . $row['room_name'] . "</option>";
                 }
                 echo "</select>";
                 //day_id
@@ -152,7 +152,19 @@ require_once('./php/require/header.php');
                 echo "<select class='form-select' id='schedule_end_time' name='schedule_end_time'>";
                 $end_time->displayTimeSelected("07:00", "21:00", "+30 minutes", $result[0]['schedule_end_time']);
                 echo "</select>";
-                echo "<script src='./javascript/scheduling.js?=v1'></script>";
+                echo "<label for='schedule_type' class='form-label'>Schedule Type</label>";
+                echo "<select class='form-select' id='schedule_type' name='schedule_type'>";
+                echo "<option value='Lecture'" . ($result[0]['schedule_type'] == 'Lecture' ? ' selected' : '') . ">Lecture</option>";
+                echo "<option value='Laboratory'" . ($result[0]['schedule_type'] == 'Laboratory' ? ' selected' : '') . ">Laboratory</option>";
+                echo "</select>";
+                echo "<label for='professor_id' class='form-label'>Professor</label>";
+                echo "<select class='form-select' id='professor_id' name='professor_id'>";
+                $professor = DB::query("SELECT * FROM professor");
+                foreach ($professor as $row) {
+                  echo "<option value='" . $row['professor_id'] . "'" . ($result[0]['professor_id'] == $row['professor_id'] ? ' selected' : '') . ">" . $row['professor_name'] . "</option>";
+                }
+                echo "</select>";
+                echo "<script src='./javascript/scheduling.js?=v3'></script>";
               } else {
                 header("Location: ./scheduling.php");
               }

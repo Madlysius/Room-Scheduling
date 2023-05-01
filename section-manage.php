@@ -100,13 +100,11 @@ require_once('./php/require/header.php');
                             <option value="3rd">3rd</option>
                             <option value="4th">4th</option>
                         </select>
-                        <label for="secCourse">Course</label>
-                        <select class="form-select form-ele" id="secCourse" name="secCourse">
+                        <label for="secProgram">Program</label>
+                        <select class="form-select form-ele" id="secProgram" name="secProgram">
                             <?php
-                            $result = DB::query("SELECT * FROM course");
-                            foreach ($result as $row) {
-                                echo "<option value='" . $row['course_id'] . "'>" . $row['course_name'] . "</option>";
-                            }
+                            $secProgram = new Display();
+                            $secProgram->displayOption("program", "program_id", "program_name");
                             ?>
                         </select>
                         <div class="btn-con">

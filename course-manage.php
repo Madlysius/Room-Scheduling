@@ -69,8 +69,9 @@ require_once('./php/require/header.php');
                         <td>Course Code</td>
                         <td>Course Name</td>
                         <td>Semester</td>
-                        <td>Lecture Hours</td>
-                        <td>Laboratory Hours</td>
+                        <td>Lecture Units</td>
+                        <td>Laboratory Units</td>
+                        <td>Units</td>
                         <td>Action</td>
                     </tr>
                 </thead>
@@ -86,8 +87,9 @@ require_once('./php/require/header.php');
                         echo "<td>" . $row['course_name'] . "</td>";
                         $semester = $mysqli->query("SELECT semester FROM semester WHERE semester_id = " . $row['semester_id']);
                         echo "<td>" . $semester->fetch_assoc()['semester'] . "</td>";
-                        echo "<td>" . $row['lecture_hr'] . "</td>";
-                        echo "<td>" . $row['laboratory_hr'] . "</td>";
+                        echo "<td>" . $row['lecture_units'] . "</td>";
+                        echo "<td>" . $row['laboratory_units'] . "</td>";
+                        echo "<td>" . ($row['lecture_units'] + $row['laboratory_units']) . "</td>";
                         echo "<td>";
                         echo '<div class="dropdown">';
                         echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['course_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
@@ -138,11 +140,11 @@ require_once('./php/require/header.php');
                             ?>
                         </select>
 
-                        <label for="lec_hrs">Lecture Hours</label>
-                        <input type="number" name="lec_hrs" id="lec_hrs" step=0.5 class="form-control form-ele" placeholder="1">
+                        <label for="lecture_units">Lecture Units</label>
+                        <input type="number" name="lecture_units" id="lec_hrs" step=0.5 class="form-control form-ele" placeholder="1">
 
-                        <label for="lab_hrs">Laboratory Hours</label>
-                        <input type="number" name="lab_hrs" id="lab_hrs" step=0.5 class="form-control form-ele" placeholder="1">
+                        <label for="laboratory_units">Laboratory Units</label>
+                        <input type="number" name="laboratory_units" id="laboratory_units" step=0.5 class="form-control form-ele" placeholder="1">
 
 
                         <div class="btn-con">

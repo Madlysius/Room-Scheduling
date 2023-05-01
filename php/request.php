@@ -4,10 +4,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
     $room_id = $_POST['room_id'];
     $stmt = $pdo->prepare("
             SELECT st.schedule_id, st.schedule_start_time, st.schedule_end_time,
-                   su.course_name, su.course_code, d.day
+                   su.course_name, su.course_code, d.day, st.schedule_type, p.professor_name
             FROM `scheduling table` AS st
             JOIN `course` AS su ON st.course_id = su.course_id
             JOIN `day` AS d ON st.day_id = d.day_id
+            JOIN `professor` AS p ON st.professor_id = p.professor_id
             WHERE st.room_id = :room_id
             ORDER BY st.schedule_start_time
         ");
@@ -37,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
                     $schedule_end_time = strtotime($row->schedule_end_time);
                     $current_time = strtotime($start_time);
                     if ($current_time >= $schedule_start_time && $current_time < $schedule_end_time) {
-                        echo '<div class="tb-content">' . $row->course_name . ' <br> ' . $row->course_code . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time;
+                        echo '<div class="tb-content">' . $row->course_name . ' <br> ' . $row->course_code . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time . '<br>' . $row->schedule_type . '<br>' . $row->professor_name . '<br>';
                         //add a button to delete the schedule
                         echo '<div class="dropdown ">
                             <button class="btn btn-secondary dropdown-toggle" style="background-color:#FFFFFFF" type="button" id="dropdownMenuButton-'  . $row->schedule_id . '" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,17 +63,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
         $start_time = date("H:i:s", strtotime("+30 minutes", strtotime($start_time)));
     }
 }
+
 if (isset($_POST['sec_select'], $_POST['sem_select'])) {
     $section_id = $_POST["sec_select"];
     $semester_id = $_POST["sem_select"];
 
     // prepare the SQL statement to get the program_id for the section
-    $sql = "SELECT program_id FROM `course` WHERE course_id = ?";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->prepare("SELECT program_id FROM `course` WHERE course_id = ?");
     $stmt->execute([$section_id]);
     $row = $stmt->fetch();
-    $program_id = $row['program_id'];
+    if ($row !== false) {
 
+        $program_id = $row['program_id'];
+    } else {
+        // handle the case when no rows were returned
+    }
     // prepare the SQL statement to retrieve the courses
     $sql = "SELECT course_id, course_name FROM `course` WHERE program_id = ? AND semester_id = ?";
     $stmt = $pdo->prepare($sql);
@@ -86,16 +91,16 @@ if (isset($_POST['sec_select'], $_POST['sem_select'])) {
     echo '<div class="col text-center">';
     foreach (array_slice($programs, 0, $half_count) as $program) {
         echo '<div class="sub-container pt-1">';
-        echo '<input class="form-check-input" type="radio" name="program" id="program' . $program['program_id'] . '" value="' . $program['program_id'] . '">';
-        echo '<label class="form-check-label mx-auto" for="program' . $program['program_id'] . '">' . $program['program_name'] . '</label>';
+        echo '<input class="form-check-input" type="radio" name="course" id="course' . $program['course_id'] . '" value="' . $program['course_id'] . '">';
+        echo '<label class="form-check-label mx-auto" for="course' . $program['course_id'] . '">' . $program['course_name'] . '</label>';
         echo '</div>';
     }
     echo '</div>';
     echo '<div class="col text-center">';
     foreach (array_slice($programs, $half_count) as $program) {
         echo '<div class="sub-container">';
-        echo '<input class="form-check-input" type="radio" name="program" id="program' . $program['program_id'] . '" value="' . $program['program_id'] . '">';
-        echo '<label class="form-check-label mx-auto" for="program' . $program['program_id'] . '">' . $program['program_name'] . '</label>';
+        echo '<input class="form-check-input" type="radio" name="course" id="course' . $program['course_id'] . '" value="' . $program['course_id'] . '">';
+        echo '<label class="form-check-label mx-auto" for="course' . $program['course_id'] . '">' . $program['course_name'] . '</label>';
         echo '</div>';
     }
     echo '</div>';
@@ -105,15 +110,15 @@ if (isset($_POST['edit_course_schedule'])) {
     $section_id = $_POST["section_id"];
     $semester_id = $_POST["semester_id"];
 
-    $sql = "SELECT course_id FROM `section` WHERE section_id = ?";
+    $sql = "SELECT program_id FROM `section` WHERE section_id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$section_id]);
     $row = $stmt->fetch();
-    $course_id = $row['course_id'];
+    $program_id = $row['program_id'];
     // prepare the SQL statement to retrieve the courses
-    $sql = "SELECT course_id, course_name FROM `course` WHERE course_id = ? AND semester_id = ?";
+    $sql = "SELECT course_id, course_name FROM `course` WHERE program_id = ? AND semester_id = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$course_id, $semester_id]);
+    $stmt->execute([$program_id, $semester_id]);
 
     //print the result in option value = $courses
     $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);

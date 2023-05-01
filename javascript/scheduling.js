@@ -48,8 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        document.querySelector("#listSubject").innerHTML = "";
-        document.querySelector("#subject_id").innerHTML = xhr.responseText;
+        // document.querySelector("#listSubject").innerHTML = "";
+        document.querySelector("#program_id").innerHTML = xhr.responseText;
       }
     };
     xhr.send(
@@ -73,8 +73,8 @@ document.addEventListener("DOMContentLoaded", function () {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        document.querySelector("#listSubject").innerHTML = "";
-        document.querySelector("#subject_id").innerHTML = xhr.responseText;
+        // document.querySelector("#listSubject").innerHTML = "";
+        document.querySelector("#program_id").innerHTML = xhr.responseText;
       }
     };
     xhr.send(
