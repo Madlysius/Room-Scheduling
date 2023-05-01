@@ -19,6 +19,23 @@ if (isset($_GET['delete']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
             header("Location: ../program-manage.php?status=$status&message=Failed to Delete");
         }
     }
+    //Delete Section
+    if ($_GET['delete'] == 'section') {
+        $section_id = filter_input(INPUT_GET, 'section_id', FILTER_SANITIZE_NUMBER_INT);
+        if (empty($section_id)) {
+            $status = "empty";
+            header("Location: ../section-manage.php?status=$status&message=Empty");
+            exit();
+        }
+        try {
+            DB::delete('section', "section_id=%s", $section_id);
+            $status = "success";
+            header("Location: ../section-manage.php?status=$status&message=Successfully Deleted");
+        } catch (Exception $e) {
+            $status = "error";
+            header("Location: ../section-manage.php?status=$status&message=Failed to Delete Section");
+        }
+    }
     //Delete Course
     if ($_GET['delete'] == 'course') {
         $course_id = filter_input(INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT);

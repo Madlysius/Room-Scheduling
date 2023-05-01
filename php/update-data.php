@@ -20,12 +20,10 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
                 echo "Error";
             }
         } else if ($_POST['edit'] == 'room') {
-            $room_code = htmlentities($_POST['room_code']);
             $room_name = htmlentities($_POST['room_name']);
             $room_category = htmlentities($_POST['room_category']);
             $room_location = htmlentities($_POST['room_location']);
             $result = DB::update('room', array(
-                'room_code' => $room_code,
                 'room_name' => $room_name,
                 'room_category' => $room_category,
                 'room_location' => $room_location
@@ -39,10 +37,10 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $section_id = htmlentities($_POST['section_id']);
             $section_name = htmlentities($_POST['section_name']);
             $section_year = htmlentities($_POST['section_year']);
-            $course_id = htmlentities($_POST['course_id']);
+            $program_id = htmlentities($_POST['program_id']);
             $result = DB::update('section', array(
                 'section_name' => $section_name,
-                'course_id' => $course_id,
+                'program_id' => $program_id,
                 'section_year' => $section_year
             ), "section_id=%s", $_POST['section_id']);
             if ($result) {

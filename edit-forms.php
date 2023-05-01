@@ -57,8 +57,6 @@ require_once('./php/require/header.php');
                 echo "<input type='hidden' name='edit' value='room'>";
                 echo "<label for='room_id' class='form-label'>Room ID</label>";
                 echo "<input type='text' class='form-control' id='room_id' name='room_id' value='" . $result[0]['room_id'] . "' readonly>";
-                echo "<label for='room_code' class='form-label'>Room Code</label>";
-                echo "<input type='text' class='form-control' id='room_code' name='room_code' value='" . $result[0]['room_code'] . "'>";
                 echo "<label for='room_name' class='form-label'>Room Name</label>";
                 echo "<input type='text' class='form-control' id='room_name' name='room_name' value='" . $result[0]['room_name'] . "'>";
                 echo "<label for='room_category' class='form-label'>Room Category</label>";
@@ -85,16 +83,16 @@ require_once('./php/require/header.php');
                 echo "<input type='text' class='form-control' id='section_name' name='section_name' value='" . $result[0]['section_name'] . "'>";
                 echo "<label for='section_year' class='form-label'>Section Year</label>";
                 echo "<select class='form-select' id='section_year' name='section_year'>";
-                echo "<option value='1'" . ($result[0]['section_year'] == '1' ? ' selected' : '') . ">1</option>";
-                echo "<option value='2'" . ($result[0]['section_year'] == '2' ? ' selected' : '') . ">2</option>";
-                echo "<option value='3'" . ($result[0]['section_year'] == '3' ? ' selected' : '') . ">3</option>";
-                echo "<option value='4'" . ($result[0]['section_year'] == '4' ? ' selected' : '') . ">4</option>";
+                echo "<option value='1st'" . ($result[0]['section_year'] == '1st' ? ' selected' : '') . ">1</option>";
+                echo "<option value='2nd'" . ($result[0]['section_year'] == '2nd' ? ' selected' : '') . ">2</option>";
+                echo "<option value='3rd'" . ($result[0]['section_year'] == '3rd' ? ' selected' : '') . ">3</option>";
+                echo "<option value='4th'" . ($result[0]['section_year'] == '4th' ? ' selected' : '') . ">4th</option>";
                 echo "</select>";
-                echo "<label for='course_year' class='form-label'>Course</label>";
-                echo "<select class='form-select' id='course_id' name='course_id'>";
-                $course = DB::query("SELECT * FROM course");
-                foreach ($course as $row) {
-                  echo "<option value='" . $row['course_id'] . "'" . ($result[0]['course_id'] == $row['course_id'] ? ' selected' : '') . ">" . $row['course_name'] . "</option>";
+                echo "<label for='program_id' class='form-label'>Program</label>";
+                echo "<select class='form-select' id='program_id' name='program_id'>";
+                $program = DB::query("SELECT * FROM program");
+                foreach ($program as $row) {
+                  echo "<option value='" . $row['program_id'] . "'" . ($result[0]['program_id'] == $row['program_id'] ? ' selected' : '') . ">" . $row['program_name'] . "</option>";
                 }
                 echo "</select>";
               } else {
