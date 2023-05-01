@@ -67,45 +67,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
 if (isset($_POST['sec_select'], $_POST['sem_select'])) {
     $section_id = $_POST["sec_select"];
     $semester_id = $_POST["sem_select"];
-
-    // prepare the SQL statement to get the program_id for the section
-    $stmt = $pdo->prepare("SELECT program_id FROM `course` WHERE course_id = ?");
-    $stmt->execute([$section_id]);
-    $row = $stmt->fetch();
-    if ($row !== false) {
-
+    try {
+        // prepare the SQL statement to get the program_id for the section
+        $sql = "SELECT program_id FROM `section` WHERE section_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$section_id]);
+        $row = $stmt->fetch();
         $program_id = $row['program_id'];
-    } else {
-        exit();
-    }
-    // prepare the SQL statement to retrieve the courses
-    $sql = "SELECT course_id, course_name FROM `course` WHERE program_id = ? AND semester_id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$program_id, $semester_id]);
 
-    // display the results in two columns
-    $programs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $half_count = ceil(count($programs) / 2);
+        // prepare the SQL statement to retrieve the courses
+        $sql = "SELECT course_id, course_name FROM `course` WHERE program_id = ? AND semester_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$program_id, $semester_id]);
 
-    echo '<div class="row">';
-    echo '<div class="col text-center">';
-    foreach (array_slice($programs, 0, $half_count) as $program) {
-        echo '<div class="sub-container pt-1">';
-        echo '<input class="form-check-input" type="radio" name="course" id="course' . $program['course_id'] . '" value="' . $program['course_id'] . '">';
-        echo '<label class="form-check-label mx-auto" for="course' . $program['course_id'] . '">' . $program['course_name'] . '</label>';
+        // display the results in two columns
+        $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $half_count = ceil(count($subjects) / 2);
+
+        echo '<div class="row">';
+        echo '<div class="col text-center">';
+        foreach (array_slice($subjects, 0, $half_count) as $subject) {
+            echo '<div class="sub-container pt-1">';
+            echo '<input class="form-check-input" type="radio" name="course" id="subject' . $subject['course_id'] . '" value="' . $subject['course_id'] . '">';
+            echo '<label class="form-check-label mx-auto" for="course' . $subject['course_id'] . '">' . $subject['course_name'] . '</label>';
+            echo '</div>';
+        }
         echo '</div>';
-    }
-    echo '</div>';
-    echo '<div class="col text-center">';
-    foreach (array_slice($programs, $half_count) as $program) {
-        echo '<div class="sub-container">';
-        echo '<input class="form-check-input" type="radio" name="course" id="course' . $program['course_id'] . '" value="' . $program['course_id'] . '">';
-        echo '<label class="form-check-label mx-auto" for="course' . $program['course_id'] . '">' . $program['course_name'] . '</label>';
+        echo '<div class="col text-center">';
+        foreach (array_slice($subjects, $half_count) as $subject) {
+            echo '<div class="sub-container">';
+            echo '<input class="form-check-input" type="radio" name="course" id="subject' . $subject['course_id'] . '" value="' . $subject['course_id'] . '">';
+            echo '<label class="form-check-label mx-auto" for="course' . $subject['course_id'] . '">' . $subject['course_name'] . '</label>';
+            echo '</div>';
+        }
         echo '</div>';
+        echo '</div>';
+    } catch (PDOException $e) {
+        echo $e->getMessage();
     }
-    echo '</div>';
-    echo '</div>';
 }
+
 if (isset($_POST['edit_subject_schedule'])) {
     $section_id = $_POST["section_id"];
     $semester_id = $_POST["semester_id"];
