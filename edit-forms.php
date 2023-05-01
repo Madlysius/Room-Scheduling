@@ -193,10 +193,10 @@ require_once('./php/require/header.php');
                 echo "<input type='text' class='form-control' id='course_code' name='course_code' value='" . $result[0]['course_code'] . "'>";
                 echo "<label for='course_name' class='form-label'>Course Name</label>";
                 echo "<input type='text' class='form-control' id='course_name' name='course_name' value='" . $result[0]['course_name'] . "'>";
-                echo "<label for='lecture_hr' class='form-label'>Lecture Hours</label>";
-                echo "<input type='number' class='form-control' id='lecture_hr' name='lecture_hr' value='" . $result[0]['lecture_hr'] . "'>";
-                echo "<label for='laboratory_hr' class='form-label'>Laboratory Hours</label>";
-                echo "<input type='number' class='form-control' id='laboratory_hr' name='laboratory_hr' value='" . $result[0]['laboratory_hr'] . "'>";
+                echo "<label for='lecture_units' class='form-label'>Lecture Units</label>";
+                echo "<input type='number' class='form-control' id='lecture_units' name='lecture_units' value='" . $result[0]['lecture_units'] . "'>";
+                echo "<label for='laboratory_units' class='form-label'>Laboratory Units</label>";
+                echo "<input type='number' class='form-control' id='laboratory_units' name='laboratory_units' value='" . $result[0]['laboratory_units'] . "'>";
               } else {
                 header("Location:./course-manage.php");
               }

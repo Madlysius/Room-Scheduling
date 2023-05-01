@@ -41,7 +41,7 @@ require_once('./php/require/header.php');
 
             <!-- Programss Management -->
             <a href="./program-manage.php" class="card">
-                <img src="./images/course.png" alt="">
+                <img src="./images/program.png" alt="">
                 <h2>Program Management</h2>
             </a>
             <!-- Section Management -->
@@ -49,10 +49,10 @@ require_once('./php/require/header.php');
                 <img src="./images/section.png" alt="">
                 <h2>Section Management</h2>
             </a>
-            <!-- Subject Management -->
-            <a href="./subject-manage.php" class="card">
-                <img src="./images/subject.png" alt="">
-                <h2>Subject Management</h2>
+            <!-- Course Management -->
+            <a href="./course-manage.php" class="card">
+                <img src="./images/course.png" alt="">
+                <h2>Course Management</h2>
             </a>
             <!-- Logout -->
             <a href="#" onclick="logoutConfirmation()" class="card">

@@ -3,3 +3,6 @@
   width: 100%;
   padding: 20px 30px 10px;
 }
+.popup-header > h1 {
+  color: var(--font-white);
+}

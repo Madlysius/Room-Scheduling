@@ -160,14 +160,14 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
     }
 
     if (strtotime($schedule_start_time) >= strtotime($schedule_end_time)) {
-        header("Location: ../scheduling.php?status=error&message=Start%20Time%20Must%20Be%20Less%20Than%20End%20Time");
+        header("Location: ../schedule-manage.php?status=error&message=Start%20Time%20Must%20Be%20Less%20Than%20End%20Time");
         exit();
     }
     $stmt = $pdo->prepare("SELECT * FROM `scheduling table` WHERE room_id = :room_id AND day_id = :day_id AND ((`schedule_start_time` <= :schedule_start_time AND `schedule_end_time` > :schedule_start_time) OR (`schedule_start_time` >= :schedule_start_time AND `schedule_start_time` < :schedule_end_time))");
     $stmt->execute(array(':room_id' => $room_id, ':day_id' => $day_id, ':schedule_start_time' => $schedule_start_time, ':schedule_end_time' => $schedule_end_time));
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (!empty($result)) {
-        header("Location: ../scheduling.php?status=error&message=Room%20is%20already%20occupied%20during%20that%20time%20and%20day");
+        header("Location: ../schedule-manage.php?status=error&message=Room%20is%20already%20occupied%20during%20that%20time%20and%20day");
         exit();
     }
     $result = DB::insert('scheduling table', array(

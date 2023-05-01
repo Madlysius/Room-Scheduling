@@ -47,11 +47,11 @@ require_once('./php/require/header.php');
                             if ($row['user_type_id'] == 1) {
                                 // User type 1 can access all pages
                                 header("Location: ./home.php");
-                                $allowed_pages = array('scheduling.php', 'course-manage.php', 'room-manage.php', 'section-manage.php', 'subject-manage.php', 'edit-forms.php');
+                                $allowed_pages = array('schedule-manage.php', 'course-manage.php', 'room-manage.php', 'section-manage.php', 'subject-manage.php', 'edit-forms.php');
                             } else if ($row['user_type_id'] == 2) {
                                 // User type 2 can only access scheduling page
-                                header("Location: ./scheduling.php");
-                                $allowed_pages = array('scheduling.php', 'edit-forms.php');
+                                header("Location: ./schedule-manage.php");
+                                $allowed_pages = array('schedule-manage.php', 'edit-forms.php');
                             } else {
                                 // Invalid user type
                                 header('Location: login.php');

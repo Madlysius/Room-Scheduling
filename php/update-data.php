@@ -104,15 +104,15 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $course_name = htmlentities($_POST['course_name']);
             $course_id = htmlentities($_POST['course_id']);
             $semester_id = htmlentities($_POST['semester_id']);
-            $lec_hrs = htmlentities($_POST['lecture_hr']);
-            $lab_hrs = htmlentities($_POST['laboratory_hr']);
+            $lecture_units = htmlentities($_POST['lecture_units']);
+            $laboratory_units = htmlentities($_POST['laboratory_units']);
             $result = DB::update('course', array(
                 'course_code' => $course_code,
                 'course_name' => $course_name,
                 'course_id' => $course_id,
                 'semester_id' => $semester_id,
-                'lecture_hr' => $lec_hrs,
-                'laboratory_hr' => $lab_hrs
+                'lecture_units' => $lecture_units,
+                'laboratory_units' => $laboratory_units
             ), "course_id=%s", $_POST['course_id']);
             if ($result) {
                 header("Location: ../course-manage.php?status=success&message=Course%20Updated");

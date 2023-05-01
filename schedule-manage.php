@@ -27,6 +27,11 @@ require_once('./php/require/header.php');
 
                 <!--RIGHT COLUMN-->
                 <div class="col-xl grid-con">
+                    <?php
+
+                    $subject = new Display();
+                    $subject->displayStatus();
+                    ?>
                     <!--ROOM FILTER-->
                     <form class="mb-3">
                         <div class="row">
