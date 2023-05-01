@@ -143,28 +143,28 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
     $schedule_end_time = htmlentities($_POST['sched_end']);
 
     if ($schedule_type == "Lecture") {
-        // Get the lecture hours of the selected course
+
         $stmt = $pdo->prepare("SELECT lecture_units FROM course WHERE course_id = :course_id");
         $stmt->execute(array(':course_id' => $course_id));
         $course = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Calculate the maximum schedule duration based on the lecture hours of the selected course
-        $max_duration = $course['lecture_units'] * 60 * 60; // Convert lecture hours to seconds
+
+        $max_duration = $course['lecture_units'] * 60 * 60;
     } else if ($schedule_type == "Laboratory") {
-        // Get the laboratory hours of the selected course
+
         $stmt = $pdo->prepare("SELECT laboratory_units FROM course WHERE course_id = :course_id");
         $stmt->execute(array(':course_id' => $course_id));
         $course = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Calculate the maximum schedule duration based on the laboratory hours of the selected course
-        $max_duration = $course['laboratory_units'] * 60 * 60; // Convert laboratory hours to seconds
+
+        $max_duration = $course['laboratory_units'] * 60 * 60;
     }
 
 
-    // Calculate the actual duration of the schedule
+
     $duration = strtotime($schedule_end_time) - strtotime($schedule_start_time);
 
-    // If the actual duration exceeds the maximum duration, cut it off
+
     if ($duration > $max_duration) {
         $schedule_end_time = date("H:i", strtotime($schedule_start_time) + $max_duration);
     }
