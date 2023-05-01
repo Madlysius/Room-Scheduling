@@ -248,8 +248,8 @@ require_once('./php/require/header.php');
                             <div class="col">
                                 <label for="schedule_type">Type of Schedule</label>
                                 <select id="schedule_type" name="schedule_type" class="form-select form-ele">
-                                    <option value="Lecture">Lecture Room</option>
-                                    <option value="Laboratory">Laboratory Room</option>
+                                    <option value="Lecture">Lecture</option>
+                                    <option value="Laboratory">Laboratory</option>
                                 </select>
                             </div>
                         </div>
