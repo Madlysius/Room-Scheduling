@@ -39,7 +39,7 @@ require_once('./php/require/header.php');
                             <div class="col-xxl">
                                 <label for="room_select_schedule">Room</label>
                                 <select id="room_select_schedule" name="room_select_schedule" class="form-select form-ele">
-                                    <option value="" disabled selected>All rooms</option>
+                                    <option value="">All rooms</option>
                                     <?php
                                     $room_select_schedule = new display();
                                     $room_select_schedule->displayOption("room", "room_id", "room_name");
@@ -51,7 +51,7 @@ require_once('./php/require/header.php');
                             <div class="col-xxl">
                                 <label for="sec_select_schedule">Section</label>
                                 <select id="sec_select_schedule" name="sec_select_schedule" class="form-select form-ele">
-                                    <option value="" disabled selected>All sections</option>
+                                    <option value="">All sections</option>
                                     <?php
                                     $room_select_schedule = new display();
                                     $room_select_schedule->displayOption("section", "section_id", "section_name");
@@ -63,10 +63,10 @@ require_once('./php/require/header.php');
                             <div class="col-xxl-3">
                                 <label for="prof_select_schedule">Professor</label>
                                 <select id="prof_select_schedule" name="prof_select_schedule" class="form-select form-ele">
-                                    <option value="" disabled selected>All professors</option>
+                                    <option value="">All professors</option>
                                     <?php
                                     $room_select_schedule = new display();
-                                    $room_select_schedule->displayOption("professor", "prof_id", "prof_name");
+                                    $room_select_schedule->displayOption("professor", "professor_id", "professor_name");
                                     ?>
                                 </select>
                             </div>

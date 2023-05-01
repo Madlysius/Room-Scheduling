@@ -55,20 +55,33 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $section_id = htmlentities($_POST['section_id']);
             $day_id = htmlentities($_POST['day_id']);
             $semester_id = htmlentities($_POST['semester_id']);
+            $professor_id = htmlentities($_POST['professor_id']);
+            $schedule_type = htmlentities($_POST['schedule_type']);
             $schedule_start_time = htmlentities($_POST['schedule_start_time']);
             $schedule_end_time = htmlentities($_POST['schedule_end_time']);
             //check everything if empty
             if (empty($course_id) || empty($room_id) || empty($section_id) || empty($day_id) || empty($semester_id) || empty($schedule_start_time) || empty($schedule_end_time)) {
-                header("Location: ../scheduling.php?status=empty&message=Empty");
+                header("Location: ../schedule-manage.php?status=empty&message=Empty");
                 exit();
             }
-            // Get the lecture hours of the selected course
-            $stmt = $pdo->prepare("SELECT lecture_hr FROM course WHERE course_id = :course_id");
-            $stmt->execute(array(':course_id' => $course_id));
-            $course = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($schedule_type == "Lecture") {
+                // Get the lecture hours of the selected course
+                $stmt = $pdo->prepare("SELECT lecture_units FROM course WHERE course_id = :course_id");
+                $stmt->execute(array(':course_id' => $course_id));
+                $course = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Calculate the maximum schedule duration based on the lecture hours of the selected course
-            $max_duration = $course['lecture_hr'] * 60 * 60; // Convert lecture hours to seconds
+                // Calculate the maximum schedule duration based on the lecture hours of the selected course
+                $max_duration = $course['lecture_units'] * 60 * 60; // Convert lecture hours to seconds
+            } else if ($schedule_type == "Laboratory") {
+                // Get the laboratory hours of the selected course
+                $stmt = $pdo->prepare("SELECT laboratory_units FROM course WHERE course_id = :course_id");
+                $stmt->execute(array(':course_id' => $course_id));
+                $course = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                // Calculate the maximum schedule duration based on the laboratory hours of the selected course
+                $max_duration = $course['laboratory_units'] * 60 * 60; // Convert laboratory hours to seconds
+            }
+
 
             // Calculate the actual duration of the schedule
             $duration = strtotime($schedule_end_time) - strtotime($schedule_start_time);
@@ -79,7 +92,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             }
 
             if (strtotime($schedule_start_time) >= strtotime($schedule_end_time)) {
-                header("Location: ../scheduling.php?status=error&message=Start%20Time%20Must%20Be%20Less%20Than%20End%20Time");
+                header("Location: ../schedule-manage.php?status=error&message=Start%20Time%20Must%20Be%20Less%20Than%20End%20Time");
                 exit();
             }
             $result = DB::update('scheduling table', array(
@@ -88,11 +101,13 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
                 'section_id' => $section_id,
                 'day_id' => $day_id,
                 'semester_id' => $semester_id,
+                'professor_id' => $professor_id,
+                'schedule_type' => $schedule_type,
                 'schedule_start_time' => $schedule_start_time,
                 'schedule_end_time' => $schedule_end_time
             ), "schedule_id=%s", $_POST['schedule_id']);
             if ($result) {
-                header("Location: ../scheduling.php?status=success&message=Schedule%20Updated");
+                header("Location: ../schedule-manage.php?status=success&message=Schedule%20Updated");
             } else {
                 echo "Error";
             }

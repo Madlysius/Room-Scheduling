@@ -76,7 +76,7 @@ if (isset($_POST['sec_select'], $_POST['sem_select'])) {
 
         $program_id = $row['program_id'];
     } else {
-        // handle the case when no rows were returned
+        exit();
     }
     // prepare the SQL statement to retrieve the courses
     $sql = "SELECT course_id, course_name FROM `course` WHERE program_id = ? AND semester_id = ?";
@@ -106,7 +106,7 @@ if (isset($_POST['sec_select'], $_POST['sem_select'])) {
     echo '</div>';
     echo '</div>';
 }
-if (isset($_POST['edit_course_schedule'])) {
+if (isset($_POST['edit_subject_schedule'])) {
     $section_id = $_POST["section_id"];
     $semester_id = $_POST["semester_id"];
 
@@ -115,14 +115,14 @@ if (isset($_POST['edit_course_schedule'])) {
     $stmt->execute([$section_id]);
     $row = $stmt->fetch();
     $program_id = $row['program_id'];
-    // prepare the SQL statement to retrieve the courses
-    $sql = "SELECT course_id, course_name FROM `course` WHERE program_id = ? AND semester_id = ?";
+    // prepare the SQL statement to retrieve the subjects
+    $sql = "SELECT course_id, course_name FROM `course` WHERE course_id = ? AND semester_id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$program_id, $semester_id]);
 
-    //print the result in option value = $courses
-    $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($courses as $course) {
-        echo '<option value="' . $course['course_id'] . '">' . $course['course_name'] . '</option>';
+    //print the result in option value = $subjects
+    $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($subjects as $subject) {
+        echo '<option value="' . $subject['course_id'] . '">' . $subject['course_name'] . '</option>';
     }
 }

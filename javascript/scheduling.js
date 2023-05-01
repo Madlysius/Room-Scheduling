@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
         // document.querySelector("#listSubject").innerHTML = "";
-        document.querySelector("#program_id").innerHTML = xhr.responseText;
+        document.querySelector("#course_id").innerHTML = xhr.responseText;
       }
     };
     xhr.send(
@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
   semester.addEventListener("change", function () {
     var sectionValue = section.value;
     var semesterValue = semester.value;
-
     if (sectionValue === "" || semesterValue === "") {
       return;
     }
@@ -74,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
         // document.querySelector("#listSubject").innerHTML = "";
-        document.querySelector("#program_id").innerHTML = xhr.responseText;
+        document.querySelector("#course_id").innerHTML = xhr.responseText;
       }
     };
     xhr.send(

@@ -131,10 +131,10 @@ if (isset($_GET['delete']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
         try {
             DB::delete('scheduling table', "schedule_id=%s", $schedule);
             $status = "success";
-            header("Location: ../scheduling.php?status=$status&message=Successfully Deleted");
+            header("Location: ../schedule-manage.php?status=$status&message=Successfully Deleted");
         } catch (Exception $e) {
             $status = "error";
-            header("Location: ../scheduling.php?status=$status&message=Failed to Delete Schedule");
+            header("Location: ../schedule-manage.php?status=$status&message=Failed to Delete Schedule");
         }
     }
 }
