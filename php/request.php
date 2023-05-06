@@ -1,46 +1,44 @@
 <?php
 require_once('require/DBConfig.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
-    $conditions = [];
-    $params = [];
+    $conditions = array();
+    $parameters = array();
 
-    if (isset($_POST['room_id'])) {
-        $conditions[] = "st.room_id = :room_id";
-        $params[':room_id'] = $_POST['room_id'];
+    if (!empty($_POST['room_id'])) {
+        $conditions[] = 'st.room_id = :room_id';
+        $parameters[':room_id'] = $_POST['room_id'];
     }
 
-    if (isset($_POST['section_id'])) {
-        $conditions[] = "st.section_id = :section_id";
-        $params[':section_id'] = $_POST['section_id'];
+    if (!empty($_POST['section_id'])) {
+        $conditions[] = 'st.section_id = :section_id';
+        $parameters[':section_id'] = $_POST['section_id'];
     }
 
-    if (isset($_POST['semester_id'])) {
-        $conditions[] = "st.semester_id = :semester_id";
-        $params[':semester_id'] = $_POST['semester_id'];
+    if (!empty($_POST['semester_id'])) {
+        $conditions[] = 'st.semester_id = :semester_id';
+        $parameters[':semester_id'] = $_POST['semester_id'];
     }
 
-    if (isset($_POST['professor_id'])) {
-        $conditions[] = "st.professor_id = :professor_id";
-        $params[':professor_id'] = $_POST['professor_id'];
+    if (!empty($_POST['professor_id'])) {
+        $conditions[] = 'st.professor_id = :professor_id';
+        $parameters[':professor_id'] = $_POST['professor_id'];
     }
 
-    // Combine the conditions into a WHERE clause
-    $where = "";
+    $sql = "SELECT st.schedule_id, st.schedule_start_time, st.schedule_end_time,
+            su.course_name, su.course_code, d.day, st.schedule_type, p.professor_name
+            FROM `scheduling table` AS st
+            JOIN `course` AS su ON st.course_id = su.course_id
+            JOIN `day` AS d ON st.day_id = d.day_id
+            JOIN `professor` AS p ON st.professor_id = p.professor_id";
+
     if (!empty($conditions)) {
-        $where = "WHERE " . implode(" AND ", $conditions);
+        $sql .= " WHERE " . implode(" AND ", $conditions);
     }
 
-    $stmt = $pdo->prepare("
-    SELECT st.schedule_id, st.schedule_start_time, st.schedule_end_time,
-           su.course_name, su.course_code, d.day, st.schedule_type, p.professor_name
-    FROM `scheduling table` AS st
-    JOIN `course` AS su ON st.course_id = su.course_id
-    JOIN `day` AS d ON st.day_id = d.day_id
-    JOIN `professor` AS p ON st.professor_id = p.professor_id
-    $where
-    ORDER BY st.schedule_start_time
-");
-    $stmt->execute($params);
+    $sql .= " ORDER BY st.schedule_start_time";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($parameters);
     $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 
@@ -117,7 +115,7 @@ if (isset($_POST['sec_select'], $_POST['sem_select'])) {
         echo '<div class="col text-center">';
         foreach (array_slice($subjects, 0, $half_count) as $subject) {
             echo '<div class="sub-container pt-1">';
-            echo '<input class="form-check-input" type="radio" name="course" id="subject' . $subject['course_id'] . '" value="' . $subject['course_id'] . '">';
+            echo '<input class="form-check-input" type="radio" name="course" id="course' . $subject['course_id'] . '" value="' . $subject['course_id'] . '">';
             echo '<label class="form-check-label mx-auto" for="course' . $subject['course_id'] . '">' . $subject['course_name'] . '</label>';
             echo '</div>';
         }
@@ -125,7 +123,7 @@ if (isset($_POST['sec_select'], $_POST['sem_select'])) {
         echo '<div class="col text-center">';
         foreach (array_slice($subjects, $half_count) as $subject) {
             echo '<div class="sub-container">';
-            echo '<input class="form-check-input" type="radio" name="course" id="subject' . $subject['course_id'] . '" value="' . $subject['course_id'] . '">';
+            echo '<input class="form-check-input" type="radio" name="course" id="course' . $subject['course_id'] . '" value="' . $subject['course_id'] . '">';
             echo '<label class="form-check-label mx-auto" for="course' . $subject['course_id'] . '">' . $subject['course_name'] . '</label>';
             echo '</div>';
         }

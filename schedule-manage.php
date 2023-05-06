@@ -71,9 +71,9 @@ require_once('./php/require/header.php');
                                 </select>
                             </div>
                             <div class="col-xxl">
-                                <label for="sec_select_schedule">Semester</label>
-                                <select id="sec_select_schedule" name="sec_select_schedule" class="form-select form-ele">
-                                    <option value="" disabled selected>All semester</option>
+                                <label for="sem_select_schedule">Semester</label>
+                                <select id="sem_select_schedule" name="sem_select_schedule" class="form-select form-ele">
+                                    <option value="">All semester</option>
                                     <?php
                                     $sem_select = new display();
                                     $sem_select->displayOption("semester", "semester_id", "semester");
@@ -87,6 +87,9 @@ require_once('./php/require/header.php');
                                 <script>
                                     function updateSchedule() {
                                         const room_id = document.querySelector('#room_select_schedule').value;
+                                        const professor_id = document.querySelector('#prof_select_schedule').value;
+                                        const section_id = document.querySelector('#sec_select_schedule').value;
+                                        const semester_id = document.querySelector('#sem_select_schedule').value;
                                         const xhr = new XMLHttpRequest();
                                         xhr.open('POST', './php/request.php', true);
                                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
@@ -100,7 +103,7 @@ require_once('./php/require/header.php');
                                         xhr.onerror = function() {
                                             console.log('Error: ' + xhr.statusText);
                                         };
-                                        xhr.send(`room_schedule=1&room_id=${room_id}`);
+                                        xhr.send(`room_schedule=1&room_id=${room_id}&professor_id=${professor_id}&section_id=${section_id}&semester_id=${semester_id}`);
                                     }
                                 </script>
                             </div>
