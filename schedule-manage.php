@@ -111,6 +111,7 @@ require_once('./php/require/header.php');
                         </div>
                     </form>
                     <!--WEEK CALENDAR-->
+
                     <div class="row table-wrap">
                         <table id="sched-calendar" class="table table-bordered border border-dark table-hover">
                             <thead class="thead">

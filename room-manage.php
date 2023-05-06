@@ -18,10 +18,6 @@ require_once('./php/require/header.php');
 
             <!--Filter Fields-->
             <div class="row">
-                <!--ID field-->
-                <div class="col-lg">
-                    <input type="text" name="search" placeholder="ID" class="form-control input-filter" id="IDInput">
-                </div>
                 <!--Name field-->
                 <div class="col-lg">
                     <input type="text" name="name" placeholder="Name" class="form-control input-filter" id="NameInput">
@@ -51,43 +47,44 @@ require_once('./php/require/header.php');
             $status = new Display();
             $status->displayStatus();
             ?>
-            <!--Room Management Table-->
-            <table class="table table-hover" id="room-table">
-                <thead class="thead">
-                    <tr>
-                        <td>Room Name</td>
-                        <td>Category</td>
-                        <td>Location</td>
-                        <td>Action</td>
-                    </tr>
-                </thead>
-                <tbody class="tbody">
-                    <?php
-                    $rooms = DB::query('SELECT * FROM room');
-                    foreach ($rooms as $row) {
-                        echo "<tr>";;
-                        echo "<td>" . $row['room_name'] . "</td>";
-                        echo "<td>" . $row['room_category'] . "</td>";
-                        echo "<td>" . $row['room_location'] . "</td>";
-                        echo "<td>";
-                        echo '<div class="dropdown">';
-                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['room_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
-                        echo 'Actions';
-                        echo '</button>';
-                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['room_id'] . '">';
-                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=room&room_id=' . $row['room_id'] . '">Edit</a></li>';
-                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'room\',\'' . $row['room_id'] . '\')">Delete</a></li>';
-                        echo '</ul>';
-                        echo '</div>';
-                        echo '</td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
-            </table>
+            <div class="table-wrap">
+                <!--Room Management Table-->
+                <table class="table table-hover" id="room-table">
+                    <thead class="thead">
+                        <tr>
+                            <td>Room Name</td>
+                            <td>Category</td>
+                            <td>Location</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        <?php
+                        $rooms = DB::query('SELECT * FROM room');
+                        foreach ($rooms as $row) {
+                            echo "<tr>";;
+                            echo "<td>" . $row['room_name'] . "</td>";
+                            echo "<td>" . $row['room_category'] . "</td>";
+                            echo "<td>" . $row['room_location'] . "</td>";
+                            echo "<td>";
+                            echo '<div class="dropdown">';
+                            echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['room_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                            echo 'Actions';
+                            echo '</button>';
+                            echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['room_id'] . '">';
+                            echo '<li><a class="dropdown-item" href="edit-forms.php?edit=room&room_id=' . $row['room_id'] . '">Edit</a></li>';
+                            echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'room\',\'' . $row['room_id'] . '\')">Delete</a></li>';
+                            echo '</ul>';
+                            echo '</div>';
+                            echo '</td>';
+                            echo '</tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
     <!-- Modal -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -124,7 +121,7 @@ require_once('./php/require/header.php');
 
     <!--POPUP JAVASCRIPT-->
     <script>
-        filterTable(["#IDInput", "#NameInput", "#CategoryInput", "#LocationInput"], "#room-table");
+        filterTable(["#NameInput", "#CategoryInput", "#LocationInput"], "#room-table");
     </script>
 </body>
 

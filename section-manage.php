@@ -45,40 +45,42 @@ require_once('./php/require/header.php');
             $subject = new Display();
             $subject->displayStatus();
             ?>
-            <!--Section Management Table-->
-            <table class="table table-hover" id="sec-table">
-                <thead class="thead">
-                    <tr>
-                        <td>Section Name</td>
-                        <td>Course</td>
-                        <td>Year</td>
-                        <td>Action</td>
-                    </tr>
-                </thead>
-                <tbody class="tbody">
-                    <?php
-                    $stmt = $pdo->prepare("SELECT section.section_id, section.section_name, section.section_year, program.program_name FROM section INNER JOIN program ON section.program_id = program.program_id");
-                    $stmt->execute();
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<td>" . $row['section_name'] . "</td>";
-                        echo "<td>" . $row['program_name'] . "</td>";
-                        echo "<td>" . $row['section_year'] . "</td>";
-                        echo "<td>";
-                        echo '<div class="dropdown">';
-                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['section_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
-                        echo 'Actions';
-                        echo '</button>';
-                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['section_id'] . '">';
-                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=section&section_id=' . $row['section_id'] . '">Edit</a></li>';
-                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'section\',\'' . $row['section_id'] . '\')">Delete</a></li>';
-                        echo '</ul>';
-                        echo '</div>';
-                        echo '</td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
-            </table>
+            <div class="table-wrap">
+                <!--Section Management Table-->
+                <table class="table table-hover" id="sec-table">
+                    <thead class="thead">
+                        <tr>
+                            <td>Section Name</td>
+                            <td>Course</td>
+                            <td>Year</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        <?php
+                        $stmt = $pdo->prepare("SELECT section.section_id, section.section_name, section.section_year, program.program_name FROM section INNER JOIN program ON section.program_id = program.program_id");
+                        $stmt->execute();
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<td>" . $row['section_name'] . "</td>";
+                            echo "<td>" . $row['program_name'] . "</td>";
+                            echo "<td>" . $row['section_year'] . "</td>";
+                            echo "<td>";
+                            echo '<div class="dropdown">';
+                            echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['section_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                            echo 'Actions';
+                            echo '</button>';
+                            echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['section_id'] . '">';
+                            echo '<li><a class="dropdown-item" href="edit-forms.php?edit=section&section_id=' . $row['section_id'] . '">Edit</a></li>';
+                            echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'section\',\'' . $row['section_id'] . '\')">Delete</a></li>';
+                            echo '</ul>';
+                            echo '</div>';
+                            echo '</td>';
+                            echo '</tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <!-- Modal -->

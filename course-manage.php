@@ -18,18 +18,7 @@ require_once('./php/require/header.php');
             <p>Filter by:</p>
             <!--Filter Fields-->
             <div class="row">
-                <!-- empty 1 -->
-                <div class="col" style="display:none">
-                    <select class="" id="empty1">
-                        <option value=""></option>
-                    </select>
-                </div>
-                <div class="col" style="display:none">
-                    <select class="" id="empty2">
-                        <option value=""></option>
-                    </select>
-                </div>
-                <!--Course Classification Filter field-->
+                <!--Course Program Filter field-->
                 <div class="col-md">
                     <select class="form-select input-filter" id="CourseInput">
                         <option value="">All Course</option>
@@ -40,6 +29,13 @@ require_once('./php/require/header.php');
                     </select>
                 </div>
 
+                <div class="col-md">
+                    <input type="text" name="CourseCodeInput" placeholder="Course Code" class="form-control input-filter" id="CourseCodeInput">
+                </div>
+
+                <div class="col-md">
+                    <input type="text" name="CourseNameInput" placeholder="Course Name" class="form-control input-filter" id="CourseNameInput">
+                </div>
                 <!--Semester Filter field-->
                 <div class="col-md">
                     <select class="form-select input-filter" id="SemesterInput">
@@ -158,7 +154,7 @@ require_once('./php/require/header.php');
     </div>
     <!--POPUP JAVASCRIPT-->
     <script>
-        filterTable(["#CourseInput", "#empty1", "#empty2", "#SemesterInput"], "#course-table");
+        filterTable(["#CourseInput", "#CourseCodeInput", "#CourseNameInput", "#SemesterInput"], "#course-table");
     </script>
 
 </body>

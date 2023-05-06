@@ -204,7 +204,7 @@ require_once('./php/require/header.php');
           <div class="form-group text-center pt-3 mx-auto">
             <?php
             //save button
-            echo "<button type='submit' class='btn btn-primary' name=\"" . "" . $_GET['edit'] . "\" href='./php/update-data.php'>Save</button>";
+            echo "<button type='submit' class='btn btn-primary' name=\"" . "" . $_GET['edit'] . "\" href='./php/update-data.php' onclick='return confirm(\"Are you sure you want to save changes?\")'>Save</button>";
 
             echo "<button type= 'button' class='btn btn-danger' onclick='window.location.href = \"./" . $_GET['edit'] . "-manage.php\"'>Cancel</button>";
             ?>

@@ -1,19 +1,48 @@
 <?php
 require_once('require/DBConfig.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
-    $room_id = $_POST['room_id'];
+    $conditions = [];
+    $params = [];
+
+    if (isset($_POST['room_id'])) {
+        $conditions[] = "st.room_id = :room_id";
+        $params[':room_id'] = $_POST['room_id'];
+    }
+
+    if (isset($_POST['section_id'])) {
+        $conditions[] = "st.section_id = :section_id";
+        $params[':section_id'] = $_POST['section_id'];
+    }
+
+    if (isset($_POST['semester_id'])) {
+        $conditions[] = "st.semester_id = :semester_id";
+        $params[':semester_id'] = $_POST['semester_id'];
+    }
+
+    if (isset($_POST['professor_id'])) {
+        $conditions[] = "st.professor_id = :professor_id";
+        $params[':professor_id'] = $_POST['professor_id'];
+    }
+
+    // Combine the conditions into a WHERE clause
+    $where = "";
+    if (!empty($conditions)) {
+        $where = "WHERE " . implode(" AND ", $conditions);
+    }
+
     $stmt = $pdo->prepare("
-            SELECT st.schedule_id, st.schedule_start_time, st.schedule_end_time,
-                   su.course_name, su.course_code, d.day, st.schedule_type, p.professor_name
-            FROM `scheduling table` AS st
-            JOIN `course` AS su ON st.course_id = su.course_id
-            JOIN `day` AS d ON st.day_id = d.day_id
-            JOIN `professor` AS p ON st.professor_id = p.professor_id
-            WHERE st.room_id = :room_id
-            ORDER BY st.schedule_start_time
-        ");
-    $stmt->execute([':room_id' => $room_id]);
+    SELECT st.schedule_id, st.schedule_start_time, st.schedule_end_time,
+           su.course_name, su.course_code, d.day, st.schedule_type, p.professor_name
+    FROM `scheduling table` AS st
+    JOIN `course` AS su ON st.course_id = su.course_id
+    JOIN `day` AS d ON st.day_id = d.day_id
+    JOIN `professor` AS p ON st.professor_id = p.professor_id
+    $where
+    ORDER BY st.schedule_start_time
+");
+    $stmt->execute($params);
     $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
 
     $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     $start_time = "07:00:00";

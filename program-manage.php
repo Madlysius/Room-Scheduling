@@ -47,43 +47,45 @@ require_once('./php/require/header.php');
             $subject = new Display();
             $subject->displayStatus();
             ?>
-            <!--Course Management Table-->
-            <table class="table table-hover" id="program-table">
-                <thead class="thead">
-                    <tr>
-                        <td>Program ID</td>
-                        <td>Program Registered in COECSA</td>
-                        <td>Program Department </td>
-                        <td>Program Abbreviation </td>
-                        <td>Action</td>
-                    </tr>
-                </thead>
+            <div class="table-wrap">
+                <!--Course Management Table-->
+                <table class="table table-hover" id="program-table">
+                    <thead class="thead">
+                        <tr>
+                            <td>Program ID</td>
+                            <td>Program Registered in COECSA</td>
+                            <td>Program Department </td>
+                            <td>Program Abbreviation </td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
 
-                <tbody class="tbody">
-                    <?php
-                    $result = DB::query('SELECT * FROM program');
-                    foreach ($result as $row) {
-                        echo "<td>" . $row['program_id'] . "</td>";
-                        echo "<td>" . $row['program_name'] . "</td>";
-                        echo "<td>" . $row['program_department'] . "</td>";
-                        echo "<td>" . $row['program_abbreviation'] . "</td>";
-                        echo "<td>";
-                        echo '<div class="dropdown">';
-                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['program_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
-                        echo 'Actions';
-                        echo '</button>';
-                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['program_id'] . '">';
-                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=program&program_id=' . $row['program_id'] . '">Edit</a></li>';
-                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'program\',\'' . $row['program_id'] . '\')">Delete</a></li>';
-                        echo '</ul>';
-                        echo '</div>';
-                        echo '</td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
-            </table>
+                    <tbody class="tbody">
+                        <?php
+                        $result = DB::query('SELECT * FROM program');
+                        foreach ($result as $row) {
+                            echo "<td>" . $row['program_id'] . "</td>";
+                            echo "<td>" . $row['program_name'] . "</td>";
+                            echo "<td>" . $row['program_department'] . "</td>";
+                            echo "<td>" . $row['program_abbreviation'] . "</td>";
+                            echo "<td>";
+                            echo '<div class="dropdown">';
+                            echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['program_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                            echo 'Actions';
+                            echo '</button>';
+                            echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['program_id'] . '">';
+                            echo '<li><a class="dropdown-item" href="edit-forms.php?edit=program&program_id=' . $row['program_id'] . '">Edit</a></li>';
+                            echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'program\',\'' . $row['program_id'] . '\')">Delete</a></li>';
+                            echo '</ul>';
+                            echo '</div>';
+                            echo '</td>';
+                            echo '</tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
 
+            </div>
         </div>
     </div>
 
