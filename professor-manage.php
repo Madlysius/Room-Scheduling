@@ -43,40 +43,39 @@ require_once('./php/require/header.php');
             $subject->displayStatus();
             ?>
             <!--Professor Management Table-->
-            <div class="table-wrap">
-                <table class="table table-hover" id="prof-table">
-                    <thead class="thead">
-                        <tr>
-                            <td>Professor ID</td>
-                            <td>Professor Name</td>
-                            <td>Professor Department</td>
-                            <td>Action</td>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody">
-                        <?php
-                        $result = DB::query('SELECT * FROM professor');
-                        foreach ($result as $row) {
-                            echo "<td>" . $row['professor_id'] . "</td>";
-                            echo "<td>" . $row['professor_name'] . "</td>";
-                            echo "<td>" . $row['professor_department'] . "</td>";
-                            echo "<td>";
-                            echo '<div class="dropdown">';
-                            echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['professor_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
-                            echo 'Actions';
-                            echo '</button>';
-                            echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['professor_id'] . '">';
-                            echo '<li><a class="dropdown-item" href="edit-forms.php?edit=professor&professor_id=' . $row['professor_id'] . '">Edit</a></li>';
-                            echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'professor\',\'' . $row['professor_id'] . '\')">Delete</a></li>';
-                            echo '</ul>';
-                            echo '</div>';
-                            echo '</td>';
-                            echo '</tr>';
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
+
+            <table class="table table-hover table-wrap" id="prof-table">
+                <thead class="thead">
+                    <tr>
+                        <td>Professor ID</td>
+                        <td>Professor Name</td>
+                        <td>Professor Department</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+                    <?php
+                    $result = DB::query('SELECT * FROM professor');
+                    foreach ($result as $row) {
+                        echo "<td>" . $row['professor_id'] . "</td>";
+                        echo "<td>" . $row['professor_name'] . "</td>";
+                        echo "<td>" . $row['professor_department'] . "</td>";
+                        echo "<td>";
+                        echo '<div class="dropdown">';
+                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['professor_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                        echo 'Actions';
+                        echo '</button>';
+                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['professor_id'] . '">';
+                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=professor&professor_id=' . $row['professor_id'] . '">Edit</a></li>';
+                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'professor\',\'' . $row['professor_id'] . '\')">Delete</a></li>';
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
     </div>
 

@@ -1,47 +1,57 @@
 <?php
 require_once('require/DBConfig.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
+    $room_id = $_POST['room_id'];
+    $section_id = $_POST['section_id'];
+    $semester_id = $_POST['semester_id'];
+    $professor_id = $_POST['professor_id'];
+
+    // initialize arrays for the query conditions and parameters
     $conditions = array();
     $parameters = array();
 
-    if (!empty($_POST['room_id'])) {
-        $conditions[] = 'st.room_id = :room_id';
-        $parameters[':room_id'] = $_POST['room_id'];
+    // add condition and parameter for room_id, if it's not empty
+    if (!empty($room_id)) {
+        $conditions[] = "st.room_id = :room_id";
+        $parameters[':room_id'] = $room_id;
     }
 
-    if (!empty($_POST['section_id'])) {
-        $conditions[] = 'st.section_id = :section_id';
-        $parameters[':section_id'] = $_POST['section_id'];
+    // add condition and parameter for section_id, if it's not empty
+    if (!empty($section_id)) {
+        $conditions[] = "st.section_id = :section_id";
+        $parameters[':section_id'] = $section_id;
     }
 
-    if (!empty($_POST['semester_id'])) {
-        $conditions[] = 'st.semester_id = :semester_id';
-        $parameters[':semester_id'] = $_POST['semester_id'];
+    // add condition and parameter for semester_id, if it's not empty
+    if (!empty($semester_id)) {
+        $conditions[] = "st.semester_id = :semester_id";
+        $parameters[':semester_id'] = $semester_id;
     }
 
-    if (!empty($_POST['professor_id'])) {
-        $conditions[] = 'st.professor_id = :professor_id';
-        $parameters[':professor_id'] = $_POST['professor_id'];
+    // add condition and parameter for professor_id, if it's not empty
+    if (!empty($professor_id)) {
+        $conditions[] = "st.professor_id = :professor_id";
+        $parameters[':professor_id'] = $professor_id;
     }
 
+    // build the SQL query
     $sql = "SELECT st.schedule_id, st.schedule_start_time, st.schedule_end_time,
-            su.course_name, su.course_code, d.day, st.schedule_type, p.professor_name, r.room_name
+                   su.course_name, su.course_code, d.day, st.schedule_type, p.professor_name, r.room_name, se.section_name
             FROM `scheduling table` AS st
             JOIN `course` AS su ON st.course_id = su.course_id
             JOIN `day` AS d ON st.day_id = d.day_id
+            JOIN `professor` AS p ON st.professor_id = p.professor_id
             JOIN `room` AS r ON st.room_id = r.room_id
-            JOIN `professor` AS p ON st.professor_id = p.professor_id";
-
+            JOIN `section` AS se ON st.section_id = se.section_id";
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
-
     $sql .= " ORDER BY st.schedule_start_time";
 
+    // execute the query
     $stmt = $pdo->prepare($sql);
     $stmt->execute($parameters);
     $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-
 
     $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     $start_time = "07:00:00";
@@ -66,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
                     $schedule_end_time = strtotime($row->schedule_end_time);
                     $current_time = strtotime($start_time);
                     if ($current_time >= $schedule_start_time && $current_time < $schedule_end_time) {
-                        echo '<div class="tb-content">' . $row->course_name . ' <br> ' . $row->course_code . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time . '<br>' . $row->schedule_type . '<br>' . $row->professor_name . '<br>' . $row->room_name . '<br> ';
+                        echo '<div class="tb-content">' . $row->course_name . ' - ' . $row->course_code . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time . '<br>' . $row->schedule_type . '<br>' . $row->professor_name . '<br>' . $row->room_name . '<br> ' . $row->section_name . '<br>';
                         //add a button to delete the schedule
                         echo '<div class="dropdown ">
                         <button class="btn btn-secondary dropdown-toggle" style="background-color:#FFFFFFF" type="button" id="dropdownMenuButton-'  . $row->schedule_id . '" data-bs-toggle="dropdown" aria-expanded="false">

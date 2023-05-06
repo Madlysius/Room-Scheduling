@@ -25,7 +25,7 @@
 <nav class="navbar bg-body-tertiary fixed-top">
     <div class="container-fluid">
         <!-- NAVBAR TITLE -->
-        <a class="navbar-brand" href="./schedule-manage.php"><img src="./images/lpu-cavite.png" alt=""> COECSA Room Scheduling</a>
+        <a class="navbar-brand" href="./home.php"><img src="./images/lpu-cavite.png" alt=""> COECSA Room Scheduling</a>
         <?php
         if (basename($_SERVER['PHP_SELF']) != "home.php") {
         ?>

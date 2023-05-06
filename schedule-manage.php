@@ -73,7 +73,7 @@ require_once('./php/require/header.php');
                             <div class="col-xxl">
                                 <label for="sem_select_schedule">Semester</label>
                                 <select id="sem_select_schedule" name="sem_select_schedule" class="form-select form-ele">
-                                    <option value="">All semester</option>
+                                    <option value=""></option>
                                     <?php
                                     $sem_select = new display();
                                     $sem_select->displayOption("semester", "semester_id", "semester");
@@ -103,7 +103,9 @@ require_once('./php/require/header.php');
                                         xhr.onerror = function() {
                                             console.log('Error: ' + xhr.statusText);
                                         };
-                                        xhr.send(`room_schedule=1&room_id=${room_id}&professor_id=${professor_id}&section_id=${section_id}&semester_id=${semester_id}`);
+                                        if (room_id || professor_id || section_id || semester_id) {
+                                            xhr.send(`room_schedule=1&room_id=${room_id}&professor_id=${professor_id}&section_id=${section_id}&semester_id=${semester_id}`);
+                                        }
                                     }
                                 </script>
                             </div>

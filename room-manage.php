@@ -47,42 +47,40 @@ require_once('./php/require/header.php');
             $status = new Display();
             $status->displayStatus();
             ?>
-            <div class="table-wrap">
-                <!--Room Management Table-->
-                <table class="table table-hover" id="room-table">
-                    <thead class="thead">
-                        <tr>
-                            <td>Room Name</td>
-                            <td>Category</td>
-                            <td>Location</td>
-                            <td>Action</td>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody">
-                        <?php
-                        $rooms = DB::query('SELECT * FROM room');
-                        foreach ($rooms as $row) {
-                            echo "<tr>";;
-                            echo "<td>" . $row['room_name'] . "</td>";
-                            echo "<td>" . $row['room_category'] . "</td>";
-                            echo "<td>" . $row['room_location'] . "</td>";
-                            echo "<td>";
-                            echo '<div class="dropdown">';
-                            echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['room_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
-                            echo 'Actions';
-                            echo '</button>';
-                            echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['room_id'] . '">';
-                            echo '<li><a class="dropdown-item" href="edit-forms.php?edit=room&room_id=' . $row['room_id'] . '">Edit</a></li>';
-                            echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'room\',\'' . $row['room_id'] . '\')">Delete</a></li>';
-                            echo '</ul>';
-                            echo '</div>';
-                            echo '</td>';
-                            echo '</tr>';
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
+            <!--Room Management Table-->
+            <table class="table table-hover" id="room-table">
+                <thead class="thead">
+                    <tr>
+                        <td>Room Name</td>
+                        <td>Category</td>
+                        <td>Location</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+                    <?php
+                    $rooms = DB::query('SELECT * FROM room');
+                    foreach ($rooms as $row) {
+                        echo "<tr>";;
+                        echo "<td>" . $row['room_name'] . "</td>";
+                        echo "<td>" . $row['room_category'] . "</td>";
+                        echo "<td>" . $row['room_location'] . "</td>";
+                        echo "<td>";
+                        echo '<div class="dropdown">';
+                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['room_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                        echo 'Actions';
+                        echo '</button>';
+                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['room_id'] . '">';
+                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=room&room_id=' . $row['room_id'] . '">Edit</a></li>';
+                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'room\',\'' . $row['room_id'] . '\')">Delete</a></li>';
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
     </div>
     <!-- Modal -->

@@ -58,7 +58,7 @@ require_once('./php/require/header.php');
             $course->displayStatus();
             ?>
             <!--Course Management Table-->
-            <table class="table table-hover" id="course-table">
+            <table class="table table-hover table-wrap" id="course-table">
                 <thead class="thead">
                     <tr>
                         <td>Program</td>
