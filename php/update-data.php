@@ -113,6 +113,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             }
         } else if ($_POST['edit'] == 'course') {
             $course_id = htmlentities($_POST['course_id']);
+            $program_id = htmlentities($_POST['program_id']);
             $course_code = htmlentities($_POST['course_code']);
             $course_name = htmlentities($_POST['course_name']);
             $course_id = htmlentities($_POST['course_id']);
@@ -122,6 +123,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $result = DB::update('course', array(
                 'course_code' => $course_code,
                 'course_name' => $course_name,
+                'program_id' => $program_id,
                 'course_id' => $course_id,
                 'semester_id' => $semester_id,
                 'lecture_units' => $lecture_units,

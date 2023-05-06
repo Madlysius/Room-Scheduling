@@ -62,7 +62,7 @@ require_once('./php/require/header.php');
                 echo "<label for='room_category' class='form-label'>Room Category</label>";
                 echo "<select class='form-select' id='room_category' name='room_category'>";
                 echo "<option value='Lecture Room'" . ($result[0]['room_category'] == 'Lecture Room' ? ' selected' : '') . ">Lecture Room</option>";
-                echo "<option value='Lab Room'" . ($result[0]['room_category'] == 'Lab Room' ? ' selected' : '') . ">Lab Room</option>";
+                echo "<option value='Laboratory Room'" . ($result[0]['room_category'] == 'Laboratory Room' ? ' selected' : '') . ">Laboratory Room</option>";
                 echo "</select>";
                 echo "<label for='room_location' class='form-label'>Room Location</label>";
                 echo "<select class='form-select' id='room_location' name='room_location'>";
@@ -173,6 +173,13 @@ require_once('./php/require/header.php');
                 echo "<input type='hidden' name='edit' value='course'>";
                 echo "<label for='course_id' class='form-label'>Course ID</label>";
                 echo "<input type='text' class='form-control' id='course_id' name='course_id' value='" . $result[0]['course_id'] . "' readonly>";
+                echo "<label for='program_id' class='form-label'>Program</label>";
+                echo "<select class='form-select' id='program_id' name='program_id'>";
+                $program = DB::query("SELECT * FROM program");
+                foreach ($program as $row) {
+                  echo "<option value='" . $row['program_id'] . "'" . ($result[0]['program_id'] == $row['program_id'] ? ' selected' : '') . ">" . $row['program_name'] . "</option>";
+                }
+                echo "</select>";
                 echo "<label for='course_id' class='form-label'>Course</label>";
                 echo "<select class='form-select' id='course_id' name='course_id'>";
                 $course = DB::query("SELECT * FROM course");

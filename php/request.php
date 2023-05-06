@@ -25,10 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
     }
 
     $sql = "SELECT st.schedule_id, st.schedule_start_time, st.schedule_end_time,
-            su.course_name, su.course_code, d.day, st.schedule_type, p.professor_name
+            su.course_name, su.course_code, d.day, st.schedule_type, p.professor_name, r.room_name
             FROM `scheduling table` AS st
             JOIN `course` AS su ON st.course_id = su.course_id
             JOIN `day` AS d ON st.day_id = d.day_id
+            JOIN `room` AS r ON st.room_id = r.room_id
             JOIN `professor` AS p ON st.professor_id = p.professor_id";
 
     if (!empty($conditions)) {
@@ -65,18 +66,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
                     $schedule_end_time = strtotime($row->schedule_end_time);
                     $current_time = strtotime($start_time);
                     if ($current_time >= $schedule_start_time && $current_time < $schedule_end_time) {
-                        echo '<div class="tb-content">' . $row->course_name . ' <br> ' . $row->course_code . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time . '<br>' . $row->schedule_type . '<br>' . $row->professor_name . '<br>';
+                        echo '<div class="tb-content">' . $row->course_name . ' <br> ' . $row->course_code . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time . '<br>' . $row->schedule_type . '<br>' . $row->professor_name . '<br>' . $row->room_name . '<br> ';
                         //add a button to delete the schedule
                         echo '<div class="dropdown ">
-                            <button class="btn btn-secondary dropdown-toggle" style="background-color:#FFFFFFF" type="button" id="dropdownMenuButton-'  . $row->schedule_id . '" data-bs-toggle="dropdown" aria-expanded="false">
-                                Actions
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row->schedule_id  . '">
-                                <li><a class="dropdown-item" href="edit-forms.php?edit=schedule&schedule_id=' . $row->schedule_id  . '">Edit</a></li>
-                                <li><a class="dropdown-item" href="./php/delete-data.php?delete=schedule&schedule_id=' . $row->schedule_id  . '">Delete</a></li>
-                            </ul>
-                            </div>';
+                        <button class="btn btn-secondary dropdown-toggle" style="background-color:#FFFFFFF" type="button" id="dropdownMenuButton-'  . $row->schedule_id . '" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row->schedule_id  . '">
+                            <li><a class="dropdown-item" href="edit-forms.php?edit=schedule&schedule_id=' . $row->schedule_id  . '">Edit</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'schedule\',\'' . $row->schedule_id . '\')">Delete</a></li>
+                        </ul>
+                    </div>';
                         echo '</div>';
+
                         $class_scheduled = true;
                     }
                 }

@@ -125,7 +125,7 @@ body {
 .tb-content {
   background: var(--LPU-red);
   color: var(--font-white);
-  height: 150px;
+  height: 100%;
   font-size: 13px;
   padding: 5px;
   font-weight: 700;
@@ -133,8 +133,7 @@ body {
   vertical-align: middle;
   overflow: hidden; */
 }
-
-.table-wrap {
+*/ .table-wrap {
   overflow: hidden;
   overflow-y: scroll;
   overflow-x: auto;
