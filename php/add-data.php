@@ -147,20 +147,20 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         $stmt = $pdo->prepare("SELECT lecture_units FROM course WHERE course_id = :course_id");
         $stmt->execute(array(':course_id' => $course_id));
         $course = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        // 1 unit = 1.5 hour
+        $time = $course['lecture_units'] * 1.5;
         // Calculate the maximum schedule duration based on the lecture hours of the selected course
-        $max_duration = $course['lecture_units'] * 60 * 60; // Convert lecture hours to seconds
+        $max_duration = $time * 60 * 60; // Convert lecture hours to seconds
     } else if ($schedule_type == "Laboratory") {
         // Get the laboratory hours of the selected course
         $stmt = $pdo->prepare("SELECT laboratory_units FROM course WHERE course_id = :course_id");
         $stmt->execute(array(':course_id' => $course_id));
         $course = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        // 1 unit = 2 hours
+        $time = $course['laboratory_units']  * 3;
         // Calculate the maximum schedule duration based on the laboratory hours of the selected course
-        $max_duration = $course['laboratory_units'] * 60 * 60; // Convert laboratory hours to seconds
+        $max_duration = $time * 60 * 60; // Convert laboratory hours to seconds
     }
-
-
     // Calculate the actual duration of the schedule
     $duration = strtotime($schedule_end_time) - strtotime($schedule_start_time);
 
@@ -173,13 +173,17 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         header("Location: ../schedule-manage.php?status=error&message=Start%20Time%20Must%20Be%20Less%20Than%20End%20Time");
         exit();
     }
-    $stmt = $pdo->prepare("SELECT * FROM `scheduling table` WHERE room_id = :room_id AND day_id = :day_id AND ((`schedule_start_time` <= :schedule_start_time AND `schedule_end_time` > :schedule_start_time) OR (`schedule_start_time` >= :schedule_start_time AND `schedule_start_time` < :schedule_end_time))");
-    $stmt->execute(array(':room_id' => $room_id, ':day_id' => $day_id, ':schedule_start_time' => $schedule_start_time, ':schedule_end_time' => $schedule_end_time));
+
+
+    $stmt = $pdo->prepare("SELECT * FROM `scheduling table` WHERE room_id = :room_id AND day_id = :day_id AND semester_id = :semester_id AND ((`schedule_start_time` <= :schedule_start_time AND `schedule_end_time` > :schedule_start_time) OR (`schedule_start_time` >= :schedule_start_time AND `schedule_start_time` < :schedule_end_time))");
+    $stmt->execute(array(':room_id' => $room_id, ':day_id' => $day_id, ':semester_id' => $semester_id, ':schedule_start_time' => $schedule_start_time, ':schedule_end_time' => $schedule_end_time));
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     if (!empty($result)) {
-        header("Location: ../schedule-manage.php?status=error&message=Room%20is%20already%20occupied%20during%20that%20time%20and%20day");
+        header("Location: ../schedule-manage.php?status=error&message=Room%20is%20already%20occupied%20during%20that%20time%20and%20day%20in%20this%20semester");
         exit();
     }
+
     $result = DB::insert('scheduling table', array(
         'course_id' => $course_id,
         'room_id' => $room_id,

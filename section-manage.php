@@ -24,7 +24,7 @@ require_once('./php/require/header.php');
                 </div>
                 <!--Course field-->
                 <div class="col-md">
-                    <input type="text" name="course" placeholder="Course Name" class="form-control input-filter" id="CourseInput">
+                    <input type="text" name="course" placeholder="Program" class="form-control input-filter" id="CourseInput">
                 </div>
                 <!--Year field-->
                 <div class="col-md">

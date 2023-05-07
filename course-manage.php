@@ -21,7 +21,7 @@ require_once('./php/require/header.php');
                 <!--Course Program Filter field-->
                 <div class="col-md">
                     <select class="form-select input-filter" id="CourseInput">
-                        <option value="">All Course</option>
+                        <option value="">All Prorgam</option>
                         <?php
                         $course = new Display();
                         $course->displayOption("program", "program_name", "program_name");

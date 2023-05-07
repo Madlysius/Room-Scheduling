@@ -100,7 +100,7 @@ if (isset($_GET['delete']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
             $status = "error";
             $error = $e->getMessage();
             echo $error;
-            header("Location: ../room-manage.php?status=$status&message=Failed to Delete Room");
+            header("Location: ../room-manage.php?status=$status&message=Failed to Delete Room Because Its Associated with Other Records");
         }
     }
     //Delete Professor

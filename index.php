@@ -20,7 +20,7 @@ require_once('./php/require/header.php');
                     <label for="passInput" class="form-label">Password</label>
                     <input type="password" class="form-control" name="passInput" id="passInput" placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-dark" name="login">Submit</button>
+                <button type="submit" class="btn btn-dark" name="login">Login</button>
             </form>
             <?php
             if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {

@@ -91,7 +91,7 @@ ENGINE = InnoDB;
     CONSTRAINT `fk_Course_Semester1_idx`
       FOREIGN KEY (`semester_id`)
       REFERENCES `COECSA_Room_Scheduling`.`Semester` (`semester_id`)
-      ON DELETE NO ACTION
+      ON DELETE CASCADE
       ON UPDATE NO ACTION)
   ENGINE = InnoDB;
 
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `COECSA_Room_Scheduling`.`Section` (
   CONSTRAINT `fk_Section_Programs1`
     FOREIGN KEY (`program_id`)
     REFERENCES `COECSA_Room_Scheduling`.`Program` (`program_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

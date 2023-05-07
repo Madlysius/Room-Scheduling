@@ -201,9 +201,9 @@ require_once('./php/require/header.php');
 
                         </div>
 
-                        LIST OF SUBJECTS
+                        List Of Courses
                         <div class="container row form-ele sublist">
-                            <p>List of Subjects</p>
+                            <p>List of Courses</p>
                             <div id="listSubject">
                             </div>
                         </div>
