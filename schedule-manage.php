@@ -73,7 +73,6 @@ require_once('./php/require/header.php');
                             <div class="col-xxl">
                                 <label for="sem_select_schedule">Semester</label>
                                 <select id="sem_select_schedule" name="sem_select_schedule" class="form-select form-ele">
-                                    <option value=""></option>
                                     <?php
                                     $sem_select = new display();
                                     $sem_select->displayOption("semester", "semester_id", "semester");

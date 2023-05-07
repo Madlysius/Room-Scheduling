@@ -162,7 +162,7 @@ require_once('./php/require/header.php');
                   echo "<option value='" . $row['professor_id'] . "'" . ($result[0]['professor_id'] == $row['professor_id'] ? ' selected' : '') . ">" . $row['professor_name'] . "</option>";
                 }
                 echo "</select>";
-                echo "<script src='./javascript/scheduling.js?=v3'></script>";
+                echo "<script src='./javascript/scheduling.js?=v4'></script>";
               } else {
                 header("Location: ./scheduling.php");
               }

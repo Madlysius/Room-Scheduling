@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['room_schedule'])) {
                     $schedule_end_time = strtotime($row->schedule_end_time);
                     $current_time = strtotime($start_time);
                     if ($current_time >= $schedule_start_time && $current_time < $schedule_end_time) {
-                        echo '<div class="tb-content">' . $row->course_name . ' - ' . $row->course_code . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time . '<br>' . $row->schedule_type . '<br>' . $row->professor_name . '<br>' . $row->room_name . '<br> ' . $row->section_name . '<br>';
+                        echo '<div class="tb-content">' . $row->course_code . ' - ' . $row->course_name . ' <br>' . $row->schedule_start_time . '  -  ' . $row->schedule_end_time . '<br>' . $row->schedule_type . '<br>' . $row->professor_name . '<br>' . $row->room_name . '<br> ' . $row->section_name . '<br>';
                         //add a button to delete the schedule
                         echo '<div class="dropdown ">
                         <button class="btn btn-secondary dropdown-toggle" style="background-color:#FFFFFFF" type="button" id="dropdownMenuButton-'  . $row->schedule_id . '" data-bs-toggle="dropdown" aria-expanded="false">
@@ -149,20 +149,23 @@ if (isset($_POST['sec_select'], $_POST['sem_select'])) {
 if (isset($_POST['edit_subject_schedule'])) {
     $section_id = $_POST["section_id"];
     $semester_id = $_POST["semester_id"];
+    try {
+        $sql = "SELECT program_id FROM `section` WHERE section_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$section_id]);
+        $row = $stmt->fetch();
+        $program_id = $row['program_id'];
 
-    $sql = "SELECT program_id FROM `section` WHERE section_id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$section_id]);
-    $row = $stmt->fetch();
-    $program_id = $row['program_id'];
-    // prepare the SQL statement to retrieve the subjects
-    $sql = "SELECT course_id, course_name FROM `course` WHERE course_id = ? AND semester_id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$program_id, $semester_id]);
+        // prepare the SQL statement to retrieve the courses
+        $sql = "SELECT course_id, course_name FROM `course` WHERE program_id = ? AND semester_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$program_id, $semester_id]);
 
-    //print the result in option value = $subjects
-    $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($subjects as $subject) {
-        echo '<option value="' . $subject['course_id'] . '">' . $subject['course_name'] . '</option>';
+        $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($courses as $course) {
+            echo '<option value="' . $course['course_id'] . '">' . $course['course_name'] . '</option>';
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
     }
 }

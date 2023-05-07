@@ -58,53 +58,54 @@ require_once('./php/require/header.php');
             $course->displayStatus();
             ?>
             <!--Course Management Table-->
-            <table class="table table-hover table-wrap" id="course-table">
-                <thead class="thead">
-                    <tr>
-                        <td>Program</td>
-                        <td>Course Code</td>
-                        <td>Course Name</td>
-                        <td>Semester</td>
-                        <td>Lecture Units</td>
-                        <td>Laboratory Units</td>
-                        <td>Units</td>
-                        <td>Action</td>
-                    </tr>
-                </thead>
-                <tbody class="tbody">
-                    <?php
-                    $result = DB::query('SELECT * FROM course');
-                    foreach ($result as $row) {
-                        $courses[] = $row;
-                        echo "<tr>";
-                        $course = $mysqli->query("SELECT program_name FROM program WHERE program_id = " . $row['program_id']);
-                        echo "<td>" . $course->fetch_assoc()['program_name'] . "</td>";
-                        echo "<td>" . $row['course_code'] . "</td>";
-                        echo "<td>" . $row['course_name'] . "</td>";
-                        $semester = $mysqli->query("SELECT semester FROM semester WHERE semester_id = " . $row['semester_id']);
-                        echo "<td>" . $semester->fetch_assoc()['semester'] . "</td>";
-                        echo "<td>" . $row['lecture_units'] . "</td>";
-                        echo "<td>" . $row['laboratory_units'] . "</td>";
-                        echo "<td>" . ($row['lecture_units'] + $row['laboratory_units']) . "</td>";
-                        echo "<td>";
-                        echo '<div class="dropdown">';
-                        echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['course_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
-                        echo 'Actions';
-                        echo '</button>';
-                        echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['course_id'] . '">';
-                        echo '<li><a class="dropdown-item" href="edit-forms.php?edit=course&course_id=' . $row['course_id'] . '">Edit</a></li>';
-                        echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'course\',\'' . $row['course_id'] . '\')">Delete</a></li>';
-                        echo '</ul>';
-                        echo '</div>';
-                        echo '</td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
-            </table>
+            <div class="table-wrap">
+                <table class="table table-hover" id="course-table">
+                    <thead class="thead">
+                        <tr>
+                            <td>Program</td>
+                            <td>Course Code</td>
+                            <td>Course Name</td>
+                            <td>Semester</td>
+                            <td>Lecture Units</td>
+                            <td>Laboratory Units</td>
+                            <td>Units</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        <?php
+                        $result = DB::query('SELECT * FROM course');
+                        foreach ($result as $row) {
+                            $courses[] = $row;
+                            echo "<tr>";
+                            $course = $mysqli->query("SELECT program_name FROM program WHERE program_id = " . $row['program_id']);
+                            echo "<td>" . $course->fetch_assoc()['program_name'] . "</td>";
+                            echo "<td>" . $row['course_code'] . "</td>";
+                            echo "<td>" . $row['course_name'] . "</td>";
+                            $semester = $mysqli->query("SELECT semester FROM semester WHERE semester_id = " . $row['semester_id']);
+                            echo "<td>" . $semester->fetch_assoc()['semester'] . "</td>";
+                            echo "<td>" . $row['lecture_units'] . "</td>";
+                            echo "<td>" . $row['laboratory_units'] . "</td>";
+                            echo "<td>" . ($row['lecture_units'] + $row['laboratory_units']) . "</td>";
+                            echo "<td>";
+                            echo '<div class="dropdown">';
+                            echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-' . $row['course_id'] . '" data-bs-toggle="dropdown" aria-expanded="false">';
+                            echo 'Actions';
+                            echo '</button>';
+                            echo '<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-' . $row['course_id'] . '">';
+                            echo '<li><a class="dropdown-item" href="edit-forms.php?edit=course&course_id=' . $row['course_id'] . '">Edit</a></li>';
+                            echo '<li><a class="dropdown-item" href="#" onclick="deleteConfirmation(\'course\',\'' . $row['course_id'] . '\')">Delete</a></li>';
+                            echo '</ul>';
+                            echo '</div>';
+                            echo '</td>';
+                            echo '</tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border border-dark rounded-5 overflow-hidden">
