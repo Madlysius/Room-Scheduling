@@ -136,7 +136,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
     $room_id = htmlentities($_POST['room_select']);
     $section_id = htmlentities($_POST['sec_select']);
     $day_id = htmlentities($_POST['day_select']);
-    $semster_id = htmlentities($_POST['sem_select']);
+    $semester_id = htmlentities($_POST['sem_select']);
     $professor_id = htmlentities($_POST['professor_select']);
     $schedule_type = htmlentities($_POST['schedule_type']);
     $schedule_start_time = htmlentities($_POST['sched_start']);
@@ -174,22 +174,22 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         exit();
     }
 
-
     $stmt = $pdo->prepare("SELECT * FROM `scheduling table` WHERE room_id = :room_id AND day_id = :day_id AND semester_id = :semester_id AND ((`schedule_start_time` <= :schedule_start_time AND `schedule_end_time` > :schedule_start_time) OR (`schedule_start_time` >= :schedule_start_time AND `schedule_start_time` < :schedule_end_time))");
     $stmt->execute(array(':room_id' => $room_id, ':day_id' => $day_id, ':semester_id' => $semester_id, ':schedule_start_time' => $schedule_start_time, ':schedule_end_time' => $schedule_end_time));
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $count = $stmt->rowCount();
 
-    if (!empty($result)) {
+    if ($count > 0) {
         header("Location: ../schedule-manage.php?status=error&message=Room%20is%20already%20occupied%20during%20that%20time%20and%20day%20in%20this%20semester");
         exit();
     }
+
 
     $result = DB::insert('scheduling table', array(
         'course_id' => $course_id,
         'room_id' => $room_id,
         'section_id' => $section_id,
         'day_id' => $day_id,
-        'semester_id' => $semster_id,
+        'semester_id' => $semester_id,
         'professor_id' => $professor_id,
         'schedule_type' => $schedule_type,
         'schedule_start_time' => $schedule_start_time,
