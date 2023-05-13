@@ -135,7 +135,7 @@ require_once('./php/require/header.php');
                     <div class="row">
                         <div class="d-grid">
                             <div class="col-xxl-3">
-                                <label for="delete_schedule_semester">Section</label>
+                                <label for="delete_schedule_semester">Delete Schedule For:</label>
                                 <select id="delete_schedule_semester" name="delete_schedule_semester" class="form-select form-ele">
                                     <?php
                                     $sem_select = new display();
@@ -147,39 +147,40 @@ require_once('./php/require/header.php');
                                 </div>
                                 <script>
                                     function DeleteSchedule() {
-                                        const semester_id = document.querySelector('#delete_schedule_semester').value;
-                                        console.log(semester_id);
-                                        const xhr = new XMLHttpRequest();
-                                        xhr.open('POST', './php/delete-data.php', true);
-                                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-
-                                        xhr.onreadystatechange = function() {
-                                            if (xhr.readyState === 4) {
-                                                if (xhr.status === 200) {
-                                                    // Request was successful, handle the response
-                                                    var response = xhr.responseText;
-                                                    if (response === "success") {
-                                                        // Deletion was successful
-                                                        alert("Failed");
-                                                        // Perform any other actions you want
+                                        if (confirm("Are you sure you want to delete this schedule for the entire semester?")) {
+                                            const semester_id = document.querySelector('#delete_schedule_semester').value;
+                                            console.log(semester_id);
+                                            const xhr = new XMLHttpRequest();
+                                            xhr.open('POST', './php/delete-data.php', true);
+                                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+                                            xhr.onreadystatechange = function() {
+                                                if (xhr.readyState === 4) {
+                                                    if (xhr.status === 200) {
+                                                        // Request was successful, handle the response
+                                                        var response = xhr.responseText;
+                                                        if (response === "success") {
+                                                            // Deletion was successful
+                                                            alert("Failed");
+                                                            // Perform any other actions you want
+                                                        } else {
+                                                            // Deletion failed or there was an error
+                                                            alert("Successfully deleted schedule");
+                                                            // Perform any other error handling or actions you want
+                                                        }
                                                     } else {
-                                                        // Deletion failed or there was an error
-                                                        alert("Successfully deleted schedule");
-                                                        // Perform any other error handling or actions you want
+                                                        // Request failed or there was an error
+                                                        alert("Failed to make the request");
+                                                        // Perform any error handling or actions you want
                                                     }
-                                                } else {
-                                                    // Request failed or there was an error
-                                                    alert("Failed to make the request");
-                                                    // Perform any error handling or actions you want
                                                 }
-                                            }
-                                        };
+                                            };
 
-                                        // Prepare the POST data
-                                        const postData = "delete_schedule=1&semester_id=" + encodeURIComponent(semester_id);
+                                            // Prepare the POST data
+                                            const postData = "delete_schedule=1&semester_id=" + encodeURIComponent(semester_id);
 
-                                        // Send the request with the POST data
-                                        xhr.send(postData);
+                                            // Send the request with the POST data
+                                            xhr.send(postData);
+                                        }
                                     }
                                 </script>
                             </div>
