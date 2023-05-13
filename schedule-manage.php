@@ -39,11 +39,11 @@ require_once('./php/require/header.php');
                             <div class="col-xxl">
                                 <label for="room_select_schedule">Room</label>
                                 <select id="room_select_schedule" name="room_select_schedule" class="form-select form-ele">
-                                    <option value="">All rooms</option>
                                     <?php
                                     $room_select_schedule = new display();
                                     $room_select_schedule->displayOption("room", "room_id", "room_name");
                                     ?>
+                                    <option value="">All rooms</option>
                                 </select>
                             </div>
 
@@ -132,151 +132,205 @@ require_once('./php/require/header.php');
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border border-dark rounded-5 overflow-hidden">
-                <div class="modal-header popup-header">
-                    <h1 class="modal-title fs-2" id="exampleModalLabel">Add Schedule</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="sched_form" method="POST" action="./php/add-data.php">
-
-                        SECTION AND SEM INPUT
-                        <div class="row">
-                            <div class="col">
-                                <label for="sec_select">Section</label>
-                                <select id="sec_select" name="sec_select" class="form-select form-ele">
-                                    <option selected></option>
-                                    <?php
-                                    $sec_select = new display();
-                                    $sec_select->displayOption("section", "section_id", "section_name");
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label for="sem_select">Semester</label>
-                                <select id="sem_select" name="sem_select" class="form-select form-ele">
+                    <div class="row">
+                        <div class="d-grid">
+                            <div class="col-xxl-3">
+                                <label for="delete_schedule_semester">Section</label>
+                                <select id="delete_schedule_semester" name="delete_schedule_semester" class="form-select form-ele">
                                     <?php
                                     $sem_select = new display();
                                     $sem_select->displayOption("semester", "semester_id", "semester");
                                     ?>
                                 </select>
-                            </div>
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const sec_select = document.querySelector('#sec_select');
-                                    const sem_select = document.querySelector('#sem_select');
-
-                                    function handleSelectChange() {
-                                        const section = sec_select.value;
-                                        const semester = sem_select.value;
-                                        if (section === "" || semester === "") {
-                                            return; // exit function without making AJAX call
-                                        }
+                                <div class="d-grid col-xxl d-xxl-flex align-items-end">
+                                    <button type="button" class="btn btn-dark fButton form-ele w-100" onclick="DeleteSchedule()" name="delete_schedule">Delete Schedule</button>
+                                </div>
+                                <script>
+                                    function DeleteSchedule() {
+                                        const semester_id = document.querySelector('#delete_schedule_semester').value;
+                                        console.log(semester_id);
                                         const xhr = new XMLHttpRequest();
-                                        xhr.open('POST', './php/request.php', true);
+                                        xhr.open('POST', './php/delete-data.php', true);
                                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-                                        xhr.onload = function() {
-                                            if (xhr.status === 200) {
-                                                document.querySelector('#listSubject').innerHTML = xhr.responseText;
-                                            } else {
-                                                console.log('Error: ' + xhr.statusText);
+
+                                        xhr.onreadystatechange = function() {
+                                            if (xhr.readyState === 4) {
+                                                if (xhr.status === 200) {
+                                                    // Request was successful, handle the response
+                                                    var response = xhr.responseText;
+                                                    if (response === "success") {
+                                                        // Deletion was successful
+                                                        alert("Failed");
+                                                        // Perform any other actions you want
+                                                    } else {
+                                                        // Deletion failed or there was an error
+                                                        alert("Successfully deleted schedule");
+                                                        // Perform any other error handling or actions you want
+                                                    }
+                                                } else {
+                                                    // Request failed or there was an error
+                                                    alert("Failed to make the request");
+                                                    // Perform any error handling or actions you want
+                                                }
                                             }
                                         };
-                                        xhr.onerror = function() {
-                                            console.log('Error: ' + xhr.statusText);
-                                        };
-                                        xhr.send(`sec_select=${section}&sem_select=${semester}`);
+
+                                        // Prepare the POST data
+                                        const postData = "delete_schedule=1&semester_id=" + encodeURIComponent(semester_id);
+
+                                        // Send the request with the POST data
+                                        xhr.send(postData);
                                     }
-                                    sec_select.addEventListener('change', handleSelectChange);
-                                    sem_select.addEventListener('change', handleSelectChange);
-                                });
-                            </script>
+                                </script>
+                            </div>
 
                         </div>
-
-                        List Of Courses
-                        <div class="container row form-ele sublist">
-                            <p>List of Courses</p>
-                            <div id="listSubject">
-                            </div>
-                        </div>
-
-                        SCHEDULE INPUT
-                        <div class="row">
-                            <div class="col">
-                                <label for="sched_start">Start Time</label>
-                                <select name="sched_start" id="sched_start" class="form-select  form-ele">
-                                    <?php
-                                    $start_time = new display();
-                                    $start_time->displayTime("07:00", "21:00", "+30 minutes");
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label for="sched_end">End Time</label>
-                                <select name="sched_end" id="sched_end" class="form-select  form-ele">
-                                    <?php
-                                    $end_time = new display();
-                                    $end_time->displayTime("07:00", "21:00", "+30 minutes");
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="room_select">Room</label>
-                                <select id="room_select" name="room_select" class="form-select form-ele">
-                                    <?php
-                                    $room_select = new display();
-                                    $room_select->displayOption("room", "room_id", "room_name");
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label for="day_select">Day</label>
-                                <select id="day_select" name="day_select" class="form-select form-ele">
-                                    <?php
-                                    $day_select = new display();
-                                    $day_select->displayOption("day", "day_id", "day");
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="schedule_type">Type of Schedule</label>
-                                <select id="schedule_type" name="schedule_type" class="form-select form-ele">
-                                    <option value="Lecture">Lecture</option>
-                                    <option value="Laboratory">Laboratory</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="professor_select">Professor</label>
-                                <select id="professor_select" name="professor_select" class="form-select form-ele">
-                                    <?php
-                                    $professor = new display();
-                                    $professor->displayOption("professor", "professor_id", "professor_name");
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="btn-con">
-                            <button type="submit" class="btn btn-dark fButton" name="scheduing_submit">Save</button>
-                            <button type="button" class="btn btn-dark fButton" data-bs-dismiss="modal">Back</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border border-dark rounded-5 overflow-hidden">
+                    <div class="modal-header popup-header">
+                        <h1 class="modal-title fs-2" id="exampleModalLabel">Add Schedule</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="sched_form" method="POST" action="./php/add-data.php">
+
+                            SECTION AND SEM INPUT
+                            <div class="row">
+                                <div class="col">
+                                    <label for="sec_select">Section</label>
+                                    <select id="sec_select" name="sec_select" class="form-select form-ele">
+                                        <option selected></option>
+                                        <?php
+                                        $sec_select = new display();
+                                        $sec_select->displayOption("section", "section_id", "section_name");
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="sem_select">Semester</label>
+                                    <select id="sem_select" name="sem_select" class="form-select form-ele">
+                                        <option selected></option>
+                                        <?php
+                                        $sem_select = new display();
+                                        $sem_select->displayOption("semester", "semester_id", "semester");
+                                        ?>
+                                    </select>
+                                </div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const sec_select = document.querySelector('#sec_select');
+                                        const sem_select = document.querySelector('#sem_select');
+
+                                        function handleSelectChange() {
+                                            const section = sec_select.value;
+                                            const semester = sem_select.value;
+                                            if (section === "" || semester === "") {
+                                                return; // exit function without making AJAX call
+                                            }
+                                            const xhr = new XMLHttpRequest();
+                                            xhr.open('POST', './php/request.php', true);
+                                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+                                            xhr.onload = function() {
+                                                if (xhr.status === 200) {
+                                                    document.querySelector('#listSubject').innerHTML = xhr.responseText;
+                                                } else {
+                                                    console.log('Error: ' + xhr.statusText);
+                                                }
+                                            };
+                                            xhr.onerror = function() {
+                                                console.log('Error: ' + xhr.statusText);
+                                            };
+                                            xhr.send(`sec_select=${section}&sem_select=${semester}`);
+                                        }
+                                        sec_select.addEventListener('change', handleSelectChange);
+                                        sem_select.addEventListener('change', handleSelectChange);
+                                    });
+                                </script>
+
+                            </div>
+
+                            List Of Courses
+                            <div class="container row form-ele sublist">
+                                <p>List of Courses</p>
+                                <div id="listSubject">
+                                </div>
+                            </div>
+
+                            SCHEDULE INPUT
+                            <div class="row">
+                                <div class="col">
+                                    <label for="sched_start">Start Time</label>
+                                    <select name="sched_start" id="sched_start" class="form-select  form-ele">
+                                        <?php
+                                        $start_time = new display();
+                                        $start_time->displayTime("07:00", "21:00", "+30 minutes");
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="sched_end">End Time</label>
+                                    <select name="sched_end" id="sched_end" class="form-select  form-ele">
+                                        <?php
+                                        $end_time = new display();
+                                        $end_time->displayTime("07:00", "21:00", "+30 minutes");
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="room_select">Room</label>
+                                    <select id="room_select" name="room_select" class="form-select form-ele">
+                                        <?php
+                                        $room_select = new display();
+                                        $room_select->displayOption("room", "room_id", "room_name");
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="day_select">Day</label>
+                                    <select id="day_select" name="day_select" class="form-select form-ele">
+                                        <?php
+                                        $day_select = new display();
+                                        $day_select->displayOption("day", "day_id", "day");
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="schedule_type">Type of Schedule</label>
+                                    <select id="schedule_type" name="schedule_type" class="form-select form-ele">
+                                        <option value="Lecture">Lecture</option>
+                                        <option value="Laboratory">Laboratory</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="professor_select">Professor</label>
+                                    <select id="professor_select" name="professor_select" class="form-select form-ele">
+                                        <?php
+                                        $professor = new display();
+                                        $professor->displayOption("professor", "professor_id", "professor_name");
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="btn-con">
+                                <button type="submit" class="btn btn-dark fButton" name="scheduing_submit">Save</button>
+                                <button type="button" class="btn btn-dark fButton" data-bs-dismiss="modal">Back</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </body>

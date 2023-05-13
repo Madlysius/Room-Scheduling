@@ -138,3 +138,19 @@ if (isset($_GET['delete']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
         }
     }
 }
+if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['delete_schedule']))) {
+    $semester_id = filter_input(INPUT_POST, 'semester_id', FILTER_SANITIZE_NUMBER_INT);
+    if (empty($semester_id)) {
+        $status = "empty";
+        header("Location: ../schedule-manage.php?status=$status&message=Empty");
+        exit();
+    }
+    try {
+        DB::delete('scheduling table', "semester_id=%s", $semester_id);
+        $status = "success";
+        header("Location: ../schedule-manage.php?status=$status&message=Successfully Deleted");
+    } catch (Exception $e) {
+        $status = "error";
+        header("Location: ../schedule-manage.php?status=$status&message=Failed to Delete Schedule");
+    }
+}
