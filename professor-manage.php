@@ -95,7 +95,11 @@ require_once('./php/require/header.php');
                         <input type="text" name="professor_name" id="professor_name" class="form-control form-ele" placeholder="Joven Cajigas">
 
                         <label for="professor_department">Professor Department</label>
-                        <input type="text" name="professor_department" id="professor_department" class="form-control form-ele" placeholder="DCS">
+                        <select class="form-select form-ele" name="professor_department" id="professor_department">
+                            <option value="DCS">DCS</option>
+                            <option value="DOA">DOA</option>
+                            <option value="DOE">DOE</option>
+                        </select>
 
                         <div class="btn-con">
                             <button type="submit" class="btn btn-dark fButton" name="add-professor">Add Professor</button>

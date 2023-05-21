@@ -104,7 +104,11 @@ require_once('./php/require/header.php');
                         <input type="text" name="program_name" id="program_name" class="form-control form-ele" placeholder="Computer Science">
 
                         <label for="program_department">Program Department</label>
-                        <input type="text" name="program_department" id="program_department" class="form-control form-ele" placeholder="DCS">
+                        <select class="form-select form-ele" name="program_department" id="program_department">
+                            <option value="DCS">DCS</option>
+                            <option value="DOA">DOA</option>
+                            <option value="DOE">DOE</option>
+                        </select>
 
                         <label for="program_abbreviation">Program Abbreviation</label>
                         <input type="text" name="program_abbreviation" id="program_abbreviation" class="form-control form-ele" placeholder="CS">

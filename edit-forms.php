@@ -34,7 +34,11 @@ require_once('./php/require/header.php');
                 echo "<label for='program_name' class='form-label'>Program Name</label>";
                 echo "<input type='text' class='form-control' id='program_name' name='program_name' value='" . $result[0]['program_name'] . "'>";
                 echo "<label for='program_department' class='form-label'>Program Department</label>";
-                echo "<input type='text' class='form-control' id='program_department' name='program_department' value='" . $result[0]['program_department'] . "'>";
+                echo "<select class='form-select form-ele' name='program_department' id='program_department'>";
+                echo "<option value='DCS'". ($result[0]['program_department'] == 'DCS' ? ' selected' : '') .">DCS</option>";
+                echo "<option value='DOA'". ($result[0]['program_department'] == 'DOA' ? ' selected' : '') .">DOA</option>";
+                echo "<option value='DOE'". ($result[0]['program_department'] == 'DOE' ? ' selected' : '') .">DOE</option>";
+                echo "</select>";
                 echo "<label for='program_abbreviation' class='form-label'>Program Abbreviation</label>";
                 echo "<input type='text' class='form-control' id='program_abbreviation' name='program_abbreviation' value='" . $result[0]['program_abbreviation'] . "'>";
               } else {
@@ -49,7 +53,11 @@ require_once('./php/require/header.php');
                 echo "<label for='professor_name' class='form-label'>Professor Name</label>";
                 echo "<input type='text' class='form-control' id='professor_name' name='professor_name' value='" . $result[0]['professor_name'] . "'>";
                 echo "<label for='professor_department' class='form-label'>Professor Department</label>";
-                echo "<input type='text' class='form-control' id='professor_department' name='professor_department' value='" . $result[0]['professor_department'] . "'>";
+                echo "<select class='form-select form-ele' id='professor_department' name='professor_department'>";
+                echo "<option value='DCS'". ($result[0]['professor_department'] == 'DCS' ? ' selected' : '') .">DCS</option>";
+                echo "<option value='DOA'". ($result[0]['professor_department'] == 'DOA' ? ' selected' : '') .">DOA</option>";
+                echo "<option value='DOE'". ($result[0]['professor_department'] == 'DOE' ? ' selected' : '') .">DOE</option>";
+                echo "</select>";
               }
             } else if ($_GET['edit'] == 'room') {
               $result = DB::query("SELECT * FROM room WHERE room_id = %s", $_GET['room_id']);
@@ -198,10 +206,22 @@ require_once('./php/require/header.php');
                 echo "<input type='text' class='form-control' id='course_code' name='course_code' value='" . $result[0]['course_code'] . "'>";
                 echo "<label for='course_name' class='form-label'>Course Name</label>";
                 echo "<input type='text' class='form-control' id='course_name' name='course_name' value='" . $result[0]['course_name'] . "'>";
-                echo "<label for='lecture_units' class='form-label'>Lecture Units</label>";
-                echo "<input type='number' class='form-control' id='lecture_units' name='lecture_units' value='" . $result[0]['lecture_units'] . "'>";
-                echo "<label for='laboratory_units' class='form-label'>Laboratory Units</label>";
-                echo "<input type='number' class='form-control' id='laboratory_units' name='laboratory_units' value='" . $result[0]['laboratory_units'] . "'>";
+                // echo "<label for='lecture_units' class='form-label'>Lecture Units</label>";
+                // echo "<input type='number' class='form-control' id='lecture_units' name='lecture_units' value='" . $result[0]['lecture_units'] . "' min=1 max=3>";
+                // echo "<label for='laboratory_units' class='form-label'>Laboratory Units</label>";
+                // echo "<input type='number' class='form-control' id='laboratory_units' name='laboratory_units' value='" . $result[0]['laboratory_units'] . "'min=1 max=2>";
+                echo "<label for='lecture_units'>Lecture Units</label>";
+                echo "<select class='form-select form-ele' id='lec_hrs' name='lecture_units'>";
+                    echo "<option value='1' ".($result[0]['lecture_units'] == 1 ? 'selected': '').">1</option>";
+                    echo "<option value='2' ".($result[0]['lecture_units'] == 2 ? 'selected': '').">2</option>";
+                    echo "<option value='3' ".($result[0]['lecture_units'] == 3 ? 'selected': '').">3</option>";
+                echo "</select>";
+                echo "<label for='laboratory_units'>Laboratory Units</label>";
+                echo "<select class='form-select form-ele' id='laboratory_units' name='laboratory_units'>";
+                    echo "<option value='0' ".($result[0]['laboratory_units'] == 0 ? 'selected': '').">0</option>";
+                    echo "<option value='1' ".($result[0]['laboratory_units'] == 1 ? 'selected': '').">1</option>";
+                    echo "<option value='2' ".($result[0]['laboratory_units'] == 2 ? 'selected': '').">2</option>";
+                echo "</select>";
               } else {
                 header("Location:./course-manage.php");
               }

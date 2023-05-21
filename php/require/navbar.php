@@ -48,21 +48,23 @@
                             <li class="nav-item">
                                 <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "home.php") echo "active"; ?>" href="./home.php">Home</a>
                             </li>
-                            <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "professor-manage.php") echo "active"; ?>" href="./professor-manage.php">Professor Management</a>
-                            <li class="nav-item">
-                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "schedule-manage.php") echo "active"; ?>" href="./schedule-manage.php">Schedule Management</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "room-manage.php") echo "active"; ?>" href="./room-manage.php">Room Management</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "program-manage.php") echo "active"; ?>" href="./program-manage.php">Program Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "professor-manage.php") echo "active"; ?>" href="./professor-manage.php">Professor Management</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "section-manage.php") echo "active"; ?>" href="./section-manage.php">Section Management</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "room-manage.php") echo "active"; ?>" href="./room-manage.php">Room Management</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "course-manage.php") echo "active"; ?>" href="./course-manage.php">Course Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) == "schedule-manage.php") echo "active"; ?>" href="./schedule-manage.php">Schedule Management</a>
                             </li>
                         <?php } else if ($_SESSION['user_type_id'] == 2) { ?>
                             <li class="nav-item">
@@ -80,3 +82,4 @@
         <?php } ?>
     </div>
 </nav>
+

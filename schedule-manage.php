@@ -38,6 +38,11 @@ require_once('./php/require/header.php');
                             <!-- ROOM SELECT  -->
                             <div class="col-xxl">
                                 <label for="room_select_schedule">Room</label>
+                                <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add rooms on room management to display room options on dropdown.">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                    </svg>
+                                </a>
                                 <select id="room_select_schedule" name="room_select_schedule" class="form-select form-ele">
                                     <?php
                                     $room_select_schedule = new display();
@@ -50,6 +55,11 @@ require_once('./php/require/header.php');
                             <!-- SECTION SELECT  -->
                             <div class="col-xxl">
                                 <label for="sec_select_schedule">Section</label>
+                                <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add sections on section management to display section options on dropdown.">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                    </svg>
+                                </a>
                                 <select id="sec_select_schedule" name="sec_select_schedule" class="form-select form-ele">
                                     <option value="">All sections</option>
                                     <?php
@@ -62,6 +72,11 @@ require_once('./php/require/header.php');
                             <!-- PROF SELECT  -->
                             <div class="col-xxl-3">
                                 <label for="prof_select_schedule">Professor</label>
+                                <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add professors on professor management to display professor options on dropdown.">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                    </svg>
+                                </a>
                                 <select id="prof_select_schedule" name="prof_select_schedule" class="form-select form-ele">
                                     <option value="">All professors</option>
                                     <?php
@@ -200,10 +215,15 @@ require_once('./php/require/header.php');
                     <div class="modal-body">
                         <form id="sched_form" method="POST" action="./php/add-data.php">
 
-                            SECTION AND SEM INPUT
+                            <!-- SECTION AND SEM INPUT -->
                             <div class="row">
                                 <div class="col">
                                     <label for="sec_select">Section</label>
+                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add sections on section management to display section options on dropdown.">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                        </svg>
+                                    </a>
                                     <select id="sec_select" name="sec_select" class="form-select form-ele">
                                         <option selected></option>
                                         <?php
@@ -255,14 +275,21 @@ require_once('./php/require/header.php');
 
                             </div>
 
-                            List Of Courses
+                            <!-- List Of Courses -->
                             <div class="container row form-ele sublist">
-                                <p>List of Courses</p>
+                                <div class="d-flex p-2">
+                                    <p class="pe-2">List of Courses</p>
+                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Select section and semester to display available list of courses.">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                        </svg>
+                                    </a>
+                                </div>
                                 <div id="listSubject">
                                 </div>
                             </div>
 
-                            SCHEDULE INPUT
+                            <!-- SCHEDULE INPUT -->
                             <div class="row">
                                 <div class="col">
                                     <label for="sched_start">Start Time</label>
@@ -286,6 +313,11 @@ require_once('./php/require/header.php');
                             <div class="row">
                                 <div class="col">
                                     <label for="room_select">Room</label>
+                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add rooms on room management to display room options on dropdown.">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                        </svg>
+                                    </a>
                                     <select id="room_select" name="room_select" class="form-select form-ele">
                                         <?php
                                         $room_select = new display();
@@ -315,6 +347,11 @@ require_once('./php/require/header.php');
                             <div class="row">
                                 <div class="col">
                                     <label for="professor_select">Professor</label>
+                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add professors on professor management to display professor options on dropdown.">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                        </svg>
+                                    </a>
                                     <select id="professor_select" name="professor_select" class="form-select form-ele">
                                         <?php
                                         $professor = new display();
@@ -343,6 +380,7 @@ require_once('./php/require/header.php');
             window.history.replaceState(null, null, window.location.href);
         }
     };
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 </script>
-
 </html>

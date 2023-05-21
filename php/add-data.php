@@ -37,9 +37,15 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
     $course_semester = htmlspecialchars($_POST['course_semester']);
     $lecture_units = htmlspecialchars($_POST['lecture_units']);
     $laboratory_units = htmlspecialchars($_POST['laboratory_units']);
-    if (empty($lecture_units) || !is_numeric($lecture_units) || $lecture_units < 0 || !is_numeric($laboratory_units) || $laboratory_units < 0) {
-        $status = "empty";
-        header("Location: ../course-manage.php?status=$status&message=Please Fill Up All Fields");
+    $total_units = $lecture_units+$laboratory_units;
+
+    if($total_units>3){
+        $status="error";
+        header("Location: ../course-manage.php?status=$status&message=Total number of units exceeded 3.");
+        exit();
+    }elseif($total_units<3){
+        $status="error";
+        header("Location: ../course-manage.php?status=$status&message=Please set lecture and lab units properly to reach 3 units of the course.");
         exit();
     }
 
@@ -142,31 +148,61 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
     $schedule_start_time = htmlentities($_POST['sched_start']);
     $schedule_end_time = htmlentities($_POST['sched_end']);
 
+    //getting previous schedule data of same course and schedule type
+    $stmt = $pdo->prepare("SELECT schedule_start_time, schedule_end_time FROM `scheduling table` WHERE course_id = :course_id AND schedule_type = :schedule_type");
+    $stmt->execute(array(':course_id' => $course_id, ':schedule_type' => $schedule_type));
+    $prev = $stmt->fetchAll(PDO::FETCH_OBJ);
+    foreach($prev as $row){
+        $prev_start = strtotime($row->schedule_start_time);
+        $prev_end = strtotime($row->schedule_end_time);
+        $prev_duration += ($prev_end - $prev_start);
+    }
+    // $prev_start = $prev_s['schedule_start_time'];
+
+    // $stmt = $pdo->prepare("SELECT schedule_end_time FROM `scheduling table` WHERE course_id = :course_id AND schedule_type = :schedule_type");
+    // $stmt->execute(array(':course_id' => $course_id, ':schedule_type' => $schedule_type));
+    // $prev_e = $stmt->fetch(PDO::FETCH_ASSOC);
+    // $prev_end = $prev_e['schedule_end_time'];
+    // $prev_duration = strtotime($prev_end) - strtotime($prev_start);
+
     if ($schedule_type == "Lecture") {
         // Get the lecture hours of the selected course
         $stmt = $pdo->prepare("SELECT lecture_units FROM course WHERE course_id = :course_id");
         $stmt->execute(array(':course_id' => $course_id));
         $course = $stmt->fetch(PDO::FETCH_ASSOC);
         // 1 unit = 1.5 hour
-        $time = $course['lecture_units'] * 1.5;
+        $time = $course['lecture_units'] * 1;
         // Calculate the maximum schedule duration based on the lecture hours of the selected course
         $max_duration = $time * 60 * 60; // Convert lecture hours to seconds
+
     } else if ($schedule_type == "Laboratory") {
         // Get the laboratory hours of the selected course
         $stmt = $pdo->prepare("SELECT laboratory_units FROM course WHERE course_id = :course_id");
         $stmt->execute(array(':course_id' => $course_id));
         $course = $stmt->fetch(PDO::FETCH_ASSOC);
-        // 1 unit = 2 hours
+        // 1 unit = 3 hours
         $time = $course['laboratory_units']  * 3;
         // Calculate the maximum schedule duration based on the laboratory hours of the selected course
         $max_duration = $time * 60 * 60; // Convert laboratory hours to seconds
     }
+
+    //if max duration is already reached by previously added schedule, terminate code
+    if($prev_duration >= $max_duration){
+        header("Location: ../schedule-manage.php?status=error&message=Maximum%20$schedule_type%20weekly%20schedule%20duration%20for%20this%20course%20is%20already%20reached.");
+        exit();
+    }//else, subtract the previous schedule duration from current max duration
+    else{
+        $max_duration-=$prev_duration;
+    }
+
     // Calculate the actual duration of the schedule
     $duration = strtotime($schedule_end_time) - strtotime($schedule_start_time);
+    $cut=false;
 
     // If the actual duration exceeds the maximum duration, cut it off
     if ($duration > $max_duration) {
         $schedule_end_time = date("H:i", strtotime($schedule_start_time) + $max_duration);
+        $cut=true;
     }
 
     if (strtotime($schedule_start_time) >= strtotime($schedule_end_time)) {
@@ -196,7 +232,11 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         'schedule_end_time' => $schedule_end_time
     ));
     if ($result) {
-        header("Location: ../schedule-manage.php?status=success&message=Schedule%20Added");
+        if($cut==true){
+            header("Location: ../schedule-manage.php?status=success&message=Set schedule exceeded maximum hours. Schedule added with automatically adjusted end time.");
+        } else {
+            header("Location: ../schedule-manage.php?status=success&message=Schedule%20Added");
+        }
     } else {
         echo "Error";
     }

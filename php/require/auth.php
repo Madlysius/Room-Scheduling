@@ -1,7 +1,7 @@
 <?php
 session_start();
 //go to base directory using dirname
-$loc = dirname($_SERVER['PHP_SELF']) . "/index.php";
+$loc = "./index.php";
 if (!isset($_SESSION['username']) || !isset($_SESSION['user_type_id']) || !isset($_SESSION['user_id'])) {
     header("Location: $loc");
 }
