@@ -78,29 +78,13 @@ if (isset($_GET['delete']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
             header("Location: ../room-manage.php?status=$status&message=Empty");
             exit();
         }
-        try {
-            // Check if room has associated records in other tables
-            $stmt = $pdo->prepare('SELECT COUNT(*) FROM `scheduling table` WHERE room_id = :room_id');
-            $stmt->bindValue(':room_id', $room_id, PDO::PARAM_INT);
-            $stmt->execute();
-            $count = $stmt->fetchColumn();
-            if ($count > 0) {
-                $status = "error";
-                $message = "Cannot delete room with associated reservations";
-            } else {
-                // Delete the room
-                $stmt = $pdo->prepare('DELETE FROM room WHERE room_id = :room_id');
-                $stmt->bindValue(':room_id', $room_id, PDO::PARAM_INT);
-                $stmt->execute();
-                $status = "success";
-                $message = "Successfully deleted room";
-            }
-            header("Location: ../room-manage.php?status=$status&message=$message");
-        } catch (PDOException $e) {
+        try{
+            DB::delete('room', "room_id=%s", $room_id);
+            $status = "success";
+            header("Location: ../room-manage.php?status=$status&message=Successfully Deleted");
+        } catch (Exception $e) {
             $status = "error";
-            $error = $e->getMessage();
-            echo $error;
-            header("Location: ../room-manage.php?status=$status&message=Failed to Delete Room Because Its Associated with Other Records");
+            header("Location: ../room-manage.php?status=$status&message=Failed to Delete Room");
         }
     }
     //Delete Professor

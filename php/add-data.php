@@ -149,8 +149,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
     $schedule_end_time = htmlentities($_POST['sched_end']);
 
     //getting previous schedule data of same course and schedule type
-    $stmt = $pdo->prepare("SELECT schedule_start_time, schedule_end_time FROM `scheduling table` WHERE course_id = :course_id AND schedule_type = :schedule_type");
-    $stmt->execute(array(':course_id' => $course_id, ':schedule_type' => $schedule_type));
+    $stmt = $pdo->prepare("SELECT schedule_id, schedule_start_time, schedule_end_time FROM `scheduling table` WHERE course_id = :course_id AND schedule_type = :schedule_type AND section_id = :section_id");
+    $stmt->execute(array(':course_id' => $course_id, ':schedule_type' => $schedule_type, 'section_id' => $section_id));
     $prev = $stmt->fetchAll(PDO::FETCH_OBJ);
     foreach($prev as $row){
         $prev_start = strtotime($row->schedule_start_time);
@@ -210,8 +210,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         exit();
     }
 
-    $stmt = $pdo->prepare("SELECT * FROM `scheduling table` WHERE room_id = :room_id AND day_id = :day_id AND semester_id = :semester_id AND ((`schedule_start_time` <= :schedule_start_time AND `schedule_end_time` > :schedule_start_time) OR (`schedule_start_time` >= :schedule_start_time AND `schedule_start_time` < :schedule_end_time))");
-    $stmt->execute(array(':room_id' => $room_id, ':day_id' => $day_id, ':semester_id' => $semester_id, ':schedule_start_time' => $schedule_start_time, ':schedule_end_time' => $schedule_end_time));
+    $stmt = $pdo->prepare("SELECT * FROM `scheduling table` WHERE room_id = :room_id AND day_id = :day_id AND section_id = :section_id AND semester_id = :semester_id AND ((`schedule_start_time` <= :schedule_start_time AND `schedule_end_time` > :schedule_start_time) OR (`schedule_start_time` >= :schedule_start_time AND `schedule_start_time` < :schedule_end_time))");
+    $stmt->execute(array(':room_id' => $room_id, ':day_id' => $day_id, ':semester_id' => $semester_id, ':section_id' => $section_id, ':schedule_start_time' => $schedule_start_time, ':schedule_end_time' => $schedule_end_time));
     $count = $stmt->rowCount();
 
     if ($count > 0) {
