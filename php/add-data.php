@@ -15,6 +15,19 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-section']))) {
 
     validateDropdownValues($secProgram, $courseArray, 'Invalid Input', '../section-manage.php');
     validateDropdownValues($secYear, $yearvalidate, 'Invalid Input', '../section-manage.php');
+
+    // Check if the section already exists
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section WHERE section_name = :secName AND section_year = :secYear");
+    $stmt->execute(array('secName' => $secName, 'secYear' => $secYear));
+    $count = $stmt->fetchColumn();
+
+    if ($count > 0) {
+        // Section already exists, redirect with an error message
+        $status = "error";
+        header("Location: ../section-manage.php?status=$status&message=Section already exists for the specified year");
+        exit();
+    }
+
     if (DB::insert('section', array(
         'section_name' => $secName,
         'section_year' => $secYear,
@@ -27,6 +40,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-section']))) {
         header("Location: ../section-manage.php?status=$status&message=Failed to Add");
     }
 }
+
 if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
     // Check if form has already been submitted
     $form_fields = array('course_code', 'course_name', 'program_id', 'course_semester');
@@ -37,14 +51,14 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
     $course_semester = htmlspecialchars($_POST['course_semester']);
     $lecture_units = htmlspecialchars($_POST['lecture_units']);
     $laboratory_units = htmlspecialchars($_POST['laboratory_units']);
-    $total_units = $lecture_units+$laboratory_units;
+    $total_units = $lecture_units + $laboratory_units;
 
-    if($total_units>3){
-        $status="error";
+    if ($total_units > 3) {
+        $status = "error";
         header("Location: ../course-manage.php?status=$status&message=Total number of units exceeded 3.");
         exit();
-    }elseif($total_units<3){
-        $status="error";
+    } elseif ($total_units < 3) {
+        $status = "error";
         header("Location: ../course-manage.php?status=$status&message=Please set lecture and lab units properly to reach 3 units of the course.");
         exit();
     }
@@ -105,6 +119,19 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-room']))) {
         header("Location: ../room-manage.php?status=$status&message=Please Fill Up All Fields");
         exit();
     }
+
+    // Check if the room name already exists
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM room WHERE room_name = :roomName");
+    $stmt->execute(array('roomName' => $room_name));
+    $count = $stmt->fetchColumn();
+
+    if ($count > 0) {
+        // Room name already exists, redirect with an error message
+        $status = "error";
+        header("Location: ../room-manage.php?status=$status&message=Room name already exists");
+        exit();
+    }
+
     if (DB::insert('room', array(
         'room_name' => $room_name,
         'room_category' => $room_categ,
@@ -152,7 +179,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
     $stmt = $pdo->prepare("SELECT schedule_id, schedule_start_time, schedule_end_time FROM `scheduling table` WHERE course_id = :course_id AND schedule_type = :schedule_type AND section_id = :section_id");
     $stmt->execute(array(':course_id' => $course_id, ':schedule_type' => $schedule_type, 'section_id' => $section_id));
     $prev = $stmt->fetchAll(PDO::FETCH_OBJ);
-    foreach($prev as $row){
+    foreach ($prev as $row) {
         $prev_start = strtotime($row->schedule_start_time);
         $prev_end = strtotime($row->schedule_end_time);
         $prev_duration += ($prev_end - $prev_start);
@@ -187,22 +214,22 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
     }
 
     //if max duration is already reached by previously added schedule, terminate code
-    if($prev_duration >= $max_duration){
+    if ($prev_duration >= $max_duration) {
         header("Location: ../schedule-manage.php?status=error&message=Maximum%20$schedule_type%20weekly%20schedule%20duration%20for%20this%20course%20is%20already%20reached.");
         exit();
-    }//else, subtract the previous schedule duration from current max duration
-    else{
-        $max_duration-=$prev_duration;
+    } //else, subtract the previous schedule duration from current max duration
+    else {
+        $max_duration -= $prev_duration;
     }
 
     // Calculate the actual duration of the schedule
     $duration = strtotime($schedule_end_time) - strtotime($schedule_start_time);
-    $cut=false;
+    $cut = false;
 
     // If the actual duration exceeds the maximum duration, cut it off
     if ($duration > $max_duration) {
         $schedule_end_time = date("H:i", strtotime($schedule_start_time) + $max_duration);
-        $cut=true;
+        $cut = true;
     }
 
     if (strtotime($schedule_start_time) >= strtotime($schedule_end_time)) {
@@ -232,7 +259,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         'schedule_end_time' => $schedule_end_time
     ));
     if ($result) {
-        if($cut==true){
+        if ($cut == true) {
             header("Location: ../schedule-manage.php?status=success&message=Set schedule exceeded maximum hours. Schedule added with automatically adjusted end time.");
         } else {
             header("Location: ../schedule-manage.php?status=success&message=Schedule%20Added");

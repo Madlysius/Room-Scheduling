@@ -29,7 +29,7 @@ require_once('./php/require/header.php');
                 if (empty($username) || empty($userpass)) {
                     echo "<h3 class='text-danger mt-2'>Please fill out all fields.</h3>";
                 }
-                if (!preg_match("/^[a-zA-Z0-9]*$/", $username) || !preg_match("/^[a-zA-Z0-9]*$/", $userpass)) {
+                if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
                     echo "<h3 class='text-danger mt-2'>Invalid username or password.</h3>";
                 } else {
                     $stmt = $mysqli->prepare("SELECT * FROM user WHERE username = ?");

@@ -44,7 +44,7 @@ require_once('./php/require/header.php');
                 <img src="./images/classroom.png" alt="">
                 <h2>Room Management</h2>
             </a>
-            
+
             <!-- Course Management -->
             <a href="./course-manage.php" class="card">
                 <img src="./images/course.png" alt="">
@@ -56,7 +56,7 @@ require_once('./php/require/header.php');
                 <img src="./images/calendar.png" alt="">
                 <h2>Schedule Management</h2>
             </a>
-            
+
             <!-- Logout -->
             <a href="#" onclick="logoutConfirmation()" class="card">
                 <img src="./images/logout.png" alt="">
