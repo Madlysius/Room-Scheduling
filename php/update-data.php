@@ -1,5 +1,6 @@
 <?php
 require_once('./require/DBConfig.php');
+require_once('./function/database_function.php');
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
     if (isset($_POST['edit'])) {
         if ($_POST['edit'] == 'program') {
@@ -7,6 +8,11 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $program_name = htmlentities($_POST['program_name']);
             $program_department = htmlentities($_POST['program_department']);
             $program_abbreviation = htmlentities($_POST['program_abbreviation']);
+
+            $stmt = $pdo->prepare("SELECT LOWER(program_name) FROM program WHERE program_id!=" . $program_id);
+            $stmt->execute();
+            $progArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            duplicateCheck($program_name, $progArray, 'Program', '../program-manage.php');
 
             $result = DB::update('program', array(
                 'program_name' => $program_name,
@@ -20,28 +26,21 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
                 echo "Error";
             }
         } else if ($_POST['edit'] == 'room') {
+            $room_id = htmlentities($_POST['room_id']);
             $room_name = htmlentities($_POST['room_name']);
             $room_category = htmlentities($_POST['room_category']);
             $room_location = htmlentities($_POST['room_location']);
-            $room_id = htmlentities($_POST['room_id']);
 
-            // Check if the room name already exists for a different room_id
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM room WHERE room_name = :roomName AND room_id != :roomId");
-            $stmt->execute(array('roomName' => $room_name, 'roomId' => $room_id));
-            $count = $stmt->fetchColumn();
-
-            if ($count > 0) {
-                // Room name already exists, redirect with an error message
-                header("Location: ../room-manage.php?status=error&message=Room%20name%20already%20exists");
-                exit();
-            }
+            $stmt = $pdo->prepare("SELECT LOWER(room_name) FROM room WHERE room_id!=" . $room_id);
+            $stmt->execute();
+            $roomArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            duplicateCheck($room_name, $roomArray, 'Room', '../room-manage.php');
 
             $result = DB::update('room', array(
                 'room_name' => $room_name,
                 'room_category' => $room_category,
                 'room_location' => $room_location
-            ), "room_id=%s", $room_id);
-
+            ), "room_id=%s", $_POST['room_id']);
             if ($result) {
                 header("Location: ../room-manage.php?status=success&message=Room%20Updated");
             } else {
@@ -53,23 +52,16 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $section_year = htmlentities($_POST['section_year']);
             $program_id = htmlentities($_POST['program_id']);
 
-            // Check if the section already exists for a different section_id
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM section WHERE section_name = :secName AND section_year = :secYear AND section_id != :sectionId");
-            $stmt->execute(array('secName' => $section_name, 'secYear' => $section_year, 'sectionId' => $section_id));
-            $count = $stmt->fetchColumn();
-
-            if ($count > 0) {
-                // Section already exists, redirect with an error message
-                header("Location: ../section-manage.php?status=error&message=Section%20already%20exists%20for%20the%20specified%20year");
-                exit();
-            }
+            $stmt = $pdo->prepare("SELECT LOWER(section_name) FROM section WHERE section_id!=" . $section_id);
+            $stmt->execute();
+            $secArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            duplicateCheck($section_name, $secArray, 'Section', '../section-manage.php');
 
             $result = DB::update('section', array(
                 'section_name' => $section_name,
                 'program_id' => $program_id,
                 'section_year' => $section_year
-            ), "section_id=%s", $section_id);
-
+            ), "section_id=%s", $_POST['section_id']);
             if ($result) {
                 header("Location: ../section-manage.php?status=success&message=Section%20Updated");
             } else {
@@ -183,8 +175,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
         } else if ($_POST['edit'] == 'course') {
             $course_id = htmlentities($_POST['course_id']);
             $program_id = htmlentities($_POST['program_id']);
-            $course_code = htmlentities($_POST['course_code']);
-            $course_name = htmlentities($_POST['course_name']);
+            $course_code = strtolower(htmlspecialchars($_POST['course_code']));
+            $course_name = strtolower(htmlspecialchars($_POST['course_name']));
             $course_id = htmlentities($_POST['course_id']);
             $semester_id = htmlentities($_POST['semester_id']);
             $lecture_units = htmlentities($_POST['lecture_units']);
@@ -201,6 +193,37 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
                 exit();
             }
 
+            $stmt = $pdo->prepare("SELECT LOWER(course_code) FROM course WHERE course_id!=" . $course_id);
+            $stmt->execute();
+            $codeArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            if (in_array($course_code, $codeArray)) {
+                $count += 1;
+                $status = "error";
+                $error = "code";
+            }
+            $stmt = $pdo->prepare("SELECT LOWER(course_name) FROM course WHERE course_id!=" . $course_id);
+            $stmt->execute();
+            $nameArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            if (in_array($course_name, $nameArray)) {
+                $count += 1;
+                $error = "name";
+                $status = "error";
+            }
+            if ($count > 0) {
+                if ($count == 1 && $error == "code") {
+                    header("Location: ../course-manage.php?status=$status&message=Course code already exists");
+                    exit();
+                } elseif ($count == 1 && $error == "name") {
+                    header("Location: ../course-manage.php?status=$status&message=Course name already exists");
+                    exit();
+                } elseif ($count == 2) {
+                    header("Location: ../course-manage.php?status=$status&message=Course code and name already exists");
+                    exit();
+                }
+            }
+
+            $course_code = strtoupper($course_code);
+            $course_name = ucfirst($course_name);
             $result = DB::update('course', array(
                 'course_code' => $course_code,
                 'course_name' => $course_name,
@@ -219,6 +242,12 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $professor_id = htmlentities($_POST['professor_id']);
             $professor_name = htmlentities($_POST['professor_name']);
             $professor_department = htmlentities($_POST['professor_department']);
+
+            $stmt = $pdo->prepare("SELECT LOWER(professor_name) FROM professor WHERE professor_id!=" . $professor_id);
+            $stmt->execute();
+            $profArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            duplicateCheck($professor_name, $profArray, 'Professor', '../professor-manage.php');
+
             $result = DB::update('professor', array(
                 'professor_name' => $professor_name,
                 'professor_department' => $professor_department

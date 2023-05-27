@@ -16,17 +16,10 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-section']))) {
     validateDropdownValues($secProgram, $courseArray, 'Invalid Input', '../section-manage.php');
     validateDropdownValues($secYear, $yearvalidate, 'Invalid Input', '../section-manage.php');
 
-    // Check if the section already exists
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section WHERE section_name = :secName AND section_year = :secYear");
-    $stmt->execute(array('secName' => $secName, 'secYear' => $secYear));
-    $count = $stmt->fetchColumn();
-
-    if ($count > 0) {
-        // Section already exists, redirect with an error message
-        $status = "error";
-        header("Location: ../section-manage.php?status=$status&message=Section already exists for the specified year");
-        exit();
-    }
+    $stmt = $pdo->prepare("SELECT LOWER(section_name) FROM section");
+    $stmt->execute();
+    $secArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    duplicateCheck($secName, $secArray, 'Section', '../section-manage.php');
 
     if (DB::insert('section', array(
         'section_name' => $secName,
@@ -40,18 +33,18 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-section']))) {
         header("Location: ../section-manage.php?status=$status&message=Failed to Add");
     }
 }
-
 if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
     // Check if form has already been submitted
     $form_fields = array('course_code', 'course_name', 'program_id', 'course_semester');
     form_validation($form_fields, '../course-manage.php');
-    $course_code = htmlspecialchars($_POST['course_code']);
-    $course_name = htmlspecialchars($_POST['course_name']);
+    $course_code = strtolower(htmlspecialchars($_POST['course_code']));
+    $course_name = strtolower(htmlspecialchars($_POST['course_name']));
     $program_id = htmlspecialchars($_POST['program_id']);
     $course_semester = htmlspecialchars($_POST['course_semester']);
     $lecture_units = htmlspecialchars($_POST['lecture_units']);
     $laboratory_units = htmlspecialchars($_POST['laboratory_units']);
     $total_units = $lecture_units + $laboratory_units;
+    $count;
 
     if ($total_units > 3) {
         $status = "error";
@@ -63,6 +56,37 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
         exit();
     }
 
+    $stmt = $pdo->prepare("SELECT LOWER(course_code) FROM course");
+    $stmt->execute();
+    $codeArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    if (in_array($course_code, $codeArray)) {
+        $count += 1;
+        $status = "error";
+        $error = "code";
+    }
+    $stmt = $pdo->prepare("SELECT LOWER(course_name) FROM course");
+    $stmt->execute();
+    $nameArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    if (in_array($course_name, $nameArray)) {
+        $count += 1;
+        $error = "name";
+        $status = "error";
+    }
+    if ($count > 0) {
+        if ($count == 1 && $error == "code") {
+            header("Location: ../course-manage.php?status=$status&message=Course code already exists");
+            exit();
+        } elseif ($count == 1 && $error == "name") {
+            header("Location: ../course-manage.php?status=$status&message=Course name already exists");
+            exit();
+        } elseif ($count == 2) {
+            header("Location: ../course-manage.php?status=$status&message=Course code and name already exists");
+            exit();
+        }
+    }
+
+    $course_code = strtoupper($course_code);
+    $course_name = ucfirst($course_name);
     if (DB::insert('course', array(
         'program_id' => $program_id,
         'semester_id' => $course_semester,
@@ -88,6 +112,11 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-program']))) {
     $program_department = htmlspecialchars($_POST['program_department']);
     $program_abbreviation = htmlspecialchars($_POST['program_abbreviation']);
 
+    $stmt = $pdo->prepare("SELECT LOWER(program_name) FROM program");
+    $stmt->execute();
+    $progArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    duplicateCheck($program_name, $progArray, 'Program', '../program-manage.php');
+
     if (DB::insert('program', array(
         'program_name' => $program_name,
         'program_department' => $program_department,
@@ -108,30 +137,23 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-room']))) {
         '../room-manage.php'
     );
 
-    $room_name = htmlspecialchars($_POST['room_name']);
+    $room_name = strtoupper(htmlspecialchars($_POST['room_name']));
     $room_categ = htmlspecialchars($_POST['room_categ']);
     $room_addr = htmlspecialchars($_POST['room_addr']);
 
     validateDropdownValues($room_categ, $valid_room_categories, "Invalid category value", '../room-manage.php');
     validateDropdownValues($room_addr, $valid_room_addr, "Invalid Location value", '../room-manage.php');
+
+    $stmt = $pdo->prepare("SELECT LOWER(room_name) FROM room");
+    $stmt->execute();
+    $roomArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    duplicateCheck($room_name, $roomArray, 'Room', '../room-manage.php');
+
     if (empty($room_name) || empty($room_categ) || empty($room_addr)) {
         $status = "empty";
         header("Location: ../room-manage.php?status=$status&message=Please Fill Up All Fields");
         exit();
     }
-
-    // Check if the room name already exists
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM room WHERE room_name = :roomName");
-    $stmt->execute(array('roomName' => $room_name));
-    $count = $stmt->fetchColumn();
-
-    if ($count > 0) {
-        // Room name already exists, redirect with an error message
-        $status = "error";
-        header("Location: ../room-manage.php?status=$status&message=Room name already exists");
-        exit();
-    }
-
     if (DB::insert('room', array(
         'room_name' => $room_name,
         'room_category' => $room_categ,
@@ -151,6 +173,12 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST['add-professor'])))) 
     );
     $professor_name = htmlspecialchars($_POST['professor_name']);
     $professor_department = htmlspecialchars($_POST['professor_department']);
+
+    $stmt = $pdo->prepare("SELECT LOWER(professor_name) FROM professor");
+    $stmt->execute();
+    $profArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    duplicateCheck($professor_name, $profArray, 'Professor', '../professor-manage.php');
+
     if ((DB::insert('professor', array(
         'professor_name' => $professor_name,
         'professor_department' => $professor_department
@@ -184,13 +212,6 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         $prev_end = strtotime($row->schedule_end_time);
         $prev_duration += ($prev_end - $prev_start);
     }
-    // $prev_start = $prev_s['schedule_start_time'];
-
-    // $stmt = $pdo->prepare("SELECT schedule_end_time FROM `scheduling table` WHERE course_id = :course_id AND schedule_type = :schedule_type");
-    // $stmt->execute(array(':course_id' => $course_id, ':schedule_type' => $schedule_type));
-    // $prev_e = $stmt->fetch(PDO::FETCH_ASSOC);
-    // $prev_end = $prev_e['schedule_end_time'];
-    // $prev_duration = strtotime($prev_end) - strtotime($prev_start);
 
     if ($schedule_type == "Lecture") {
         // Get the lecture hours of the selected course

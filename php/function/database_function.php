@@ -39,3 +39,13 @@ function validateDropdownValues($selected_value, $valid_values, $error_message, 
         exit();
     }
 }
+
+function duplicateCheck($name, $array, $manageType, $redirect_url)
+{
+    $name = strtolower($name);
+    if (in_array($name, $array)) {
+        $status = "error";
+        header("Location: $redirect_url?status=$status&message=$manageType already exists");
+        exit();
+    }
+}
