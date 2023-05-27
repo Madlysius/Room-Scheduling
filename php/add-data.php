@@ -4,7 +4,7 @@ require_once('./function/database_function.php');
 if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-section']))) {
     form_validation(array('secName', 'secYear', 'secProgram'), '../section-manage.php');
 
-    $secName = htmlspecialchars($_POST['secName']);
+    $secName = RemoveSpecialChar(strtoupper(htmlentities($_POST['secName'])));
     $secYear = htmlspecialchars($_POST['secYear']);
     $secProgram = htmlspecialchars($_POST['secProgram']);
 
@@ -56,7 +56,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
         exit();
     }
 
-    $stmt = $pdo->prepare("SELECT LOWER(course_code) FROM course");
+    $stmt = $pdo->prepare("SELECT LOWER(course_code) FROM course WHERE program_id=" . $program_id);
     $stmt->execute();
     $codeArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
     if (in_array($course_code, $codeArray)) {
@@ -64,7 +64,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
         $status = "error";
         $error = "code";
     }
-    $stmt = $pdo->prepare("SELECT LOWER(course_name) FROM course");
+    $stmt = $pdo->prepare("SELECT LOWER(course_name) FROM course WHERE program_id=" . $program_id);
     $stmt->execute();
     $nameArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
     if (in_array($course_name, $nameArray)) {
@@ -86,7 +86,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-course']))) {
     }
 
     $course_code = strtoupper($course_code);
-    $course_name = ucfirst($course_name);
+    $course_name = ucwords($course_name);
     if (DB::insert('course', array(
         'program_id' => $program_id,
         'semester_id' => $course_semester,
@@ -108,7 +108,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-program']))) {
         array('program_name', 'program_department', 'program_abbreviation'),
         '../program-manage.php'
     );
-    $program_name = htmlspecialchars($_POST['program_name']);
+
+    $program_name = strtolower(htmlspecialchars($_POST['program_name']));
     $program_department = htmlspecialchars($_POST['program_department']);
     $program_abbreviation = htmlspecialchars($_POST['program_abbreviation']);
 
@@ -117,6 +118,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-program']))) {
     $progArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
     duplicateCheck($program_name, $progArray, 'Program', '../program-manage.php');
 
+    $program_name = ucwords($program_name);
     if (DB::insert('program', array(
         'program_name' => $program_name,
         'program_department' => $program_department,
@@ -137,7 +139,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-room']))) {
         '../room-manage.php'
     );
 
-    $room_name = strtoupper(htmlspecialchars($_POST['room_name']));
+
+    $room_name = RemoveSpecialChar(strtoupper(htmlentities($_POST['room_name'])));
     $room_categ = htmlspecialchars($_POST['room_categ']);
     $room_addr = htmlspecialchars($_POST['room_addr']);
 
@@ -171,14 +174,15 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST['add-professor'])))) 
         array('professor_name', 'professor_department'),
         '../professor-manage.php'
     );
-    $professor_name = htmlspecialchars($_POST['professor_name']);
+
+    $professor_name = strtolower(htmlspecialchars($_POST['professor_name']));
     $professor_department = htmlspecialchars($_POST['professor_department']);
 
     $stmt = $pdo->prepare("SELECT LOWER(professor_name) FROM professor");
     $stmt->execute();
     $profArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
     duplicateCheck($professor_name, $profArray, 'Professor', '../professor-manage.php');
-
+    $professor_name = ucwords($professor_name);
     if ((DB::insert('professor', array(
         'professor_name' => $professor_name,
         'professor_department' => $professor_department

@@ -49,3 +49,16 @@ function duplicateCheck($name, $array, $manageType, $redirect_url)
         exit();
     }
 }
+
+function RemoveSpecialChar($str)
+{
+
+    // Using str_replace() function
+    // to replace the word
+    $res = str_replace(array(
+        '\'', '"',
+        ',', ';', '<', '>', '-', '/', '`'
+    ), '', $str);
+
+    return $res;
+}

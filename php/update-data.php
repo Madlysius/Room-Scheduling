@@ -5,7 +5,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
     if (isset($_POST['edit'])) {
         if ($_POST['edit'] == 'program') {
             $program_id = htmlentities($_POST['program_id']);
-            $program_name = htmlentities($_POST['program_name']);
+            $program_name = strtolower(htmlspecialchars($_POST['program_name']));
             $program_department = htmlentities($_POST['program_department']);
             $program_abbreviation = htmlentities($_POST['program_abbreviation']);
 
@@ -13,7 +13,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $stmt->execute();
             $progArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
             duplicateCheck($program_name, $progArray, 'Program', '../program-manage.php');
-
+            $program_name = ucwords($program_name);
             $result = DB::update('program', array(
                 'program_name' => $program_name,
                 'program_department' => $program_department,
@@ -27,7 +27,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             }
         } else if ($_POST['edit'] == 'room') {
             $room_id = htmlentities($_POST['room_id']);
-            $room_name = htmlentities($_POST['room_name']);
+
+            $room_name = RemoveSpecialChar(strtoupper(htmlentities($_POST['room_name'])));
             $room_category = htmlentities($_POST['room_category']);
             $room_location = htmlentities($_POST['room_location']);
 
@@ -48,7 +49,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             }
         } else if ($_POST['edit'] == 'section') {
             $section_id = htmlentities($_POST['section_id']);
-            $section_name = htmlentities($_POST['section_name']);
+            $section_name = RemoveSpecialChar(strtoupper(htmlentities($_POST['section_name'])));
             $section_year = htmlentities($_POST['section_year']);
             $program_id = htmlentities($_POST['program_id']);
 
@@ -193,16 +194,16 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
                 exit();
             }
 
-            $stmt = $pdo->prepare("SELECT LOWER(course_code) FROM course WHERE course_id!=" . $course_id);
-            $stmt->execute();
+            $stmt = $pdo->prepare("SELECT LOWER(course_code) FROM course WHERE course_id != :course_id AND program_id = :program_id");
+            $stmt->execute(array(":course_id" => $course_id, ":program_id" => $program_id));
             $codeArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
             if (in_array($course_code, $codeArray)) {
                 $count += 1;
                 $status = "error";
                 $error = "code";
             }
-            $stmt = $pdo->prepare("SELECT LOWER(course_name) FROM course WHERE course_id!=" . $course_id);
-            $stmt->execute();
+            $stmt = $pdo->prepare("SELECT LOWER(course_name) FROM course WHERE course_id != :course_id AND program_id = :program_id");
+            $stmt->execute(array(":course_id" => $course_id, ":program_id" => $program_id));
             $nameArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
             if (in_array($course_name, $nameArray)) {
                 $count += 1;
@@ -223,7 +224,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             }
 
             $course_code = strtoupper($course_code);
-            $course_name = ucfirst($course_name);
+            $course_name = ucwords($course_name);
             $result = DB::update('course', array(
                 'course_code' => $course_code,
                 'course_name' => $course_name,
@@ -239,15 +240,15 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
                 echo "Error";
             }
         } else if ($_POST['edit'] == 'professor') {
+            $professor_name = strtolower(htmlspecialchars($_POST['professor_name']));
             $professor_id = htmlentities($_POST['professor_id']);
-            $professor_name = htmlentities($_POST['professor_name']);
             $professor_department = htmlentities($_POST['professor_department']);
 
             $stmt = $pdo->prepare("SELECT LOWER(professor_name) FROM professor WHERE professor_id!=" . $professor_id);
             $stmt->execute();
             $profArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
             duplicateCheck($professor_name, $profArray, 'Professor', '../professor-manage.php');
-
+            $professor_name = ucwords($professor_name);
             $result = DB::update('professor', array(
                 'professor_name' => $professor_name,
                 'professor_department' => $professor_department
