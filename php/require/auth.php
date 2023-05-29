@@ -11,9 +11,11 @@ $user_type_id = $_SESSION['user_type_id'];
 if ($user_type_id == 1) {
     // User type 1 can access all pages
     $allowed_pages = array('home.php', 'schedule-manage.php', 'program-manage.php', 'room-manage.php', 'section-manage.php', 'course-manage.php', 'edit-forms.php', 'professor-manage.php', 'subject-manage.php');
+    $_SESSION['allowed_pages'] = $allowed_pages;
 } else if ($user_type_id == 2) {
     // User type 2 can only access scheduling page
     $allowed_pages = array('schedule-manage.php', 'edit-forms.php');
+    $_SESSION['allowed_pages'] = $allowed_pages;
 } else {
     // Invalid user type
     header("Location: $loc");

@@ -112,12 +112,13 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&  (isset($_POST['add-program']))) {
     $program_name = strtolower(htmlspecialchars($_POST['program_name']));
     $program_department = htmlspecialchars($_POST['program_department']);
     $program_abbreviation = htmlspecialchars($_POST['program_abbreviation']);
-
+    $deptvalidate = array('DCS', 'DOE', 'DOA');
     $stmt = $pdo->prepare("SELECT LOWER(program_name) FROM program");
     $stmt->execute();
     $progArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
-    duplicateCheck($program_name, $progArray, 'Program', '../program-manage.php');
+    duplicateCheck($program_department, $progArray, 'Program', '../program-manage.php');
 
+    validateDropdownValues($program_department, $deptvalidate, 'Invalid Input', '../program-manage.php');
     $program_name = ucwords($program_name);
     if (DB::insert('program', array(
         'program_name' => $program_name,
@@ -182,6 +183,10 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST['add-professor'])))) 
     $stmt->execute();
     $profArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
     duplicateCheck($professor_name, $profArray, 'Professor', '../professor-manage.php');
+
+    $deptvalidate = array('DCS', 'DOE', 'DOA');
+    validateDropdownValues($professor_department, $deptvalidate, 'Invalid Input', '../professor-manage.php');
+
     $professor_name = ucwords($professor_name);
     if ((DB::insert('professor', array(
         'professor_name' => $professor_name,

@@ -1,0 +1,27 @@
+# Set default index file
+
+DirectoryIndex index.php
+
+# Disable indexing
+
+Options -Indexes
+
+# Set "403 Forbidden" as the default server behavior
+
+#Order Deny,Allow
+#Deny from all
+
+# Allow access to CSS, JS, PNG, JPG, and font files
+
+<FilesMatch "\.(woff|woff2|ttf|otf|eot|css|js|png|jpg|php)$">
+Allow from all
+</FilesMatch>
+
+# 404 error handling
+
+ErrorDocument 404 /404.php
+ErrorDocument 403 /404.php
+ErrorDocument 500 /404.php
+ErrorDocument 502 /404.php
+ErrorDocument 504 /404.php
+FallbackResource /404.php

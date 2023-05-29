@@ -13,6 +13,9 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $stmt->execute();
             $progArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
             duplicateCheck($program_name, $progArray, 'Program', '../program-manage.php');
+
+            $deptvalidate = array('DCS', 'DOE', 'DOA');
+            validateDropdownValues($program_department, $deptvalidate, 'Invalid Input', '../program-manage.php');
             $program_name = ucwords($program_name);
             $result = DB::update('program', array(
                 'program_name' => $program_name,
@@ -36,7 +39,10 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $stmt->execute();
             $roomArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
             duplicateCheck($room_name, $roomArray, 'Room', '../room-manage.php');
-
+            $room_location_validate_data = array('Main', 'Annex');
+            $room_category_validate_data = array('Lecture Room', 'Laboratory Room');
+            validateDropdownValues($room_location, $room_location_validate_data, 'Invalid Input', '../room-manage.php');
+            validateDropdownValues($room_category, $room_category_validate_data, 'Invalid Input', '../room-manage.php');
             $result = DB::update('room', array(
                 'room_name' => $room_name,
                 'room_category' => $room_category,
@@ -53,9 +59,18 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $section_year = htmlentities($_POST['section_year']);
             $program_id = htmlentities($_POST['program_id']);
 
+            $yearvalidate = array('1st', '2nd', '3rd', '4th');
+            $stmt = $pdo->prepare("SELECT program_id FROM program");
+            $stmt->execute();
+            $courseArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+            validateDropdownValues($secProgram, $courseArray, 'Invalid Input', '../section-manage.php');
+            validateDropdownValues($secYear, $yearvalidate, 'Invalid Input', '../section-manage.php');
+
             $stmt = $pdo->prepare("SELECT LOWER(section_name) FROM section WHERE section_id!=" . $section_id);
             $stmt->execute();
             $secArray = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
             duplicateCheck($section_name, $secArray, 'Section', '../section-manage.php');
 
             $result = DB::update('section', array(
@@ -243,6 +258,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['edit']))) {
             $professor_name = strtolower(htmlspecialchars($_POST['professor_name']));
             $professor_id = htmlentities($_POST['professor_id']);
             $professor_department = htmlentities($_POST['professor_department']);
+            $deptvalidate = array('DCS', 'DOE', 'DOA');
+            validateDropdownValues($professor_department, $deptvalidate, 'Invalid Input', '../professor-manage.php');
 
             $stmt = $pdo->prepare("SELECT LOWER(professor_name) FROM professor WHERE professor_id!=" . $professor_id);
             $stmt->execute();

@@ -200,8 +200,13 @@ INSERT INTO `COECSA_Room_scheduling`.`Semester` (`semester_id`, `semester`) VALU
 
 INSERT INTO `COECSA_Room_Scheduling`.`User_Types` (`user_type_id`, `user_type`) VALUES ('1', 'Room Manager');
 INSERT INTO `COECSA_Room_Scheduling`.`User_Types` (`user_type_id`, `user_type`) VALUES ('2', 'Coordinator');
-INSERT INTO `COECSA_Room_Scheduling`.`User` (`user_id`, `username`, `userpass`, `user_type_id`) VALUES ('2', 'admin2', 'admin2', '2');
 INSERT INTO `COECSA_Room_Scheduling`.`User` (`user_id`, `username`, `userpass`, `user_type_id`) VALUES ('1', 'admin', 'admin', '1');
+INSERT INTO `COECSA_Room_Scheduling`.`User` (`user_id`, `username`, `userpass`, `user_type_id`) VALUES ('2', 'admin2', 'admin2', '2');
+INSERT INTO `COECSA_Room_Scheduling`.`User` (`user_id`, `username`, `userpass`, `user_type_id`) VALUES ('3', 'rAdmin', 'RMp@55w0rd', '1');
+INSERT INTO `COECSA_Room_Scheduling`.`User` (`user_id`, `username`, `userpass`, `user_type_id`) VALUES ('4', 'dcsCoord', 'dcsrp@55w0rd', '2');
+INSERT INTO `COECSA_Room_Scheduling`.`User` (`user_id`, `username`, `userpass`, `user_type_id`) VALUES ('5', 'doeCoord', 'doerp@55w0rd', '2');
+INSERT INTO `COECSA_Room_Scheduling`.`User` (`user_id`, `username`, `userpass`, `user_type_id`) VALUES ('6', 'doaCoord', 'doarp@55w0rd', '2');
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
