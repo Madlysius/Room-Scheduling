@@ -216,6 +216,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
     $stmt = $pdo->prepare("SELECT schedule_id, schedule_start_time, schedule_end_time FROM `scheduling table` WHERE course_id = :course_id AND schedule_type = :schedule_type AND section_id = :section_id");
     $stmt->execute(array(':course_id' => $course_id, ':schedule_type' => $schedule_type, 'section_id' => $section_id));
     $prev = $stmt->fetchAll(PDO::FETCH_OBJ);
+    $prev_duration = 0; // Initialize previous schedule duration variable
     foreach ($prev as $row) {
         $prev_start = strtotime($row->schedule_start_time);
         $prev_end = strtotime($row->schedule_end_time);
@@ -238,17 +239,17 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         $stmt->execute(array(':course_id' => $course_id));
         $course = $stmt->fetch(PDO::FETCH_ASSOC);
         // 1 unit = 3 hours
-        $time = $course['laboratory_units']  * 3;
+        $time = $course['laboratory_units'] * 3;
         // Calculate the maximum schedule duration based on the laboratory hours of the selected course
         $max_duration = $time * 60 * 60; // Convert laboratory hours to seconds
     }
 
-    //if max duration is already reached by previously added schedule, terminate code
+    // If max duration is already reached by previously added schedule, terminate code
     if ($prev_duration >= $max_duration) {
         header("Location: ../schedule-manage.php?status=error&message=Maximum%20$schedule_type%20weekly%20schedule%20duration%20for%20this%20course%20is%20already%20reached.");
         exit();
-    } //else, subtract the previous schedule duration from current max duration
-    else {
+    } else {
+        // Subtract the previous schedule duration from current max duration
         $max_duration -= $prev_duration;
     }
 
@@ -267,15 +268,27 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         exit();
     }
 
-    $stmt = $pdo->prepare("SELECT * FROM `scheduling table` WHERE room_id = :room_id AND day_id = :day_id AND section_id = :section_id AND semester_id = :semester_id AND ((`schedule_start_time` <= :schedule_start_time AND `schedule_end_time` > :schedule_start_time) OR (`schedule_start_time` >= :schedule_start_time AND `schedule_start_time` < :schedule_end_time))");
-    $stmt->execute(array(':room_id' => $room_id, ':day_id' => $day_id, ':semester_id' => $semester_id, ':section_id' => $section_id, ':schedule_start_time' => $schedule_start_time, ':schedule_end_time' => $schedule_end_time));
-    $count = $stmt->rowCount();
+    $stmt = $pdo->prepare("SELECT * FROM `scheduling table` WHERE room_id = :room_id AND day_id = :day_id AND semester_id = :semester_id AND ((`schedule_start_time` <= :schedule_start_time AND `schedule_end_time` > :schedule_start_time) OR (`schedule_start_time` >= :schedule_start_time AND `schedule_start_time` < :schedule_end_time))");
+    $stmt->execute(array(':room_id' => $room_id, ':day_id' => $day_id, ':semester_id' => $semester_id, ':schedule_start_time' => $schedule_start_time, ':schedule_end_time' => $schedule_end_time));
+    $schedules = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-    if ($count > 0) {
-        header("Location: ../schedule-manage.php?status=error&message=Room%20is%20already%20occupied%20during%20that%20time%20and%20day%20in%20this%20semester");
-        exit();
+    foreach ($schedules as $schedule) {
+        $existing_section_id = $schedule->section_id;
+
+        // Check if the existing section is the same as the new section
+        if ($existing_section_id == $section_id) {
+            continue; // Skip checking if it's the same section
+        }
+
+        // Check if there is a time conflict
+        $existing_start = strtotime($schedule->schedule_start_time);
+        $existing_end = strtotime($schedule->schedule_end_time);
+
+        if (($existing_start <= strtotime($schedule_start_time) && $existing_end > strtotime($schedule_start_time)) || ($existing_start >= strtotime($schedule_start_time) && $existing_start < strtotime($schedule_end_time))) {
+            header("Location: ../schedule-manage.php?status=error&message=Room%20is%20already%20occupied%20during%20that%20time%20and%20day%20in%20this%20semester");
+            exit();
+        }
     }
-
 
     $result = DB::insert('scheduling table', array(
         'course_id' => $course_id,
@@ -288,6 +301,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
         'schedule_start_time' => $schedule_start_time,
         'schedule_end_time' => $schedule_end_time
     ));
+
     if ($result) {
         if ($cut == true) {
             header("Location: ../schedule-manage.php?status=success&message=Set schedule exceeded maximum hours. Schedule added with automatically adjusted end time.");
