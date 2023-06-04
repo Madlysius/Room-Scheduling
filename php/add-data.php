@@ -270,24 +270,11 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST['scheduing_submit'])
 
     $stmt = $pdo->prepare("SELECT * FROM `scheduling table` WHERE room_id = :room_id AND day_id = :day_id AND semester_id = :semester_id AND ((`schedule_start_time` <= :schedule_start_time AND `schedule_end_time` > :schedule_start_time) OR (`schedule_start_time` >= :schedule_start_time AND `schedule_start_time` < :schedule_end_time))");
     $stmt->execute(array(':room_id' => $room_id, ':day_id' => $day_id, ':semester_id' => $semester_id, ':schedule_start_time' => $schedule_start_time, ':schedule_end_time' => $schedule_end_time));
-    $schedules = $stmt->fetchAll(PDO::FETCH_OBJ);
+    $count = $stmt->rowCount();
 
-    foreach ($schedules as $schedule) {
-        $existing_section_id = $schedule->section_id;
-
-        // Check if the existing section is the same as the new section
-        if ($existing_section_id == $section_id) {
-            continue; // Skip checking if it's the same section
-        }
-
-        // Check if there is a time conflict
-        $existing_start = strtotime($schedule->schedule_start_time);
-        $existing_end = strtotime($schedule->schedule_end_time);
-
-        if (($existing_start <= strtotime($schedule_start_time) && $existing_end > strtotime($schedule_start_time)) || ($existing_start >= strtotime($schedule_start_time) && $existing_start < strtotime($schedule_end_time))) {
-            header("Location: ../schedule-manage.php?status=error&message=Room%20is%20already%20occupied%20during%20that%20time%20and%20day%20in%20this%20semester");
-            exit();
-        }
+    if ($count > 0) {
+        header("Location: ../schedule-manage.php?status=error&message=Room%20is%20already%20occupied%20during%20that%20time%20and%20day%20in%20this%20semester");
+        exit();
     }
 
     $result = DB::insert('scheduling table', array(
